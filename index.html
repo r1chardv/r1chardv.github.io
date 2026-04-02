@@ -1,10 +1,162 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Richard’s Site</title>
+  <meta charset="UTF-8">
+  <title>Richard V — GitHub Pages</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Personal site for Richard V — hosted on GitHub Pages">
+
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #111827;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --accent: #38bdf8;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #020617, #020617 50%, #0f172a);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .container {
+      max-width: 800px;
+      width: 100%;
+      background: rgba(17, 24, 39, 0.85);
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(6px);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+      letter-spacing: -0.02em;
+    }
+
+    h2 {
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--muted);
+      margin: 0 0 32px;
+    }
+
+    p {
+      line-height: 1.6;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+
+    .badges {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin: 24px 0;
+    }
+
+    .badge {
+      background: #020617;
+      border: 1px solid #1f2933;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .links {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 32px;
+    }
+
+    .links a {
+      text-decoration: none;
+      padding: 10px 18px;
+      border-radius: 10px;
+      background: var(--accent);
+      color: #020617;
+      font-weight: 600;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      box-shadow: 0 6px 20px rgba(56, 189, 248, 0.3);
+    }
+
+    .links a.secondary {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid #334155;
+      box-shadow: none;
+    }
+
+    .links a:hover {
+      transform: translateY(-2px);
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 0.85rem;
+      color: var(--muted);
+      border-top: 1px solid #1f2933;
+      padding-top: 16px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+  </style>
 </head>
+
 <body>
-  <h1>Hello from GitHub Pages</h1>
-  <p>This is hosted for free.</p>
+  <main class="container">
+    <h1>Richard V</h1>
+    <h2>Welcome to my GitHub Pages site</h2>
+
+    <p>
+      This site is hosted for free using <strong>GitHub Pages</strong>.
+      It’s a simple static page that I’ll expand over time with projects,
+      notes, and experiments.
+    </p>
+
+    <div class="badges">
+      <span class="badge">Static HTML</span>
+      <span class="badge">GitHub Pages</span>
+      <span class="badge">No Frameworks</span>
+      <span class="badge">Fast & Lightweight</span>
+    </div>
+
+    <p>
+      If you’re just landing here — this page confirms that everything is working
+      correctly. From here, I can add styling, documentation, or deploy a frontend
+      build.
+    </p>
+
+    <div class="links">
+      <a href="https://github.com/r1chardv" target="_blank">GitHub Profile</a>
+      <a href="#" class="secondary">Future Projects</a>
+    </div>
+
+    <footer>
+      <span>© <span id="year"></span> Richard V</span>
+      <span>Hosted on GitHub Pages</span>
+    </footer>
+  </main>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
