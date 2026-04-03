@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Excel Tips – YouTube Videos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f7f9fb;
+            color: #333;
+            margin: 40px;
+        }
+
+        h1 {
+            color: #217346;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 20px 0;
+            font-size: 16px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        th, td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            cursor: pointer;
+            background-color: #eaf3ee;
+            color: #217346;
+        }
+
+        th:hover {
+            background-color: #d6eadf;
+        }
+
+        a {
+            color: #1a73e8;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Excel Tips & Tricks – YouTube Videos</h1>
+
+<input
+    type="text"
+    id="searchInput"
+    placeholder="Search by title or author..."
+    onkeyup="filterTable()"
+/>
+
+<table id="videosTable">
+    <thead>
+        <tr>
+            <th onclick="sortTable(0)">Title</th>
+            <th>Link</th>
+            <th onclick="sortTable(2)">Author</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Realistic Ways to Make Extra Income with Excel in 2026</td>
+            <td>
+                <a href="https://youtu.be/9nEWiThRiOc" target="_blank">
+                    Watch
+                </a>
+            </td>
+            <td>Mynda Treacy</td>
+        </tr>
+        <tr>
+            <td>The Sneaky Way to Check Files Without Opening Them</td>
+            <td>
+                <a href="https://youtu.be/jWE3ypXpuTY" target="_blank">
+                    Watch
+                </a>
+            </td>
+            <td>Leila Gharani</td>
+        </tr>
+        <tr>
+            <td>SIMPLE Excel Automations I Use EVERY DAY</td>
+            <td>
+                <a href="https://youtu.be/V-cSIvJ01ek" target="_blank">
+                    Watch
+                </a>
+            </td>
+            <td>Mynda Treacy</td>
+        </tr>
+    </tbody>
+</table>
+
+<script>
+function filterTable() {
+    const input = document.getElementById("searchInput");
+    const filter = input.value.toLowerCase();
+    const table = document.getElementById("videosTable");
+    const rows = table.getElementsByTagName("tr");
+
+    for (let i = 1; i < rows.length; i++) {
+        const text = rows[i].innerText.toLowerCase();
+        rows[i].style.display = text.includes(filter) ? "" : "none";
+    }
+}
+
+let sortDirection = true;
+
+function sortTable(columnIndex) {
+    const table = document.getElementById("videosTable");
+    const tbody = table.tBodies[0];
+    const rows = Array.from(tbody.rows);
+
+    rows.sort((a, b) => {
+        const textA = a.cells[columnIndex].innerText.toLowerCase();
+        const textB = b.cells[columnIndex].innerText.toLowerCase();
+
+        if (textA < textB) return sortDirection ? -1 : 1;
+        if (textA > textB) return sortDirection ? 1 : -1;
+        return 0;
+    });
+
+    sortDirection = !sortDirection;
+
+    rows.forEach(row => tbody.appendChild(row));
+}
+</script>
+
+</body>
+</html>
