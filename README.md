@@ -2,4 +2,6 @@
 ---
 Read me file for free github web space https://r1chardv.github.io/
 
-Note: other files than index.html can be accessed like this https://r1chardv.github.io/test.html
+Other sample files:
+https://r1chardv.github.io/TestImage.html
+https://r1chardv.github.io/ExcelTips.html
