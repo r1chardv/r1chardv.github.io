@@ -6,3 +6,4 @@ Other sample files:
 <br> https://r1chardv.github.io/TestImage.html
 <br> https://r1chardv.github.io/ExcelTips.html
 <br> https://r1chardv.github.io/SqlTips.html
+<br> https://r1chardv.github.io/yccc.html
