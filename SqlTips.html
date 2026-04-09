@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Tips Library</title>
+    <style>
+        :root {
+            --primary-blue: #2563eb;
+            --excel-green: #166534;
+            --pale-green: #dcfce7; /* The Header Color */
+            --header-hover: #bbf7d0;
+            --bg: #f8fafc;
+            --text: #1e293b;
+        }
+
+        body { 
+            font-family: system-ui, -apple-system, sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            padding: 2rem; 
+            line-height: 1.5;
+        }
+
+        .container { 
+            max-width: 900px; 
+            margin: 0 auto; 
+        }
+
+        h1 { 
+            color: var(--excel-green); 
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Search Input */
+        #searchBar {
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 25px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+            box-sizing: border-box;
+        }
+
+        #searchBar:focus {
+            border-color: var(--excel-green);
+        }
+
+        /* Table Design */
+        .table-wrapper {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            text-align: left;
+        }
+
+        /* The Pale Green Header */
+        th { 
+            background: var(--pale-green); 
+            color: var(--excel-green);
+            padding: 16px;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+            cursor: pointer; 
+            user-select: none;
+            transition: background 0.2s;
+            border-bottom: 2px solid #bbf7d0;
+        }
+
+        th:hover { 
+            background: var(--header-hover); 
+        }
+
+        td { 
+            padding: 16px; 
+            border-bottom: 1px solid #f1f5f9; 
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover { 
+            background-color: #f0fdf4; /* Subtle green row highlight */
+        }
+
+        /* Link Styling */
+        a.visit-btn { 
+            color: var(--primary-blue); 
+            text-decoration: none; 
+            font-weight: 600; 
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        a.visit-btn:hover { 
+            text-decoration: underline; 
+        }
+
+        /* Category Tags */
+        .tag { 
+            font-size: 0.75rem; 
+            background: #f1f5f9; 
+            color: #475569; 
+            padding: 4px 10px; 
+            border-radius: 20px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>📊 Excel Tips Link Library</h1>
+    
+    <input type="text" id="searchBar" placeholder="Search tips, tools, or authors..." onkeyup="renderTable()">
+
+    <div class="table-wrapper">
+        <table id="linkTable">
+            <thead>
+                <tr>
+                    <th onclick="sortLinks('name')">Tip Name ↕</th>
+                    <th onclick="sortLinks('category')">Author/Category ↕</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    // --- DATABASE: ADD YOUR NEW LINKS HERE ---
+    const links = [
+        { name: "SQL Server Basics for Power Apps", category: "Darren Neese", url: "https://youtu.be/7WTPuylSyDk" },
+        { name: "EVERY Way to Remove Duplicates in Excel", category: "Mynda Treacy", url: "https://youtu.be/GoZMQLYIgMA" },
+        { name: "SIMPLE Excel Automations I Use EVERY DAY", category: "Mynda Treacy", url: "https://youtu.be/V-cSIvJ01ek" },
+        { name: "The Sneaky Way to Check Files Without Opening Them", category: "Leila Gharani", url: "https://youtu.be/jWE3ypXpuTY" },
+        { name: "Realistic Ways to Make Extra Income with Excel in 2026", category: "Mynda Treacy", url: "https://youtu.be/9nEWiThRiOc" },
+        { name: "Everything Excel Wildcards Can Do", category: "Mynda Treacy", url: "https://www.youtube.com/watch?v=DG6dW7ogPjU" },
+        { name: "Excel Chart Basics", category: "Leila Gharani", url: "https://www.youtube.com/playlist?list=PLmHVyfmcRKyyEj7oQkCf7TL9yQQWXbGOQ" }
+    ];
+
+    let sortDirection = true;
+
+    function renderTable() {
+        const searchTerm = document.getElementById('searchBar').value.toLowerCase();
+        const tbody = document.getElementById('tableBody');
+        tbody.innerHTML = "";
+
+        // Filter logic for Search
+        const filtered = links.filter(link => 
+            link.name.toLowerCase().includes(searchTerm) || 
+            link.category.toLowerCase().includes(searchTerm)
+        );
+
+        // Generate HTML rows
+        filtered.forEach(link => {
+            tbody.innerHTML += `
+                <tr>
+                    <td><strong>${link.name}</strong></td>
+                    <td><span class="tag">${link.category}</span></td>
+                    <td><a href="${link.url}" target="_blank" class="visit-btn">Watch Video ↗</a></td>
+                </tr>
+            `;
+        });
+
+        // Show "No Results" if empty
+        if (filtered.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="3" style="text-align:center; padding: 40px; color: #94a3b8;">No matching links found.</td></tr>';
+        }
+    }
+
+    // Sorting Logic
+    function sortLinks(key) {
+        sortDirection = !sortDirection;
+        links.sort((a, b) => {
+            let valA = a[key].toLowerCase();
+            let valB = b[key].toLowerCase();
+            if (valA < valB) return sortDirection ? -1 : 1;
+            if (valA > valB) return sortDirection ? 1 : -1;
+            return 0;
+        });
+        renderTable();
+    }
+
+    // Initial table build
+    renderTable();
+</script>
+
+</body>
+</html>
