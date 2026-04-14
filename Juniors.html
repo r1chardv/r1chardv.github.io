@@ -59,7 +59,7 @@ table {
     border-collapse: collapse;
 }
 
-/* ✅ Balanced, clean spacing */
+/* Table headers */
 th {
     background: var(--pale-maroon);
     color: var(--club-maroon);
@@ -68,6 +68,7 @@ th {
     text-transform: uppercase;
     cursor: pointer;
     border-bottom: 2px solid var(--header-hover);
+    text-align: left;
 }
 
 th:hover {
@@ -85,8 +86,7 @@ tr:hover {
     background: #faf3f4;
 }
 
-/* Centre SCC Registered */
-th:nth-child(2),
+/* ✅ Centre ONLY the Registered column values */
 td:nth-child(2) {
     text-align: center;
 }
@@ -147,7 +147,7 @@ function renderTable() {
         .filter(p =>
             p.player.toLowerCase().includes(q) ||
             p.subs.toLowerCase().includes(q) ||
-            String(p.registered).includes(q)
+            p.registered.toLowerCase().includes(q)
         )
         .forEach(p => {
             const tr = document.createElement("tr");
@@ -174,8 +174,8 @@ function renderTable() {
 function sortTable(key) {
     sortAsc = !sortAsc;
     players.sort((a, b) => {
-        const A = a[key].toString().toLowerCase();
-        const B = b[key].toString().toLowerCase();
+        const A = a[key].toLowerCase();
+        const B = b[key].toLowerCase();
         if (A < B) return sortAsc ? -1 : 1;
         if (A > B) return sortAsc ? 1 : -1;
         return 0;
