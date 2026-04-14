@@ -31,7 +31,6 @@ h1 {
     margin-bottom: 1rem;
 }
 
-/* Search bar */
 #searchBar {
     width: 100%;
     padding: 14px;
@@ -41,7 +40,6 @@ h1 {
     font-size: 1rem;
 }
 
-/* Table wrapper */
 .table-wrapper {
     background: white;
     border-radius: 12px;
@@ -52,12 +50,14 @@ h1 {
 table {
     width: 100%;
     border-collapse: collapse;
-
-    /* ✅ OPTIONAL: prevents columns jumping when sorting */
     table-layout: fixed;
 }
 
-/* Headers */
+/* Fixed column widths */
+th:nth-child(1), td:nth-child(1) { width: 55%; }
+th:nth-child(2), td:nth-child(2) { width: 22.5%; }
+th:nth-child(3), td:nth-child(3) { width: 22.5%; }
+
 th {
     background: var(--pale-maroon);
     color: var(--club-maroon);
@@ -69,16 +69,18 @@ th {
     text-align: left;
 }
 
-th:hover {
-    background: var(--header-hover);
-}
+th:hover { background: var(--header-hover); }
 
 td {
     padding: 8px 14px;
     border-bottom: 1px solid #f1f5f9;
+    line-height: 1.25;
+    vertical-align: middle;
 }
 
-/* ✅ Centre REGISTERED + SUBS PAID columns */
+tr:hover { background: #faf3f4; }
+
+/* Centre Registered + Subs Paid */
 th:nth-child(2),
 td:nth-child(2),
 th:nth-child(3),
@@ -86,21 +88,13 @@ td:nth-child(3) {
     text-align: center;
 }
 
-/* ✅ OPTIONAL fixed widths (safe, simple) */
-th:nth-child(1), td:nth-child(1) { width: 55%; }
-th:nth-child(2), td:nth-child(2) { width: 22.5%; }
-th:nth-child(3), td:nth-child(3) { width: 22.5%; }
-
-/* Player link */
-td a.player-link {
+.player-link {
     color: var(--club-maroon);
     font-weight: 600;
     text-decoration: underline;
 }
 
-.note {
-    color: #475569;
-}
+.note { color: #475569; }
 </style>
 </head>
 
@@ -108,11 +102,7 @@ td a.player-link {
 <div class="container">
 <h1>🏏 Shadwell CC Aire Wharfe Junior Registrations</h1>
 
-<input
-    id="searchBar"
-    placeholder="Search player or age group..."
-    onkeyup="renderTable()"
->
+<input id="searchBar" placeholder="Search player or age group..." onkeyup="renderTable()">
 
 <div class="table-wrapper">
 <table>
@@ -130,9 +120,38 @@ td a.player-link {
 
 <script>
 const players = [
+
     { player: "(U9) Seb Meynell", registered: "YES (19/03/26)", subs: "NO", url: "https://awscl.play-cricket.com/player_stats/batting/5463545?rule_type_id=179" },
     { player: "(U9) Toby Jennison", registered: "YES (17/03/26)", subs: "YES (26)", url: "https://awscl.play-cricket.com/player_stats/batting/5463545?rule_type_id=179" },
-    { player: "(U11) Toby Crowther", registered: "YES (06/04/26)", subs: "YES (26)", url: "https://awscl.play-cricket.com/player_stats/batting/5463545?rule_type_id=179" }
+
+    { player: "(U11) Toby Crowther", registered: "YES (06/04/26)", subs: "YES (26)", url: "https://awscl.play-cricket.com/player_stats/batting/5463545?rule_type_id=179" },
+    { player: "(U11) Alex Knowles", registered: "YES (06/04/26)", subs: "YES (26)", url: "https://awscl.play-cricket.com/player_stats/batting/5463545?rule_type_id=179" },
+    { player: "(U11) Haris Nawaz", registered: "YES (08/04/26)", subs: "YES (09/04/26)", url: "https://awscl.play-cricket.com/player_stats/batting/5463545?rule_type_id=179" },
+    { player: "(U11) Charlie Meynell", registered: "YES (19/03/26)", subs: "NO", url: "https://awscl.play-cricket.com/player_stats/batting/5463545?rule_type_id=179" },
+    { player: "(U11) Atticus Khan", registered: "YES (19/03/26)", subs: "YES (26)", url: "https://awscl.play-cricket.com/player_stats/batting/5463545?rule_type_id=179" },
+    { player: "(U11) Finn Jennison", registered: "YES (17/03/26)", subs: "YES (26)", url: "https://awscl.play-cricket.com/player_stats/batting/5463545?rule_type_id=179" },
+    { player: "(U11) Toby Entwistle", registered: "YES (17/03/26)", subs: "YES (26)", url: "https://awscl.play-cricket.com/player_stats/batting/5463545?rule_type_id=179" },
+
+    { player: "(U13) Mollie Swaine", registered: "YES (22/03/26)", subs: "YES (26)", url: "https://awscl.play-cricket.com/player_stats/batting/5463545?rule_type_id=179" },
+    { player: "(U13/U15) Ruben Turner", registered: "YES (18/03/26)", subs: "YES (26)", url: "https://awscl.play-cricket.com/player_stats/batting/5463545?rule_type_id=179" },
+    { player: "(U13) Archie Jones", registered: "YES (18/03/26)", subs: "NO", url: "https://awscl.play-cricket.com/player_stats/batting/5463545?rule_type_id=179" },
+    { player: "(U13) Rory Crowther", registered: "YES (06/04/26)", subs: "YES (26)", url: "https://awscl.play-cricket.com/player_stats/batting/5463545?rule_type_id=179" },
+    { player: "(U13) Jacob Bartfield", registered: "YES (06/03/26)", subs: "NO", url: "https://awscl.play-cricket.com/player_stats/batting/5463545?rule_type_id=179" },
+    { player: "(U13) George Wood", registered: "YES (17/03/26)", subs: "NO", url: "https://awscl.play-cricket.com/player_stats/batting/5463545?rule_type_id=179" },
+    { player: "(U13) Krishay Yadav", registered: "NO", subs: "YES (26)", url: "https://awscl.play-cricket.com/player_stats/batting/5463545?rule_type_id=179" },
+    { player: "(U13) Joseph Williams", registered: "YES (15/01/26)", subs: "NO", url: "https://awscl.play-cricket.com/player_stats/batting/5463545?rule_type_id=179" },
+
+    { player: "(U15) Muhammad Arham", registered: "YES (31/03/26)", subs: "NO", url: "https://awscl.play-cricket.com/player_stats/batting/5463545?rule_type_id=179" },
+    { player: "(U15) Subhan Khan", registered: "YES (24/03/26)", subs: "NO", url: "https://awscl.play-cricket.com/player_stats/batting/5463545?rule_type_id=179" },
+    { player: "(U15) Kairav Bhatt", registered: "YES (08/04/26)", subs: "YES (26)", url: "https://awscl.play-cricket.com/player_stats/batting/5463545?rule_type_id=179" },
+    { player: "(U15) Hugh Patel", registered: "YES (18/03/26)", subs: "YES (26)", url: "https://awscl.play-cricket.com/player_stats/batting/5463545?rule_type_id=179" },
+    { player: "(U15) Abdullah Rais", registered: "YES (19/03/26)", subs: "YES (26)", url: "https://awscl.play-cricket.com/player_stats/batting/5463545?rule_type_id=179" },
+    { player: "(U15) Faris Shahpal", registered: "YES (13/04/26)", subs: "NO", url: "https://awscl.play-cricket.com/player_stats/batting/5463545?rule_type_id=179" },
+    { player: "(U15) Geoff Savage", registered: "YES (13/04/26)", subs: "NO", url: "https://awscl.play-cricket.com/player_stats/batting/5463545?rule_type_id=179" },
+
+    { player: "(U18) Oliver Bates", registered: "YES (22/03/26)", subs: "NO", url: "https://awscl.play-cricket.com/player_stats/batting/5463545?rule_type_id=179" },
+    { player: "(U18) Max Campey", registered: "YES (07/04/26)", subs: "YES (26)", url: "https://awscl.play-cricket.com/player_stats/batting/5463545?rule_type_id=179" },
+    { player: "(U18) Daniel Payne", registered: "YES (14/02/26)", subs: "NO", url: "https://awscl.play-cricket.com/player_stats/batting/6245954?rule_type_id=179" }
 ];
 
 let sortAsc = true;
@@ -142,31 +161,31 @@ function renderTable() {
     tableBody.innerHTML = "";
 
     players
-        .filter(p =>
-            p.player.toLowerCase().includes(q) ||
-            p.registered.toLowerCase().includes(q) ||
-            p.subs.toLowerCase().includes(q)
-        )
-        .forEach(p => {
-            const tr = document.createElement("tr");
+      .filter(p =>
+        p.player.toLowerCase().includes(q) ||
+        p.registered.toLowerCase().includes(q) ||
+        p.subs.toLowerCase().includes(q)
+      )
+      .forEach(p => {
+        const tr = document.createElement("tr");
 
-            const tdPlayer = document.createElement("td");
-            const link = document.createElement("a");
-            link.href = p.url;
-            link.textContent = p.player;
-            link.className = "player-link";
-            tdPlayer.appendChild(link);
+        const tdPlayer = document.createElement("td");
+        const link = document.createElement("a");
+        link.href = p.url;
+        link.textContent = p.player;
+        link.className = "player-link";
+        tdPlayer.appendChild(link);
 
-            const tdRegistered = document.createElement("td");
-            tdRegistered.textContent = p.registered;
+        const tdRegistered = document.createElement("td");
+        tdRegistered.textContent = p.registered;
 
-            const tdSubs = document.createElement("td");
-            tdSubs.textContent = p.subs;
-            tdSubs.className = "note";
+        const tdSubs = document.createElement("td");
+        tdSubs.textContent = p.subs;
+        tdSubs.className = "note";
 
-            tr.append(tdPlayer, tdRegistered, tdSubs);
-            tableBody.appendChild(tr);
-        });
+        tr.append(tdPlayer, tdRegistered, tdSubs);
+        tableBody.appendChild(tr);
+      });
 }
 
 function sortTable(key) {
@@ -183,3 +202,4 @@ renderTable();
 </script>
 </body>
 </html>
+``
