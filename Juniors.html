@@ -86,104 +86,11 @@ tr:hover {
     background: #faf3f4;
 }
 
-/* ✅ Centre ONLY the Registered column values */
+/* ✅ Centre the REGISTERED column (header + values) */
+th:nth-child(2),
 td:nth-child(2) {
     text-align: center;
 }
 
 /* Player link */
 td a.player-link {
-    color: var(--club-maroon);
-    font-weight: 600;
-    text-decoration: underline;
-}
-
-/* Subs text */
-.note {
-    color: #475569;
-}
-</style>
-</head>
-
-<body>
-<div class="container">
-    <h1>🏏 Shadwell CC Aire Wharfe Junior Registrations</h1>
-
-    <input
-        id="searchBar"
-        placeholder="Search player or age group..."
-        onkeyup="renderTable()"
-    >
-
-    <div class="table-wrapper">
-        <table>
-            <thead>
-                <tr>
-                    <th onclick="sortTable('player')">Player ↕</th>
-                    <th onclick="sortTable('registered')">Registered ↕</th>
-                    <th onclick="sortTable('subs')">Subs Paid ↕</th>
-                </tr>
-            </thead>
-            <tbody id="tableBody"></tbody>
-        </table>
-    </div>
-</div>
-
-<script>
-const players = [
-    { player: "(U9) Seb Meynell", registered: "YES (2026)", subs: "NO", url: "https://awscl.play-cricket.com/player_stats/batting/5463545?rule_type_id=179" },
-    { player: "(U18) Oliver Bates", registered: "YES (2026)", subs: "NO", url: "https://awscl.play-cricket.com/player_stats/batting/5463545?rule_type_id=179" },
-    { player: "(U18) Max Campey", registered: "YES (2026)", subs: "YES (2026)", url: "https://awscl.play-cricket.com/player_stats/batting/5463545?rule_type_id=179" },
-    { player: "(U18) Daniel Payne", registered: "YES (2026)", subs: "NO", url: "https://awscl.play-cricket.com/player_stats/batting/6245954?rule_type_id=179" }
-];
-
-let sortAsc = true;
-
-function renderTable() {
-    const q = searchBar.value.toLowerCase();
-    tableBody.innerHTML = "";
-
-    players
-        .filter(p =>
-            p.player.toLowerCase().includes(q) ||
-            p.subs.toLowerCase().includes(q) ||
-            p.registered.toLowerCase().includes(q)
-        )
-        .forEach(p => {
-            const tr = document.createElement("tr");
-
-            const tdPlayer = document.createElement("td");
-            const link = document.createElement("a");
-            link.href = p.url;
-            link.textContent = p.player;
-            link.className = "player-link";
-            tdPlayer.appendChild(link);
-
-            const tdRegistered = document.createElement("td");
-            tdRegistered.textContent = p.registered;
-
-            const tdSubs = document.createElement("td");
-            tdSubs.textContent = p.subs;
-            tdSubs.className = "note";
-
-            tr.append(tdPlayer, tdRegistered, tdSubs);
-            tableBody.appendChild(tr);
-        });
-}
-
-function sortTable(key) {
-    sortAsc = !sortAsc;
-    players.sort((a, b) => {
-        const A = a[key].toLowerCase();
-        const B = b[key].toLowerCase();
-        if (A < B) return sortAsc ? -1 : 1;
-        if (A > B) return sortAsc ? 1 : -1;
-        return 0;
-    });
-    renderTable();
-}
-
-renderTable();
-</script>
-</body>
-</html>
