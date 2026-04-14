@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -85,7 +86,7 @@ tr:hover {
     background: #faf3f4;
 }
 
-/* Centre SCC Debut */
+/* Centre SCC Registered */
 th:nth-child(2),
 td:nth-child(2) {
     text-align: center;
@@ -120,7 +121,7 @@ td a.player-link {
             <thead>
                 <tr>
                     <th onclick="sortTable('player')">Player ↕</th>
-                    <th onclick="sortTable('debut')">Registered ↕</th>
+                    <th onclick="sortTable('registered')">Registered ↕</th>
                     <th onclick="sortTable('notes')">Subs Paid ↕</th>
                 </tr>
             </thead>
@@ -131,8 +132,8 @@ td a.player-link {
 
 <script>
 const players = [
-    { player: "(U18) Oliver Bates", debut: "Yes (2026)", notes: "Yes (2026)", url: "https://awscl.play-cricket.com/player_stats/batting/5463545?rule_type_id=179" },
-    { player: "(U18) Daniel Payne", debut: "Yes (2026)", notes: "Yes (2026)", url: "https://awscl.play-cricket.com/player_stats/batting/6245954?rule_type_id=179" }
+    { player: "(U18) Oliver Bates", registered: "Yes (2026)", notes: "Yes (2026)", url: "https://awscl.play-cricket.com/player_stats/batting/5463545?rule_type_id=179" },
+    { player: "(U18) Daniel Payne", registered: "Yes (2026)", notes: "Yes (2026)", url: "https://awscl.play-cricket.com/player_stats/batting/6245954?rule_type_id=179" }
 ];
 
 let sortAsc = true;
@@ -145,7 +146,7 @@ function renderTable() {
         .filter(p =>
             p.player.toLowerCase().includes(q) ||
             p.notes.toLowerCase().includes(q) ||
-            String(p.debut).includes(q)
+            String(p.registered).includes(q)
         )
         .forEach(p => {
             const tr = document.createElement("tr");
@@ -157,14 +158,14 @@ function renderTable() {
             link.className = "player-link";
             tdPlayer.appendChild(link);
 
-            const tdDebut = document.createElement("td");
-            tdDebut.textContent = p.debut;
+            const tdRegistered = document.createElement("td");
+            tdRegistered.textContent = p.registered;
 
             const tdNotes = document.createElement("td");
             tdNotes.textContent = p.notes;
             tdNotes.className = "note";
 
-            tr.append(tdPlayer, tdDebut, tdNotes);
+            tr.append(tdPlayer, tdRegistered, tdNotes);
             tableBody.appendChild(tr);
         });
 }
