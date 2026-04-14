@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shadwell CC Aire Wharfe Junior Registrations</title>
 
 <style>
@@ -12,15 +12,6 @@
     --header-hover: #eed3d7;
     --bg: #f8fafc;
     --text: #1e293b;
-
-    --green: #166534;
-    --green-bg: #dcfce7;
-
-    --red: #991b1b;
-    --red-bg: #fee2e2;
-
-    --amber: #92400e;
-    --amber-bg: #fef3c7;
 }
 
 body {
@@ -61,22 +52,20 @@ h1 {
 table {
     width: 100%;
     border-collapse: collapse;
+
+    /* ✅ OPTIONAL: prevents columns jumping when sorting */
     table-layout: fixed;
 }
-
-/* Fixed column widths */
-th:nth-child(1), td:nth-child(1) { width: 55%; }
-th:nth-child(2), td:nth-child(2) { width: 22.5%; }
-th:nth-child(3), td:nth-child(3) { width: 22.5%; }
 
 /* Headers */
 th {
     background: var(--pale-maroon);
     color: var(--club-maroon);
     padding: 10px 14px;
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     text-transform: uppercase;
     cursor: pointer;
+    border-bottom: 2px solid var(--header-hover);
     text-align: left;
 }
 
@@ -84,18 +73,12 @@ th:hover {
     background: var(--header-hover);
 }
 
-/* Cells */
 td {
     padding: 8px 14px;
     border-bottom: 1px solid #f1f5f9;
-    vertical-align: middle;
 }
 
-tr:hover {
-    background: #faf3f4;
-}
-
-/* Centre Registered + Subs */
+/* ✅ Centre REGISTERED + SUBS PAID columns */
 th:nth-child(2),
 td:nth-child(2),
 th:nth-child(3),
@@ -103,36 +86,20 @@ td:nth-child(3) {
     text-align: center;
 }
 
+/* ✅ OPTIONAL fixed widths (safe, simple) */
+th:nth-child(1), td:nth-child(1) { width: 55%; }
+th:nth-child(2), td:nth-child(2) { width: 22.5%; }
+th:nth-child(3), td:nth-child(3) { width: 22.5%; }
+
 /* Player link */
-.player-link {
+td a.player-link {
     color: var(--club-maroon);
     font-weight: 600;
     text-decoration: underline;
 }
 
-/* Status pills */
-.pill {
-    display: inline-block;
-    padding: 3px 10px;
-    border-radius: 999px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    white-space: nowrap;
-}
-
-.pill.green {
-    color: var(--green);
-    background: var(--green-bg);
-}
-
-.pill.red {
-    color: var(--red);
-    background: var(--red-bg);
-}
-
-.pill.amber {
-    color: var(--amber);
-    background: var(--amber-bg);
+.note {
+    color: #475569;
 }
 </style>
 </head>
@@ -141,7 +108,11 @@ td:nth-child(3) {
 <div class="container">
 <h1>🏏 Shadwell CC Aire Wharfe Junior Registrations</h1>
 
-<input id="searchBar" placeholder="Search player or age group..." onkeyup="renderTable()">
+<input
+    id="searchBar"
+    placeholder="Search player or age group..."
+    onkeyup="renderTable()"
+>
 
 <div class="table-wrapper">
 <table>
@@ -159,48 +130,43 @@ td:nth-child(3) {
 
 <script>
 const players = [
-    { player: "(U9) Seb Meynell", registered: "YES (19/03/26)", subs: "NO", url: "#" },
-    { player: "(U9) Toby Jennison", registered: "YES (17/03/26)", subs: "YES (26)", url: "#" },
-    { player: "(U11) Toby Crowther", registered: "YES (06/04/26)", subs: "YES (26)", url: "#" },
-    { player: "(U13) Krishay Yadav", registered: "NO", subs: "YES (26)", url: "#" }
+    { player: "(U9) Seb Meynell", registered: "YES (19/03/26)", subs: "NO", url: "https://awscl.play-cricket.com/player_stats/batting/5463545?rule_type_id=179" },
+    { player: "(U9) Toby Jennison", registered: "YES (17/03/26)", subs: "YES (26)", url: "https://awscl.play-cricket.com/player_stats/batting/5463545?rule_type_id=179" },
+    { player: "(U11) Toby Crowther", registered: "YES (06/04/26)", subs: "YES (26)", url: "https://awscl.play-cricket.com/player_stats/batting/5463545?rule_type_id=179" }
 ];
 
 let sortAsc = true;
-
-function pill(text, type) {
-    return `<span class="pill ${type}">${text}</span>`;
-}
-
-function statusPill(value, positive = "YES") {
-    const hasYes = value.startsWith("YES");
-    const hasNo = value.startsWith("NO");
-
-    if (hasYes && positive === "YES") return pill(value, "green");
-    if (hasNo) return pill(value, "red");
-    if (!hasYes && positive === "NO") return pill(value, "amber");
-    return pill(value, "amber");
-}
 
 function renderTable() {
     const q = searchBar.value.toLowerCase();
     tableBody.innerHTML = "";
 
     players
-      .filter(p =>
-        p.player.toLowerCase().includes(q) ||
-        p.registered.toLowerCase().includes(q) ||
-        p.subs.toLowerCase().includes(q)
-      )
-      .forEach(p => {
-        const tr = document.createElement("tr");
+        .filter(p =>
+            p.player.toLowerCase().includes(q) ||
+            p.registered.toLowerCase().includes(q) ||
+            p.subs.toLowerCase().includes(q)
+        )
+        .forEach(p => {
+            const tr = document.createElement("tr");
 
-        tr.innerHTML = `
-            <td><a class="player-link" href="${p.url}    <td>${statusPill(p.registered)}</td>
-            <td>${statusPill(p.subs)}</td>
-        `;
+            const tdPlayer = document.createElement("td");
+            const link = document.createElement("a");
+            link.href = p.url;
+            link.textContent = p.player;
+            link.className = "player-link";
+            tdPlayer.appendChild(link);
 
-        tableBody.appendChild(tr);
-      });
+            const tdRegistered = document.createElement("td");
+            tdRegistered.textContent = p.registered;
+
+            const tdSubs = document.createElement("td");
+            tdSubs.textContent = p.subs;
+            tdSubs.className = "note";
+
+            tr.append(tdPlayer, tdRegistered, tdSubs);
+            tableBody.appendChild(tr);
+        });
 }
 
 function sortTable(key) {
