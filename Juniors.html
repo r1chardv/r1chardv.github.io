@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -99,7 +98,7 @@ td a.player-link {
     text-decoration: underline;
 }
 
-/* Notes text */
+/* Subs text */
 .note {
     color: #475569;
 }
@@ -122,7 +121,7 @@ td a.player-link {
                 <tr>
                     <th onclick="sortTable('player')">Player ↕</th>
                     <th onclick="sortTable('registered')">Registered ↕</th>
-                    <th onclick="sortTable('notes')">Subs Paid ↕</th>
+                    <th onclick="sortTable('subs')">Subs Paid ↕</th>
                 </tr>
             </thead>
             <tbody id="tableBody"></tbody>
@@ -132,8 +131,9 @@ td a.player-link {
 
 <script>
 const players = [
-    { player: "(U18) Oliver Bates", registered: "Yes (2026)", notes: "Yes (2026)", url: "https://awscl.play-cricket.com/player_stats/batting/5463545?rule_type_id=179" },
-    { player: "(U18) Daniel Payne", registered: "Yes (2026)", notes: "Yes (2026)", url: "https://awscl.play-cricket.com/player_stats/batting/6245954?rule_type_id=179" }
+    { player: "(U18) Oliver Bates", registered: "Yes (2026)", subs: "NO", url: "https://awscl.play-cricket.com/player_stats/batting/5463545?rule_type_id=179" },
+    { player: "(U18) Max Campey", registered: "YES (2026)", subs: "YES (2026)", url: "https://awscl.play-cricket.com/player_stats/batting/5463545?rule_type_id=179" },
+    { player: "(U18) Daniel Payne", registered: "Yes (2026)", subs: "NO", url: "https://awscl.play-cricket.com/player_stats/batting/6245954?rule_type_id=179" }
 ];
 
 let sortAsc = true;
@@ -145,7 +145,7 @@ function renderTable() {
     players
         .filter(p =>
             p.player.toLowerCase().includes(q) ||
-            p.notes.toLowerCase().includes(q) ||
+            p.subs.toLowerCase().includes(q) ||
             String(p.registered).includes(q)
         )
         .forEach(p => {
@@ -161,11 +161,11 @@ function renderTable() {
             const tdRegistered = document.createElement("td");
             tdRegistered.textContent = p.registered;
 
-            const tdNotes = document.createElement("td");
-            tdNotes.textContent = p.notes;
-            tdNotes.className = "note";
+            const tdSubs = document.createElement("td");
+            tdSubs.textContent = p.subs;
+            tdSubs.className = "note";
 
-            tr.append(tdPlayer, tdRegistered, tdNotes);
+            tr.append(tdPlayer, tdRegistered, tdSubs);
             tableBody.appendChild(tr);
         });
 }
