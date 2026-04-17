@@ -3,40 +3,242 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Player Photo</title>
+<title>Shadwell CC Aire Wharfe Registrations</title>
 
 <style>
-  body {
-    font-family: system-ui, -apple-system, sans-serif;
-    background: #f8fafc;
-    text-align: center;
-    padding: 2rem;
-  }
+:root {
+  --club-maroon: #7a1f2b;
+  --pale-maroon: #f5e6e8;
+  --header-hover: #eed3d7;
+  --bg: #f8fafc;
+  --text: #1e293b;
+}
 
-  h1 {
-    color: #7a1f2b;
-    margin-bottom: 1.5rem;
-  }
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  padding: 2rem;
+}
 
-  img.player-photo {
-    width: 50%;
-    max-width: 300px;   /* prevents being too large on desktop */
-    height: auto;
-    border-radius: 6px;
-    box-shadow: 0 8px 15px rgba(0,0,0,0.15);
-  }
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+h1 {
+  color: var(--club-maroon);
+  margin-bottom: 1rem;
+}
+
+#searchBar {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 20px;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.table-wrapper {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 8px 14px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+th {
+  background: var(--pale-maroon);
+  color: var(--club-maroon);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+th:nth-child(2),
+td:nth-child(2) {
+  text-align: center;
+}
+
+.player-link {
+  color: var(--club-maroon);
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.player-icon {
+  margin-left: 6px;
+  cursor: pointer;
+  color: var(--club-maroon);
+  text-decoration: underline;
+}
+
+/* ---------- MODAL ---------- */
+
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  max-width: 90%;
+  text-align: center;
+}
+
+.modal img {
+  width: 50%;
+  max-width: 300px;
+  height: auto;
+  border-radius: 6px;
+  margin-top: 1rem;
+}
+
+.modal h2 {
+  color: var(--club-maroon);
+}
+
+.modal-close {
+  float: right;
+  cursor: pointer;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
 </style>
 </head>
 
 <body>
+<div class="container">
 
-<h1>Zakee Anwar</h1>
+<h1>🏏 Shadwell CC Aire Wharfe Registrations</h1>
 
-<img
-  src="zakee-anwar.jpg"
-  alt="Zakee Anwar"
-  class="player-photo"
+<input
+  id="searchBar"
+  placeholder="Search player, registration year, or club..."
+  onkeyup="renderTable()"
 />
+
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+  <th onclick="sortTable('player')">Player ↕</th>
+  <th onclick="sortTable('debut')">AWSCL Reg ↕</th>
+  <th>Notes</th>
+</tr>
+</thead>
+<tbody id="tableBody"></tbody>
+</table>
+</div>
+
+</div>
+
+<!-- ---------- MODAL HTML ---------- -->
+<div id="photoModal" class="modal">
+  <div class="modal-content">
+    <span class="modal-close" onclick="closeModal()">✕</span>
+    <h2 id="modalName"></h2>
+    <img id="modalImage" src="" alt="Player photo">
+  </div>
+</div>
+
+<script>
+const players = [
+  {
+    player: "Zakee Anwar",
+    debut: 2026,
+    notes: "Burton Salmon CC",
+    statsUrl: "https://awscl.play-cricket.com/player_stats/batting/5463545?rule_type_id=179",
+    photo: "images/zakee-anwar.jpg"
+  },
+  {
+    player: "Abdul Hafeez",
+    debut: 2026,
+    notes: "(Overseas Born English Resident)",
+    statsUrl: "https://awscl.play-cricket.com/player_stats/batting/6245954?rule_type_id=179",
+    photo: "images/abdul-hafeez.jpg"
+  }
+  // ✅ leave the rest of your players unchanged – just add photo paths as needed
+];
+
+let sortAsc = true;
+
+function renderTable() {
+  const q = searchBar.value.toLowerCase();
+  tableBody.innerHTML = "";
+
+  players.filter(p =>
+    p.player.toLowerCase().includes(q) ||
+    p.notes.toLowerCase().includes(q) ||
+    String(p.debut).includes(q)
+  ).forEach(p => {
+
+    const tr = document.createElement("tr");
+
+    const tdPlayer = document.createElement("td");
+
+    const nameLink = document.createElement("a");
+    nameLink.href = p.statsUrl;
+    nameLink.textContent = p.player;
+    nameLink.className = "player-link";
+    nameLink.target = "_blank";
+
+    const icon = document.createElement("span");
+    icon.textContent = " ▣";
+    icon.className = "player-icon";
+    icon.title = "View player photo";
+    icon.onclick = () => openModal(p.player, p.photo);
+
+    tdPlayer.append(nameLink, icon);
+
+    tr.append(
+      tdPlayer,
+      Object.assign(document.createElement("td"), {textContent: p.debut}),
+      Object.assign(document.createElement("td"), {textContent: p.notes})
+    );
+
+    tableBody.appendChild(tr);
+  });
+}
+
+function openModal(name, img) {
+  modalName.textContent = name;
+  modalImage.src = img;
+  photoModal.style.display = "flex";
+}
+
+function closeModal() {
+  photoModal.style.display = "none";
+  modalImage.src = "";
+}
+
+photoModal.addEventListener("click", e => {
+  if (e.target === photoModal) closeModal();
+});
+
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") closeModal();
+});
+
+renderTable();
+</script>
 
 </body>
 </html>
