@@ -130,27 +130,63 @@ tr:hover {
 const PLACEHOLDER_IMAGE = "images/player-placeholder.png";
 
 const players = [
-  { player:"Zakee Anwar", debut:2026, notes:"Burton Salmon CC", stats:"https://awscl.play-cricket.com/player_stats/batting/5463545?rule_type_id=179", photo: "images/zakee-anwar.png" },
-  { player:"Abdul Hafeez", debut:2026, notes:"(Overseas Born English Resident)", stats:"https://awscl.play-cricket.com/player_stats/batting/6245954?rule_type_id=179" },
-  { player:"Danyaal Khan", debut:2026, notes:"Gomersal CC", stats:"https://awscl.play-cricket.com/player_stats/batting/5422752?rule_type_id=179" },
-  { player:"Zarak Khan", debut:2026, notes:"Drighlington CC", stats:"https://awscl.play-cricket.com/player_stats/batting/6631709?rule_type_id=179" },
-  { player:"Amar Guptha", debut:2026, notes:"Newby Hall CC (Skilled Worker Visa)", stats:"https://awscl.play-cricket.com/player_stats/batting/6915858?rule_type_id=179" },
-  { player:"Zahid Nissar", debut:2026, notes:"India (Overseas)", stats:"https://awscl.play-cricket.com/player_stats/batting/5836472?rule_type_id=179" },
-  { player:"Arslan Saleem", debut:2026, notes:"Bardsey CC", stats:"https://awscl.play-cricket.com/player_stats/batting/6948733?rule_type_id=179" },
-  { player:"Maseb Khan", debut:2026, notes:"Drighlington CC", stats:"https://awscl.play-cricket.com/player_stats/batting/5060463?rule_type_id=179" },
-  { player:"Mohammad Asif", debut:2026, notes:"Green Hammerton CC", stats:"https://awscl.play-cricket.com/player_stats/batting/6936062?rule_type_id=179" },
+  { player:"Zakee Anwar", debut:2026, notes:"Burton Salmon CC",
+    stats:"https://awscl.play-cricket.com/player_stats/batting/5463545?rule_type_id=179",
+    photo:"images/zakee-anwar.png" },
 
-  { player:"Abdullah Anwar", debut:2025, notes:"", stats:"https://awscl.play-cricket.com/player_stats/batting/6815601?rule_type_id=179" },
-  { player:"Ibrahim Anwar", debut:2025, notes:"", stats:"https://awscl.play-cricket.com/player_stats/batting/6806407?rule_type_id=179" },
-  { player:"Naveed Anwar", debut:2025, notes:"", stats:"https://awscl.play-cricket.com/player_stats/batting/4330561?rule_type_id=179" },
-  { player:"Michael Austin", debut:2025, notes:"", stats:"https://awscl.play-cricket.com/player_stats/batting/5946874?rule_type_id=179" },
-  { player:"James Bladon", debut:2025, notes:"", stats:"https://awscl.play-cricket.com/player_stats/batting/6781900?rule_type_id=179" },
+  { player:"Abdul Hafeez", debut:2026, notes:"(Overseas Born English Resident)",
+    stats:"https://awscl.play-cricket.com/player_stats/batting/6245954?rule_type_id=179" },
 
-  { player:"Tom Ball", debut:2024, notes:"", stats:"https://awscl.play-cricket.com/player_stats/batting/5797322?rule_type_id=179" },
-  { player:"Faisal Arshad", debut:2023, notes:"", stats:"https://awscl.play-cricket.com/player_stats/batting/5986451?rule_type_id=179" },
-  { player:"Wasim Ahmed", debut:2022, notes:"", stats:"https://awscl.play-cricket.com/player_stats/batting/3813376?rule_type_id=179" },
-  { player:"Richard Vincent", debut:2022, notes:"", stats:"https://awscl.play-cricket.com/player_stats/batting/2737664?rule_type_id=179" },
-  { player:"Gary Wilson", debut:2022, notes:"", stats:"https://awscl.play-cricket.com/player_stats/batting/4371103?rule_type_id=179" }
+  { player:"Danyaal Khan", debut:2026, notes:"Gomersal CC",
+    stats:"https://awscl.play-cricket.com/player_stats/batting/5422752?rule_type_id=179" },
+
+  { player:"Zarak Khan", debut:2026, notes:"Drighlington CC",
+    stats:"https://awscl.play-cricket.com/player_stats/batting/6631709?rule_type_id=179" },
+
+  { player:"Amar Guptha", debut:2026, notes:"Newby Hall CC (Skilled Worker Visa)",
+    stats:"https://awscl.play-cricket.com/player_stats/batting/6915858?rule_type_id=179" },
+
+  { player:"Zahid Nissar", debut:2026, notes:"India (Overseas)",
+    stats:"https://awscl.play-cricket.com/player_stats/batting/5836472?rule_type_id=179" },
+
+  { player:"Arslan Saleem", debut:2026, notes:"Bardsey CC",
+    stats:"https://awscl.play-cricket.com/player_stats/batting/6948733?rule_type_id=179" },
+
+  { player:"Maseb Khan", debut:2026, notes:"Drighlington CC",
+    stats:"https://awscl.play-cricket.com/player_stats/batting/5060463?rule_type_id=179" },
+
+  { player:"Mohammad Asif", debut:2026, notes:"Green Hammerton CC",
+    stats:"https://awscl.play-cricket.com/player_stats/batting/6936062?rule_type_id=179" },
+
+  { player:"Abdullah Anwar", debut:2025, notes:"",
+    stats:"https://awscl.play-cricket.com/player_stats/batting/6815601?rule_type_id=179" },
+
+  { player:"Ibrahim Anwar", debut:2025, notes:"",
+    stats:"https://awscl.play-cricket.com/player_stats/batting/6806407?rule_type_id=179" },
+
+  { player:"Naveed Anwar", debut:2025, notes:"",
+    stats:"https://awscl.play-cricket.com/player_stats/batting/4330561?rule_type_id=179" },
+
+  { player:"Michael Austin", debut:2025, notes:"",
+    stats:"https://awscl.play-cricket.com/player_stats/batting/5946874?rule_type_id=179" },
+
+  { player:"James Bladon", debut:2025, notes:"",
+    stats:"https://awscl.play-cricket.com/player_stats/batting/6781900?rule_type_id=179" },
+
+  { player:"Tom Ball", debut:2024, notes:"",
+    stats:"https://awscl.play-cricket.com/player_stats/batting/5797322?rule_type_id=179" },
+
+  { player:"Faisal Arshad", debut:2023, notes:"",
+    stats:"https://awscl.play-cricket.com/player_stats/batting/5986451?rule_type_id=179" },
+
+  { player:"Wasim Ahmed", debut:2022, notes:"",
+    stats:"https://awscl.play-cricket.com/player_stats/batting/3813376?rule_type_id=179" },
+
+  { player:"Richard Vincent", debut:2022, notes:"",
+    stats:"https://awscl.play-cricket.com/player_stats/batting/2737664?rule_type_id=179" },
+
+  { player:"Gary Wilson", debut:2022, notes:"",
+    stats:"https://awscl.play-cricket.com/player_stats/batting/4371103?rule_type_id=179" }
 ];
 
 let sortAsc = true;
@@ -177,7 +213,7 @@ function renderTable() {
     nameLink.rel = "noopener";
 
     const photoLink = document.createElement("a");
-    photoLink.href = PLACEHOLDER_IMAGE;
+    photoLink.href = p.photo || PLACEHOLDER_IMAGE;
     photoLink.textContent = "▣";
     photoLink.className = "photo-link";
     photoLink.target = "_blank";
