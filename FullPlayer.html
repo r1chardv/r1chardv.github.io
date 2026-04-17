@@ -6,88 +6,86 @@
 <title>Shadwell CC Aire Wharfe Registrations</title>
 
 <style>
-:root {
-  --club-maroon: #7a1f2b;
-  --pale-maroon: #f5e6e8;
-  --header-hover: #eed3d7;
-  --bg: #f8fafc;
-  --text: #1e293b;
+:root{
+  --club-maroon:#7a1f2b;
+  --pale-maroon:#f5e6e8;
+  --header-hover:#eed3d7;
+  --bg:#f8fafc;
+  --text:#1e293b;
 }
 
-body {
+body{
   font-family: system-ui, -apple-system, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  padding: 2rem;
+  background:var(--bg);
+  color:var(--text);
+  padding:2rem;
 }
 
-.container {
-  max-width: 950px;
-  margin: 0 auto;
+.container{
+  max-width:900px;
+  margin:0 auto;
 }
 
-h1 {
-  color: var(--club-maroon);
-  margin-bottom: 1rem;
+h1{
+  color:var(--club-maroon);
+  margin-bottom:1rem;
 }
 
-#searchBar {
-  width: 100%;
-  padding: 14px;
-  margin-bottom: 20px;
-  border: 2px solid #e2e8f0;
-  border-radius: 8px;
-  font-size: 1rem;
+#searchBar{
+  width:100%;
+  padding:14px;
+  margin-bottom:20px;
+  border:2px solid #e2e8f0;
+  border-radius:8px;
+  font-size:1rem;
 }
 
-.table-wrapper {
-  background: white;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+.table-wrapper{
+  background:white;
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 10px 15px -3px rgba(0,0,0,.1);
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
+table{
+  width:100%;
+  border-collapse:collapse;
 }
 
-th {
-  background: var(--pale-maroon);
-  color: var(--club-maroon);
-  padding: 10px 14px;
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  cursor: pointer;
-  border-bottom: 2px solid var(--header-hover);
+th{
+  background:var(--pale-maroon);
+  color:var(--club-maroon);
+  padding:10px 14px;
+  font-size:.8rem;
+  text-transform:uppercase;
+  cursor:pointer;
 }
 
-th:hover { background: var(--header-hover); }
+th:hover{background:var(--header-hover);}
 
-td {
-  padding: 8px 14px;
-  border-bottom: 1px solid #f1f5f9;
-  vertical-align: middle;
+td{
+  padding:8px 14px;
+  border-bottom:1px solid #f1f5f9;
 }
-
-tr:hover { background: #faf3f4; }
 
 th:nth-child(2),
-td:nth-child(2) { text-align: center; }
-
-.player-link {
-  font-weight: 600;
-  color: var(--club-maroon);
-  text-decoration: underline;
+td:nth-child(2){
+  text-align:center;
 }
 
-.photo-link {
-  margin-left: 6px;
-  color: var(--club-maroon);
-  text-decoration: underline;
+.player-link{
+  color:var(--club-maroon);
+  font-weight:600;
+  text-decoration:underline;
 }
 
-.note { color: #475569; }
+.photo-link{
+  margin-left:6px;
+  color:var(--club-maroon);
+  text-decoration:underline;
+}
+
+.note{color:#475569;}
 </style>
 </head>
 
@@ -116,107 +114,59 @@ td:nth-child(2) { text-align: center; }
 </div>
 
 <script>
-const players = [
-  { player:"Zakee Anwar", debut:2026, notes:"Burton Salmon CC",
-    stats:"https://awscl.play-cricket.com/player_stats/batting/5463545?rule_type_id=179",
-    photo:"images/zakee-anwar.jpg" },
+const players=[
+ {player:"Zakee Anwar",debut:2026,notes:"Burton Salmon CC",
+  stats:"https://awscl.play-cricket.com/player_stats/batting/5463545?rule_type_id=179",
+  photo:"images/zakee-anwar.jpg"},
 
-  { player:"Abdul Hafeez", debut:2026, notes:"(Overseas Born English Resident)",
-    stats:"https://awscl.play-cricket.com/player_stats/batting/6245954?rule_type_id=179",
-    photo:"images/abdul-hafeez.jpg" },
+ {player:"Abdul Hafeez",debut:2026,notes:"(Overseas Born English Resident)",
+  stats:"https://awscl.play-cricket.com/player_stats/batting/6245954?rule_type_id=179",
+  photo:"images/abdul-hafeez.jpg"},
 
-  { player:"Danyaal Khan", debut:2026, notes:"Gomersal CC",
-    stats:"https://awscl.play-cricket.com/player_stats/batting/5422752?rule_type_id=179",
-    photo:"images/danyaal-khan.jpg" },
+ {player:"Danyaal Khan",debut:2026,notes:"Gomersal CC",
+  stats:"https://awscl.play-cricket.com/player_stats/batting/5422752?rule_type_id=179",
+  photo:"images/danyaal-khan.jpg"},
 
-  { player:"Zarak Khan", debut:2026, notes:"Drighlington CC",
-    stats:"https://awscl.play-cricket.com/player_stats/batting/6631709?rule_type_id=179",
-    photo:"images/zarak-khan.jpg" },
+ {player:"Zarak Khan",debut:2026,notes:"Drighlington CC",
+  stats:"https://awscl.play-cricket.com/player_stats/batting/6631709?rule_type_id=179",
+  photo:"images/zarak-khan.jpg"},
 
-  { player:"Amar Guptha", debut:2026, notes:"Newby Hall CC (Skilled Worker Visa)",
-    stats:"https://awscl.play-cricket.com/player_stats/batting/6915858?rule_type_id=179",
-    photo:"images/amar-guptha.jpg" },
+ {player:"Amar Guptha",debut:2026,notes:"Newby Hall CC (Skilled Worker Visa)",
+  stats:"https://awscl.play-cricket.com/player_stats/batting/6915858?rule_type_id=179",
+  photo:"images/amar-guptha.jpg"},
 
-  { player:"Zahid Nissar", debut:2026, notes:"India (Overseas)",
-    stats:"https://awscl.play-cricket.com/player_stats/batting/5836472?rule_type_id=179",
-    photo:"images/zahid-nissar.jpg" },
-
-  { player:"Arslan Saleem", debut:2026, notes:"Bardsey CC",
-    stats:"https://awscl.play-cricket.com/player_stats/batting/6948733?rule_type_id=179",
-    photo:"images/arslan-saleem.jpg" },
-
-  { player:"Mohammad Asif", debut:2026, notes:"Green Hammerton CC",
-    stats:"https://awscl.play-cricket.com/player_stats/batting/6936062?rule_type_id=179",
-    photo:"images/mohammad-asif.jpg" },
-
-  /* -------- 2025 -------- */
-  { player:"Abdullah Anwar", debut:2025, notes:"",
-    stats:"https://awscl.play-cricket.com/player_stats/batting/6815601?rule_type_id=179",
-    photo:"images/abdullah-anwar.jpg" },
-
-  { player:"Ibrahim Anwar", debut:2025, notes:"",
-    stats:"https://awscl.play-cricket.com/player_stats/batting/6806407?rule_type_id=179",
-    photo:"images/ibrahim-anwar.jpg" },
-
-  { player:"Naveed Anwar", debut:2025, notes:"",
-    stats:"https://awscl.play-cricket.com/player_stats/batting/4330561?rule_type_id=179",
-    photo:"images/naveed-anwar.jpg" },
-
-  { player:"Michael Austin", debut:2025, notes:"",
-    stats:"https://awscl.play-cricket.com/player_stats/batting/5946874?rule_type_id=179",
-    photo:"images/michael-austin.jpg" },
-
-  { player:"James Bladon", debut:2025, notes:"",
-    stats:"https://awscl.play-cricket.com/player_stats/batting/6781900?rule_type_id=179",
-    photo:"images/james-bladon.jpg" },
-
-  /* -------- 2024–2022 -------- */
-  { player:"Tom Ball", debut:2024, notes:"",
-    stats:"https://awscl.play-cricket.com/player_stats/batting/5797322?rule_type_id=179",
-    photo:"images/tom-ball.jpg" },
-
-  { player:"Faisal Arshad", debut:2023, notes:"",
-    stats:"https://awscl.play-cricket.com/player_stats/batting/5986451?rule_type_id=179",
-    photo:"images/faisal-arshad.jpg" },
-
-  { player:"Wasim Ahmed", debut:2022, notes:"",
-    stats:"https://awscl.play-cricket.com/player_stats/batting/3813376?rule_type_id=179",
-    photo:"images/wasim-ahmed.jpg" },
-
-  { player:"Richard Vincent", debut:2022, notes:"",
-    stats:"https://awscl.play-cricket.com/player_stats/batting/2737664?rule_type_id=179",
-    photo:"images/richard-vincent.jpg" },
-
-  { player:"Gary Wilson", debut:2022, notes:"",
-    stats:"https://awscl.play-cricket.com/player_stats/batting/4371103?rule_type_id=179",
-    photo:"images/gary-wilson.jpg" }
+ {player:"Zahid Nissar",debut:2026,notes:"India (Overseas)",
+  stats:"https://awscl.play-cricket.com/player_stats/batting/5836472?rule_type_id=179",
+  photo:"images/zahid-nissar.jpg"}
 ];
 
-let asc = true;
+let asc=true;
 
-function renderTable() {
-  const q = searchBar.value.toLowerCase();
-  tableBody.innerHTML = "";
-  players.filter(p =>
-    p.player.toLowerCase().includes(q) ||
-    p.notes.toLowerCase().includes(q) ||
-    String(p.debut).includes(q)
-  ).forEach(p => {
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td>
-        ${p.stats}${p.player}</a>
-        <a class="photo-link" href="${p.photo}" targett}</td>
-      <td class="note">${p.notes}</td>`;
-    tableBody.appendChild(tr);
-  });
+function renderTable(){
+ const q=searchBar.value.toLowerCase();
+ tableBody.innerHTML="";
+ players.filter(p=>
+   p.player.toLowerCase().includes(q)||
+   p.notes.toLowerCase().includes(q)||
+   String(p.debut).includes(q)
+ ).forEach(p=>{
+   const tr=document.createElement("tr");
+   tr.innerHTML=`
+     <td>
+       <a class="player-link</a>
+       <a class="photo-link"</td>
+     <td>${p.debut}</td>
+     <td class="note">${p.notes}</td>`;
+   tableBody.appendChild(tr);
+ });
 }
 
-function sortTable(key) {
-  asc = !asc;
-  players.sort((a,b) =>
-    a[key] > b[key] ? (asc?1:-1) : (a[key] < b[key] ? (asc?-1:1) : 0));
-  renderTable();
+function sortTable(key){
+ asc=!asc;
+ players.sort((a,b)=>
+   a[key]>b[key]?(asc?1:-1):(a[key]<b[key]?(asc?-1:1):0)
+ );
+ renderTable();
 }
 
 renderTable();
