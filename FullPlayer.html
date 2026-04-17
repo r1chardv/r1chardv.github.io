@@ -61,7 +61,7 @@ th {
   background: var(--pale-maroon);
   color: var(--club-maroon);
   padding: 10px 14px;
-  font-size: 0.8rem;
+  font-size: .8rem;
   text-transform: uppercase;
   cursor: pointer;
   border-bottom: 2px solid var(--header-hover);
@@ -74,7 +74,6 @@ th:hover {
 td {
   padding: 8px 14px;
   border-bottom: 1px solid #f1f5f9;
-  line-height: 1.25;
   vertical-align: middle;
 }
 
@@ -95,7 +94,6 @@ td:nth-child(2) {
 
 .player-icon {
   margin-left: 6px;
-  font-weight: normal;
   color: var(--club-maroon);
   text-decoration: none;
 }
@@ -138,93 +136,93 @@ td:nth-child(2) {
 
 <script>
 const players = [
-  { player: "Zakee Anwar", debut: 2026, notes: "Burton Salmon CC", url: "https://awscl.play-cricket.com/player_stats/batting/5463545?rule_type_id=179" },
-  { player: "Abdul Hafeez", debut: 2026, notes: "(Overseas Born English Resident)", url: "https://awscl.play-cricket.com/player_stats/batting/6245954?rule_type_id=179" },
-  { player: "Danyaal Khan", debut: 2026, notes: "Gomersal CC", url: "https://awscl.play-cricket.com/player_stats/batting/5422752?rule_type_id=179" },
-  { player: "Zarak Khan", debut: 2026, notes: "Drighlington CC", url: "https://awscl.play-cricket.com/player_stats/batting/6631709?rule_type_id=179" },
-  { player: "Amar Guptha", debut: 2026, notes: "Newby Hall CC (Skilled Worker Visa)", url: "https://awscl.play-cricket.com/player_stats/batting/6915858?rule_type_id=179" },
-  { player: "Zahid Nissar", debut: 2026, notes: "India (Overseas) – Also played 2023/24", url: "https://awscl.play-cricket.com/player_stats/batting/5836472?rule_type_id=179" },
-  { player: "Ashwin Roda", debut: 2026, notes: "N/A", url: "https://awscl.play-cricket.com/player_stats/batting/6911847?rule_type_id=179" },
-  { player: "Arslan Saleem", debut: 2026, notes: "Bardsey CC", url: "https://awscl.play-cricket.com/player_stats/batting/6948733?rule_type_id=179" },
-  { player: "Maseb Khan", debut: 2026, notes: "Drighlington CC", url: "https://awscl.play-cricket.com/player_stats/batting/5060463?rule_type_id=179" },
-  { player: "Mohammad Asif", debut: 2026, notes: "Green Hammerton CC", url: "https://awscl.play-cricket.com/player_stats/batting/6936062?rule_type_id=179" },
-  { player: "Abdullah Anwar", debut: 2025, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/6815601?rule_type_id=179" },
-  { player: "Ibrahim Anwar", debut: 2025, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/6806407?rule_type_id=179" },
-  { player: "Naveed Anwar", debut: 2025, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/4330561?rule_type_id=179" },
-  { player: "Muhammad Ashraf", debut: 2025, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/4080217?rule_type_id=179" },
-  { player: "Michael Austin", debut: 2025, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/5946874?rule_type_id=179" },
-  { player: "James Bladon", debut: 2025, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/6781900?rule_type_id=179" },
-  { player: "Archie Haddon", debut: 2025, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/4933038?rule_type_id=179" },
-  { player: "Lance Hearn", debut: 2025, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/6573332?rule_type_id=179" },
-  { player: "Zarshad Khan", debut: 2025, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/150837?rule_type_id=179" },
-  { player: "George Lane", debut: 2025, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/2477385?rule_type_id=179" },
-  { player: "Alfie Menham", debut: 2025, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/5354102?rule_type_id=179" },
-  { player: "Muhammed Naveed", debut: 2025, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/4330558?rule_type_id=179" },
-  { player: "Daniel Payne", debut: 2025, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/4230395?rule_type_id=179" },
-  { player: "Mohammed Shujayathali", debut: 2025, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/3604836?rule_type_id=179" },
-  { player: "Muhammad Arif", debut: 2024, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/6249062?rule_type_id=179" },
-  { player: "Tom Ball", debut: 2024, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/5797322?rule_type_id=179" },
-  { player: "Haseeb Khan", debut: 2024, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/6244808?rule_type_id=179" },
-  { player: "Rahul Lakhera", debut: 2024, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/6177628?rule_type_id=179" },
-  { player: "Tim Patterson", debut: 2024, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/6180943?rule_type_id=179" },
-  { player: "Sulaiman Rasool", debut: 2024, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/4331233?rule_type_id=179" },
-  { player: "Adil Shahzad", debut: 2024, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/5843768?rule_type_id=179" },
-  { player: "Vivaan Thopte", debut: 2024, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/4000680?rule_type_id=179" },
-  { player: "Faisal Arshad", debut: 2023, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/5986451?rule_type_id=179" },
-  { player: "Junaid Bashir", debut: 2023, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/1904817?rule_type_id=179" },
-  { player: "Max Campey", debut: 2023, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/4989528?rule_type_id=179" },
-  { player: "Bilal Ejaz", debut: 2023, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/5484112?rule_type_id=179" },
-  { player: "Naresh Ghanate", debut: 2023, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/5718190?rule_type_id=179" },
-  { player: "Tom Wilson", debut: 2023, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/5804904?rule_type_id=179" },
-  { player: "Wasim Ahmed", debut: 2022, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/3813376?rule_type_id=179" },
-  { player: "Ayyaz Akram", debut: 2022, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/4361192?rule_type_id=179" },
-  { player: "Nauman Anwar", debut: 2022, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/4371698?rule_type_id=179" },
-  { player: "Raja Armughan", debut: 2022, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/3751995?rule_type_id=179" },
-  { player: "James Austin", debut: 2022, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/1947628?rule_type_id=179" },
-  { player: "Robert Austin", debut: 2022, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/1620798?rule_type_id=179" },
-  { player: "Amar Bhatti", debut: 2022, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/4209407?rule_type_id=179" },
-  { player: "Oliver Burnill", debut: 2022, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/4038832?rule_type_id=179" },
-  { player: "David Copley", debut: 2022, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/5311843?rule_type_id=179" },
-  { player: "Jack Doyle", debut: 2022, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/5519121?rule_type_id=179" },
-  { player: "Adam Elliott", debut: 2022, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/4033952?rule_type_id=179" },
-  { player: "Awwal Gani", debut: 2022, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/374887?rule_type_id=179" },
-  { player: "Edward Gray", debut: 2022, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/4434293?rule_type_id=179" },
-  { player: "Hamza Hamayun", debut: 2022, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/6777731?rule_type_id=179" },
-  { player: "Scott Harrison", debut: 2022, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/6590035?rule_type_id=179" },
-  { player: "James Hart", debut: 2022, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/3246883?rule_type_id=179" },
-  { player: "Luke Hutton", debut: 2022, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/3500292?rule_type_id=179" },
-  { player: "Arslan Ijaz", debut: 2022, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/5431693?rule_type_id=179" },
-  { player: "Haider Iqbal", debut: 2022, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/4909850?rule_type_id=179" },
-  { player: "Usman Iqbal", debut: 2022, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/5006570?rule_type_id=179" },
-  { player: "James Ireland", debut: 2022, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/5318393?rule_type_id=179" },
-  { player: "Shreyas Kumar", debut: 2022, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/4040970?rule_type_id=179" },
-  { player: "Dan Lewis", debut: 2022, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/5508436?rule_type_id=179" },
-  { player: "Imran Mahmood", debut: 2022, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/3820384?rule_type_id=179" },
-  { player: "Steve McLellan", debut: 2022, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/3461649?rule_type_id=179" },
-  { player: "Hanzaq J Mir", debut: 2022, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/5652?rule_type_id=179" },
-  { player: "Gaurav Pawar", debut: 2022, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/5085048?rule_type_id=179" },
-  { player: "Usman Rasool", debut: 2022, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/3781736?rule_type_id=179" },
-  { player: "Ian Rogers", debut: 2022, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/4041052?rule_type_id=179" },
-  { player: "Kieran Sanderson", debut: 2022, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/1745726?rule_type_id=179" },
-  { player: "Oliver Savage", debut: 2022, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/5804911?rule_type_id=179" },
-  { player: "Paul Savage", debut: 2022, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/6292777?rule_type_id=179" },
-  { player: "Conor Scholey", debut: 2022, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/4796496?rule_type_id=179" },
-  { player: "Oliver Scholey", debut: 2022, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/4038290?rule_type_id=179" },
-  { player: "Rahul Sedha", debut: 2022, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/4170417?rule_type_id=179" },
-  { player: "Rhia Sedha", debut: 2022, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/5347590?rule_type_id=179" },
-  { player: "Harry Smoothy", debut: 2022, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/334635?rule_type_id=179" },
-  { player: "Beck Stewart", debut: 2022, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/4232564?rule_type_id=179" },
-  { player: "Matthew Stickland", debut: 2022, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/4067647?rule_type_id=179" },
-  { player: "Naveed Tahir", debut: 2022, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/4062016?rule_type_id=179" },
-  { player: "Muhammed Tariq", debut: 2022, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/2307334?rule_type_id=179" },
-  { player: "Kieren Thurston", debut: 2022, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/4567927?rule_type_id=179" },
-  { player: "Muhammad Umair", debut: 2022, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/4146598?rule_type_id=179" },
-  { player: "Richard Vincent", debut: 2022, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/2737664?rule_type_id=179" },
-  { player: "Erin Walker", debut: 2022, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/6395586?rule_type_id=179" },
-  { player: "Gemma Walker", debut: 2022, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/3267054?rule_type_id=179" },
-  { player: "Ben Whitehead", debut: 2022, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/3641385?rule_type_id=179" },
-  { player: "Finley Wilson", debut: 2022, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/4948065?rule_type_id=179" },
-  { player: "Gary Wilson", debut: 2022, notes: "", url: "https://awscl.play-cricket.com/player_stats/batting/4371103?rule_type_id=179" }
+  { player:"Zakee Anwar", debut:2026, notes:"Burton Salmon CC", url:"https://awscl.play-cricket.com/player_stats/batting/5463545?rule_type_id=179", photoUrl:"images/Zakee Anwar.png"},
+  { player:"Abdul Hafeez", debut:2026, notes:"(Overseas Born English Resident)", url:"https://awscl.play-cricket.com/player_stats/batting/6245954?rule_type_id=179", photoUrl:"#"},
+  { player:"Danyaal Khan", debut:2026, notes:"Gomersal CC", url:"https://awscl.play-cricket.com/player_stats/batting/5422752?rule_type_id=179", photoUrl:"#"},
+  { player:"Zarak Khan", debut:2026, notes:"Drighlington CC", url:"https://awscl.play-cricket.com/player_stats/batting/6631709?rule_type_id=179", photoUrl:"#"},
+  { player:"Amar Guptha", debut:2026, notes:"Newby Hall CC (Skilled Worker Visa)", url:"https://awscl.play-cricket.com/player_stats/batting/6915858?rule_type_id=179", photoUrl:"#"},
+  { player:"Zahid Nissar", debut:2026, notes:"India (Overseas) – Also played 2023/24", url:"https://awscl.play-cricket.com/player_stats/batting/5836472?rule_type_id=179", photoUrl:"#"},
+  { player:"Ashwin Roda", debut:2026, notes:"N/A", url:"https://awscl.play-cricket.com/player_stats/batting/6911847?rule_type_id=179", photoUrl:"#"},
+  { player:"Arslan Saleem", debut:2026, notes:"Bardsey CC", url:"https://awscl.play-cricket.com/player_stats/batting/6948733?rule_type_id=179", photoUrl:"#"},
+  { player:"Maseb Khan", debut:2026, notes:"Drighlington CC", url:"https://awscl.play-cricket.com/player_stats/batting/5060463?rule_type_id=179", photoUrl:"#"},
+  { player:"Mohammad Asif", debut:2026, notes:"Green Hammerton CC", url:"https://awscl.play-cricket.com/player_stats/batting/6936062?rule_type_id=179", photoUrl:"#"},
+  { player:"Abdullah Anwar", debut:2025, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/6815601?rule_type_id=179", photoUrl:"#"},
+  { player:"Ibrahim Anwar", debut:2025, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/6806407?rule_type_id=179", photoUrl:"#"},
+  { player:"Naveed Anwar", debut:2025, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/4330561?rule_type_id=179", photoUrl:"#"},
+  { player:"Muhammad Ashraf", debut:2025, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/4080217?rule_type_id=179", photoUrl:"#"},
+  { player:"Michael Austin", debut:2025, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/5946874?rule_type_id=179", photoUrl:"#"},
+  { player:"James Bladon", debut:2025, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/6781900?rule_type_id=179", photoUrl:"#"},
+  { player:"Archie Haddon", debut:2025, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/4933038?rule_type_id=179", photoUrl:"#"},
+  { player:"Lance Hearn", debut:2025, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/6573332?rule_type_id=179", photoUrl:"#"},
+  { player:"Zarshad Khan", debut:2025, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/150837?rule_type_id=179", photoUrl:"#"},
+  { player:"George Lane", debut:2025, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/2477385?rule_type_id=179", photoUrl:"#"},
+  { player:"Alfie Menham", debut:2025, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/5354102?rule_type_id=179", photoUrl:"#"},
+  { player:"Muhammed Naveed", debut:2025, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/4330558?rule_type_id=179", photoUrl:"#"},
+  { player:"Daniel Payne", debut:2025, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/4230395?rule_type_id=179", photoUrl:"#"},
+  { player:"Mohammed Shujayathali", debut:2025, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/3604836?rule_type_id=179", photoUrl:"#"},
+  { player:"Muhammad Arif", debut:2024, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/6249062?rule_type_id=179", photoUrl:"#"},
+  { player:"Tom Ball", debut:2024, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/5797322?rule_type_id=179", photoUrl:"#"},
+  { player:"Haseeb Khan", debut:2024, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/6244808?rule_type_id=179", photoUrl:"#"},
+  { player:"Rahul Lakhera", debut:2024, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/6177628?rule_type_id=179", photoUrl:"#"},
+  { player:"Tim Patterson", debut:2024, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/6180943?rule_type_id=179", photoUrl:"#"},
+  { player:"Sulaiman Rasool", debut:2024, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/4331233?rule_type_id=179", photoUrl:"#"},
+  { player:"Adil Shahzad", debut:2024, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/5843768?rule_type_id=179", photoUrl:"#"},
+  { player:"Vivaan Thopte", debut:2024, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/4000680?rule_type_id=179", photoUrl:"#"},
+  { player:"Faisal Arshad", debut:2023, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/5986451?rule_type_id=179", photoUrl:"#"},
+  { player:"Junaid Bashir", debut:2023, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/1904817?rule_type_id=179", photoUrl:"#"},
+  { player:"Max Campey", debut:2023, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/4989528?rule_type_id=179", photoUrl:"#"},
+  { player:"Bilal Ejaz", debut:2023, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/5484112?rule_type_id=179", photoUrl:"#"},
+  { player:"Naresh Ghanate", debut:2023, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/5718190?rule_type_id=179", photoUrl:"#"},
+  { player:"Tom Wilson", debut:2023, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/5804904?rule_type_id=179", photoUrl:"#"},
+  { player:"Wasim Ahmed", debut:2022, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/3813376?rule_type_id=179", photoUrl:"#"},
+  { player:"Ayyaz Akram", debut:2022, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/4361192?rule_type_id=179", photoUrl:"#"},
+  { player:"Nauman Anwar", debut:2022, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/4371698?rule_type_id=179", photoUrl:"#"},
+  { player:"Raja Armughan", debut:2022, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/3751995?rule_type_id=179", photoUrl:"#"},
+  { player:"James Austin", debut:2022, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/1947628?rule_type_id=179", photoUrl:"#"},
+  { player:"Robert Austin", debut:2022, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/1620798?rule_type_id=179", photoUrl:"#"},
+  { player:"Amar Bhatti", debut:2022, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/4209407?rule_type_id=179", photoUrl:"#"},
+  { player:"Oliver Burnill", debut:2022, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/4038832?rule_type_id=179", photoUrl:"#"},
+  { player:"David Copley", debut:2022, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/5311843?rule_type_id=179", photoUrl:"#"},
+  { player:"Jack Doyle", debut:2022, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/5519121?rule_type_id=179", photoUrl:"#"},
+  { player:"Adam Elliott", debut:2022, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/4033952?rule_type_id=179", photoUrl:"#"},
+  { player:"Awwal Gani", debut:2022, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/374887?rule_type_id=179", photoUrl:"#"},
+  { player:"Edward Gray", debut:2022, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/4434293?rule_type_id=179", photoUrl:"#"},
+  { player:"Hamza Hamayun", debut:2022, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/6777731?rule_type_id=179", photoUrl:"#"},
+  { player:"Scott Harrison", debut:2022, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/6590035?rule_type_id=179", photoUrl:"#"},
+  { player:"James Hart", debut:2022, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/3246883?rule_type_id=179", photoUrl:"#"},
+  { player:"Luke Hutton", debut:2022, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/3500292?rule_type_id=179", photoUrl:"#"},
+  { player:"Arslan Ijaz", debut:2022, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/5431693?rule_type_id=179", photoUrl:"#"},
+  { player:"Haider Iqbal", debut:2022, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/4909850?rule_type_id=179", photoUrl:"#"},
+  { player:"Usman Iqbal", debut:2022, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/5006570?rule_type_id=179", photoUrl:"#"},
+  { player:"James Ireland", debut:2022, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/5318393?rule_type_id=179", photoUrl:"#"},
+  { player:"Shreyas Kumar", debut:2022, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/4040970?rule_type_id=179", photoUrl:"#"},
+  { player:"Dan Lewis", debut:2022, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/5508436?rule_type_id=179", photoUrl:"#"},
+  { player:"Imran Mahmood", debut:2022, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/3820384?rule_type_id=179", photoUrl:"#"},
+  { player:"Steve McLellan", debut:2022, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/3461649?rule_type_id=179", photoUrl:"#"},
+  { player:"Hanzaq J Mir", debut:2022, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/5652?rule_type_id=179", photoUrl:"#"},
+  { player:"Gaurav Pawar", debut:2022, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/5085048?rule_type_id=179", photoUrl:"#"},
+  { player:"Usman Rasool", debut:2022, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/3781736?rule_type_id=179", photoUrl:"#"},
+  { player:"Ian Rogers", debut:2022, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/4041052?rule_type_id=179", photoUrl:"#"},
+  { player:"Kieran Sanderson", debut:2022, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/1745726?rule_type_id=179", photoUrl:"#"},
+  { player:"Oliver Savage", debut:2022, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/5804911?rule_type_id=179", photoUrl:"#"},
+  { player:"Paul Savage", debut:2022, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/6292777?rule_type_id=179", photoUrl:"#"},
+  { player:"Conor Scholey", debut:2022, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/4796496?rule_type_id=179", photoUrl:"#"},
+  { player:"Oliver Scholey", debut:2022, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/4038290?rule_type_id=179", photoUrl:"#"},
+  { player:"Rahul Sedha", debut:2022, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/4170417?rule_type_id=179", photoUrl:"#"},
+  { player:"Rhia Sedha", debut:2022, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/5347590?rule_type_id=179", photoUrl:"#"},
+  { player:"Harry Smoothy", debut:2022, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/334635?rule_type_id=179", photoUrl:"#"},
+  { player:"Beck Stewart", debut:2022, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/4232564?rule_type_id=179", photoUrl:"#"},
+  { player:"Matthew Stickland", debut:2022, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/4067647?rule_type_id=179", photoUrl:"#"},
+  { player:"Naveed Tahir", debut:2022, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/4062016?rule_type_id=179", photoUrl:"#"},
+  { player:"Muhammed Tariq", debut:2022, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/2307334?rule_type_id=179", photoUrl:"#"},
+  { player:"Kieren Thurston", debut:2022, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/4567927?rule_type_id=179", photoUrl:"#"},
+  { player:"Muhammad Umair", debut:2022, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/4146598?rule_type_id=179", photoUrl:"#"},
+  { player:"Richard Vincent", debut:2022, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/2737664?rule_type_id=179", photoUrl:"#"},
+  { player:"Erin Walker", debut:2022, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/6395586?rule_type_id=179", photoUrl:"#"},
+  { player:"Gemma Walker", debut:2022, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/3267054?rule_type_id=179", photoUrl:"#"},
+  { player:"Ben Whitehead", debut:2022, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/3641385?rule_type_id=179", photoUrl:"#"},
+  { player:"Finley Wilson", debut:2022, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/4948065?rule_type_id=179", photoUrl:"#"},
+  { player:"Gary Wilson", debut:2022, notes:"", url:"https://awscl.play-cricket.com/player_stats/batting/4371103?rule_type_id=179", photoUrl:"#"}
 ];
 
 let sortAsc = true;
@@ -238,20 +236,21 @@ function renderTable() {
     p.notes.toLowerCase().includes(q) ||
     String(p.debut).includes(q)
   ).forEach(p => {
-
     const tr = document.createElement("tr");
-    const tdPlayer = document.createElement("td");
 
+    const tdPlayer = document.createElement("td");
     const nameLink = document.createElement("a");
     nameLink.href = p.url;
     nameLink.textContent = p.player;
     nameLink.className = "player-link";
 
     const iconLink = document.createElement("a");
-    iconLink.href = p.url;
+    iconLink.href = p.photoUrl || "#";
     iconLink.textContent = " ▣";
     iconLink.className = "player-icon";
-    iconLink.title = "View player profile";
+    iconLink.title = "View player photo";
+    iconLink.target = "_blank";
+    iconLink.rel = "noopener";
 
     tdPlayer.append(nameLink, iconLink);
 
