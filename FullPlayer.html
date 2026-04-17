@@ -6,7 +6,7 @@
 <title>Shadwell CC Aire Wharfe Registrations</title>
 
 <style>
-:root{
+:root {
   --club-maroon:#7a1f2b;
   --pale-maroon:#f5e6e8;
   --header-hover:#eed3d7;
@@ -14,78 +14,82 @@
   --text:#1e293b;
 }
 
-body{
+body {
   font-family: system-ui, -apple-system, sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  padding:2rem;
+  background: var(--bg);
+  color: var(--text);
+  padding: 2rem;
 }
 
-.container{
-  max-width:900px;
-  margin:0 auto;
+.container {
+  max-width: 900px;
+  margin: 0 auto;
 }
 
-h1{
-  color:var(--club-maroon);
-  margin-bottom:1rem;
+h1 {
+  color: var(--club-maroon);
+  margin-bottom: 1rem;
 }
 
-#searchBar{
-  width:100%;
-  padding:14px;
-  margin-bottom:20px;
-  border:2px solid #e2e8f0;
-  border-radius:8px;
-  font-size:1rem;
+#searchBar {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 20px;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
 }
 
-.table-wrapper{
-  background:white;
-  border-radius:12px;
-  overflow:hidden;
-  box-shadow:0 10px 15px -3px rgba(0,0,0,.1);
+.table-wrapper {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+  overflow: hidden;
 }
 
-table{
-  width:100%;
-  border-collapse:collapse;
+table {
+  width: 100%;
+  border-collapse: collapse;
 }
 
-th{
-  background:var(--pale-maroon);
-  color:var(--club-maroon);
-  padding:10px 14px;
-  font-size:.8rem;
-  text-transform:uppercase;
-  cursor:pointer;
+th {
+  background: var(--pale-maroon);
+  color: var(--club-maroon);
+  padding: 10px 14px;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  cursor: pointer;
 }
 
-th:hover{background:var(--header-hover);}
+th:hover {
+  background: var(--header-hover);
+}
 
-td{
-  padding:8px 14px;
-  border-bottom:1px solid #f1f5f9;
+td {
+  padding: 8px 14px;
+  border-bottom: 1px solid #f1f5f9;
 }
 
 th:nth-child(2),
-td:nth-child(2){
-  text-align:center;
+td:nth-child(2) {
+  text-align: center;
 }
 
-.player-link{
-  color:var(--club-maroon);
-  font-weight:600;
-  text-decoration:underline;
+.player-link {
+  color: var(--club-maroon);
+  font-weight: 600;
+  text-decoration: underline;
 }
 
-.photo-link{
-  margin-left:6px;
-  color:var(--club-maroon);
-  text-decoration:underline;
+.photo-link {
+  margin-left: 6px;
+  color: var(--club-maroon);
+  text-decoration: underline;
 }
 
-.note{color:#475569;}
+.note {
+  color: #475569;
+}
 </style>
 </head>
 
@@ -94,9 +98,11 @@ td:nth-child(2){
 
 <h1>🏏 Shadwell CC Aire Wharfe Registrations</h1>
 
-<input id="searchBar"
-       placeholder="Search player, registration year, or club..."
-       onkeyup="renderTable()">
+<input
+  id="searchBar"
+  placeholder="Search player, registration year, or club..."
+  onkeyup="renderTable()"
+/>
 
 <div class="table-wrapper">
 <table>
@@ -114,59 +120,106 @@ td:nth-child(2){
 </div>
 
 <script>
-const players=[
- {player:"Zakee Anwar",debut:2026,notes:"Burton Salmon CC",
-  stats:"https://awscl.play-cricket.com/player_stats/batting/5463545?rule_type_id=179",
-  photo:"images/zakee-anwar.jpg"},
-
- {player:"Abdul Hafeez",debut:2026,notes:"(Overseas Born English Resident)",
-  stats:"https://awscl.play-cricket.com/player_stats/batting/6245954?rule_type_id=179",
-  photo:"images/abdul-hafeez.jpg"},
-
- {player:"Danyaal Khan",debut:2026,notes:"Gomersal CC",
-  stats:"https://awscl.play-cricket.com/player_stats/batting/5422752?rule_type_id=179",
-  photo:"images/danyaal-khan.jpg"},
-
- {player:"Zarak Khan",debut:2026,notes:"Drighlington CC",
-  stats:"https://awscl.play-cricket.com/player_stats/batting/6631709?rule_type_id=179",
-  photo:"images/zarak-khan.jpg"},
-
- {player:"Amar Guptha",debut:2026,notes:"Newby Hall CC (Skilled Worker Visa)",
-  stats:"https://awscl.play-cricket.com/player_stats/batting/6915858?rule_type_id=179",
-  photo:"images/amar-guptha.jpg"},
-
- {player:"Zahid Nissar",debut:2026,notes:"India (Overseas)",
-  stats:"https://awscl.play-cricket.com/player_stats/batting/5836472?rule_type_id=179",
-  photo:"images/zahid-nissar.jpg"}
+const players = [
+  {
+    player: "Zakee Anwar",
+    debut: 2026,
+    notes: "Burton Salmon CC",
+    stats: "https://awscl.play-cricket.com/player_stats/batting/5463545?rule_type_id=179",
+    photo: "images/zakee-anwar.jpg"
+  },
+  {
+    player: "Abdul Hafeez",
+    debut: 2026,
+    notes: "(Overseas Born English Resident)",
+    stats: "https://awscl.play-cricket.com/player_stats/batting/6245954?rule_type_id=179",
+    photo: "images/abdul-hafeez.jpg"
+  },
+  {
+    player: "Danyaal Khan",
+    debut: 2026,
+    notes: "Gomersal CC",
+    stats: "https://awscl.play-cricket.com/player_stats/batting/5422752?rule_type_id=179",
+    photo: "images/danyaal-khan.jpg"
+  },
+  {
+    player: "Zarak Khan",
+    debut: 2026,
+    notes: "Drighlington CC",
+    stats: "https://awscl.play-cricket.com/player_stats/batting/6631709?rule_type_id=179",
+    photo: "images/zarak-khan.jpg"
+  },
+  {
+    player: "Amar Guptha",
+    debut: 2026,
+    notes: "Newby Hall CC (Skilled Worker Visa)",
+    stats: "https://awscl.play-cricket.com/player_stats/batting/6915858?rule_type_id=179",
+    photo: "images/amar-guptha.jpg"
+  },
+  {
+    player: "Zahid Nissar",
+    debut: 2026,
+    notes: "India (Overseas)",
+    stats: "https://awscl.play-cricket.com/player_stats/batting/5836472?rule_type_id=179",
+    photo: "images/zahid-nissar.jpg"
+  }
 ];
 
-let asc=true;
+let sortAsc = true;
 
-function renderTable(){
- const q=searchBar.value.toLowerCase();
- tableBody.innerHTML="";
- players.filter(p=>
-   p.player.toLowerCase().includes(q)||
-   p.notes.toLowerCase().includes(q)||
-   String(p.debut).includes(q)
- ).forEach(p=>{
-   const tr=document.createElement("tr");
-   tr.innerHTML=`
-     <td>
-       <a class="player-link</a>
-       <a class="photo-link"</td>
-     <td>${p.debut}</td>
-     <td class="note">${p.notes}</td>`;
-   tableBody.appendChild(tr);
- });
+function renderTable() {
+  const q = searchBar.value.toLowerCase();
+  tableBody.innerHTML = "";
+
+  players
+    .filter(p =>
+      p.player.toLowerCase().includes(q) ||
+      p.notes.toLowerCase().includes(q) ||
+      String(p.debut).includes(q)
+    )
+    .forEach(p => {
+      const tr = document.createElement("tr");
+
+      const tdPlayer = document.createElement("td");
+
+      const nameLink = document.createElement("a");
+      nameLink.href = p.stats;
+      nameLink.target = "_blank";
+      nameLink.className = "player-link";
+      nameLink.textContent = p.player;
+
+      const photoLink = document.createElement("a");
+      photoLink.href = p.photo;
+      photoLink.target = "_blank";
+      photoLink.className = "photo-link";
+      photoLink.textContent = "▣";
+
+      tdPlayer.appendChild(nameLink);
+      tdPlayer.appendChild(photoLink);
+
+      const tdDebut = document.createElement("td");
+      tdDebut.textContent = p.debut;
+
+      const tdNotes = document.createElement("td");
+      tdNotes.textContent = p.notes;
+      tdNotes.className = "note";
+
+      tr.appendChild(tdPlayer);
+      tr.appendChild(tdDebut);
+      tr.appendChild(tdNotes);
+
+      tableBody.appendChild(tr);
+    });
 }
 
-function sortTable(key){
- asc=!asc;
- players.sort((a,b)=>
-   a[key]>b[key]?(asc?1:-1):(a[key]<b[key]?(asc?-1:1):0)
- );
- renderTable();
+function sortTable(key) {
+  sortAsc = !sortAsc;
+  players.sort((a, b) => {
+    if (a[key] < b[key]) return sortAsc ? -1 : 1;
+    if (a[key] > b[key]) return sortAsc ? 1 : -1;
+    return 0;
+  });
+  renderTable();
 }
 
 renderTable();
