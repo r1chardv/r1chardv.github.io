@@ -7,11 +7,11 @@
 
 <style>
 :root {
-  --club-maroon:#7a1f2b;
-  --pale-maroon:#f5e6e8;
-  --header-hover:#eed3d7;
-  --bg:#f8fafc;
-  --text:#1e293b;
+  --club-maroon: #7a1f2b;
+  --pale-maroon: #f5e6e8;
+  --header-hover: #eed3d7;
+  --bg: #f8fafc;
+  --text: #1e293b;
 }
 
 body {
@@ -31,6 +31,7 @@ h1 {
   margin-bottom: 1rem;
 }
 
+/* Search */
 #searchBar {
   width: 100%;
   padding: 14px;
@@ -40,11 +41,12 @@ h1 {
   font-size: 1rem;
 }
 
+/* Table */
 .table-wrapper {
   background: white;
   border-radius: 12px;
-  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
   overflow: hidden;
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
 }
 
 table {
@@ -75,6 +77,11 @@ td:nth-child(2) {
   text-align: center;
 }
 
+tr:hover {
+  background: #faf3f4;
+}
+
+/* Links */
 .player-link {
   color: var(--club-maroon);
   font-weight: 600;
@@ -120,49 +127,30 @@ td:nth-child(2) {
 </div>
 
 <script>
+const PLACEHOLDER_IMAGE = "images/player-placeholder.png";
+
 const players = [
-  {
-    player: "Zakee Anwar",
-    debut: 2026,
-    notes: "Burton Salmon CC",
-    stats: "https://awscl.play-cricket.com/player_stats/batting/5463545?rule_type_id=179",
-    photo: "images/zakee-anwar.jpg"
-  },
-  {
-    player: "Abdul Hafeez",
-    debut: 2026,
-    notes: "(Overseas Born English Resident)",
-    stats: "https://awscl.play-cricket.com/player_stats/batting/6245954?rule_type_id=179",
-    photo: "images/abdul-hafeez.jpg"
-  },
-  {
-    player: "Danyaal Khan",
-    debut: 2026,
-    notes: "Gomersal CC",
-    stats: "https://awscl.play-cricket.com/player_stats/batting/5422752?rule_type_id=179",
-    photo: "images/danyaal-khan.jpg"
-  },
-  {
-    player: "Zarak Khan",
-    debut: 2026,
-    notes: "Drighlington CC",
-    stats: "https://awscl.play-cricket.com/player_stats/batting/6631709?rule_type_id=179",
-    photo: "images/zarak-khan.jpg"
-  },
-  {
-    player: "Amar Guptha",
-    debut: 2026,
-    notes: "Newby Hall CC (Skilled Worker Visa)",
-    stats: "https://awscl.play-cricket.com/player_stats/batting/6915858?rule_type_id=179",
-    photo: "images/amar-guptha.jpg"
-  },
-  {
-    player: "Zahid Nissar",
-    debut: 2026,
-    notes: "India (Overseas)",
-    stats: "https://awscl.play-cricket.com/player_stats/batting/5836472?rule_type_id=179",
-    photo: "images/zahid-nissar.jpg"
-  }
+  { player:"Zakee Anwar", debut:2026, notes:"Burton Salmon CC", stats:"https://awscl.play-cricket.com/player_stats/batting/5463545?rule_type_id=179" },
+  { player:"Abdul Hafeez", debut:2026, notes:"(Overseas Born English Resident)", stats:"https://awscl.play-cricket.com/player_stats/batting/6245954?rule_type_id=179" },
+  { player:"Danyaal Khan", debut:2026, notes:"Gomersal CC", stats:"https://awscl.play-cricket.com/player_stats/batting/5422752?rule_type_id=179" },
+  { player:"Zarak Khan", debut:2026, notes:"Drighlington CC", stats:"https://awscl.play-cricket.com/player_stats/batting/6631709?rule_type_id=179" },
+  { player:"Amar Guptha", debut:2026, notes:"Newby Hall CC (Skilled Worker Visa)", stats:"https://awscl.play-cricket.com/player_stats/batting/6915858?rule_type_id=179" },
+  { player:"Zahid Nissar", debut:2026, notes:"India (Overseas)", stats:"https://awscl.play-cricket.com/player_stats/batting/5836472?rule_type_id=179" },
+  { player:"Arslan Saleem", debut:2026, notes:"Bardsey CC", stats:"https://awscl.play-cricket.com/player_stats/batting/6948733?rule_type_id=179" },
+  { player:"Maseb Khan", debut:2026, notes:"Drighlington CC", stats:"https://awscl.play-cricket.com/player_stats/batting/5060463?rule_type_id=179" },
+  { player:"Mohammad Asif", debut:2026, notes:"Green Hammerton CC", stats:"https://awscl.play-cricket.com/player_stats/batting/6936062?rule_type_id=179" },
+
+  { player:"Abdullah Anwar", debut:2025, notes:"", stats:"https://awscl.play-cricket.com/player_stats/batting/6815601?rule_type_id=179" },
+  { player:"Ibrahim Anwar", debut:2025, notes:"", stats:"https://awscl.play-cricket.com/player_stats/batting/6806407?rule_type_id=179" },
+  { player:"Naveed Anwar", debut:2025, notes:"", stats:"https://awscl.play-cricket.com/player_stats/batting/4330561?rule_type_id=179" },
+  { player:"Michael Austin", debut:2025, notes:"", stats:"https://awscl.play-cricket.com/player_stats/batting/5946874?rule_type_id=179" },
+  { player:"James Bladon", debut:2025, notes:"", stats:"https://awscl.play-cricket.com/player_stats/batting/6781900?rule_type_id=179" },
+
+  { player:"Tom Ball", debut:2024, notes:"", stats:"https://awscl.play-cricket.com/player_stats/batting/5797322?rule_type_id=179" },
+  { player:"Faisal Arshad", debut:2023, notes:"", stats:"https://awscl.play-cricket.com/player_stats/batting/5986451?rule_type_id=179" },
+  { player:"Wasim Ahmed", debut:2022, notes:"", stats:"https://awscl.play-cricket.com/player_stats/batting/3813376?rule_type_id=179" },
+  { player:"Richard Vincent", debut:2022, notes:"", stats:"https://awscl.play-cricket.com/player_stats/batting/2737664?rule_type_id=179" },
+  { player:"Gary Wilson", debut:2022, notes:"", stats:"https://awscl.play-cricket.com/player_stats/batting/4371103?rule_type_id=179" }
 ];
 
 let sortAsc = true;
@@ -171,54 +159,51 @@ function renderTable() {
   const q = searchBar.value.toLowerCase();
   tableBody.innerHTML = "";
 
-  players
-    .filter(p =>
-      p.player.toLowerCase().includes(q) ||
-      p.notes.toLowerCase().includes(q) ||
-      String(p.debut).includes(q)
-    )
-    .forEach(p => {
-      const tr = document.createElement("tr");
+  players.filter(p =>
+    p.player.toLowerCase().includes(q) ||
+    p.notes.toLowerCase().includes(q) ||
+    String(p.debut).includes(q)
+  ).forEach(p => {
 
-      const tdPlayer = document.createElement("td");
+    const tr = document.createElement("tr");
 
-      const nameLink = document.createElement("a");
-      nameLink.href = p.stats;
-      nameLink.target = "_blank";
-      nameLink.className = "player-link";
-      nameLink.textContent = p.player;
+    const tdPlayer = document.createElement("td");
 
-      const photoLink = document.createElement("a");
-      photoLink.href = p.photo;
-      photoLink.target = "_blank";
-      photoLink.className = "photo-link";
-      photoLink.textContent = "▣";
+    const nameLink = document.createElement("a");
+    nameLink.href = p.stats;
+    nameLink.textContent = p.player;
+    nameLink.className = "player-link";
+    nameLink.target = "_blank";
+    nameLink.rel = "noopener";
 
-      tdPlayer.appendChild(nameLink);
-      tdPlayer.appendChild(photoLink);
+    const photoLink = document.createElement("a");
+    photoLink.href = PLACEHOLDER_IMAGE;
+    photoLink.textContent = "▣";
+    photoLink.className = "photo-link";
+    photoLink.target = "_blank";
+    photoLink.rel = "noopener";
 
-      const tdDebut = document.createElement("td");
-      tdDebut.textContent = p.debut;
+    tdPlayer.append(nameLink, photoLink);
 
-      const tdNotes = document.createElement("td");
-      tdNotes.textContent = p.notes;
-      tdNotes.className = "note";
+    const tdDebut = document.createElement("td");
+    tdDebut.textContent = p.debut;
 
-      tr.appendChild(tdPlayer);
-      tr.appendChild(tdDebut);
-      tr.appendChild(tdNotes);
+    const tdNotes = document.createElement("td");
+    tdNotes.textContent = p.notes;
+    tdNotes.className = "note";
 
-      tableBody.appendChild(tr);
-    });
+    tr.append(tdPlayer, tdDebut, tdNotes);
+    tableBody.appendChild(tr);
+  });
 }
 
 function sortTable(key) {
   sortAsc = !sortAsc;
-  players.sort((a, b) => {
-    if (a[key] < b[key]) return sortAsc ? -1 : 1;
-    if (a[key] > b[key]) return sortAsc ? 1 : -1;
-    return 0;
-  });
+  players.sort((a, b) =>
+    a[key] < b[key] ? (sortAsc ? -1 : 1)
+    : a[key] > b[key] ? (sortAsc ? 1 : -1)
+    : 0
+  );
   renderTable();
 }
 
