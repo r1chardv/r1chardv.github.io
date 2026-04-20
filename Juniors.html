@@ -2,212 +2,221 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Shadwell CC Aire Wharfe Junior Registrations</title>
 
 <style>
-:root {
-    --club-maroon: #7a1f2b;
-    --pale-maroon: #f5e6e8;
-    --header-hover: #eed3d7;
-    --bg: #f8fafc;
-    --text: #1e293b;
-}
+:root { --maroon:#7a1f2b; }
 
 body {
-    font-family: system-ui, -apple-system, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    padding: 2rem;
+  font-family: system-ui, sans-serif;
+  background:#f8fafc;
+  padding:24px;
 }
 
-.container {
-    max-width: 900px;
-    margin: 0 auto;
+.container { max-width:900px; margin:auto; }
+
+h1 { color:var(--maroon); }
+
+input {
+  width:100%;
+  padding:12px;
+  margin:10px 0;
 }
 
-h1 {
-    color: var(--club-maroon);
-    margin-bottom: 1rem;
+.age-filters {
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:16px;
 }
 
-#searchBar {
-    width: 100%;
-    padding: 14px;
-    margin-bottom: 20px;
-    border: 2px solid #e2e8f0;
-    border-radius: 8px;
-    font-size: 1rem;
+.age-btn {
+  border:2px solid var(--maroon);
+  background:white;
+  color:var(--maroon);
+  padding:6px 14px;
+  border-radius:999px;
+  cursor:pointer;
+  font-weight:600;
 }
 
-.table-wrapper {
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+.age-btn.active {
+  background:var(--maroon);
+  color:white;
 }
 
 table {
-    width: 100%;
-    border-collapse: collapse;
-    table-layout: fixed;
+  width:100%;
+  border-collapse:collapse;
+  background:white;
 }
 
-/* Fixed column widths */
-th:nth-child(1), td:nth-child(1) { width: 55%; }
-th:nth-child(2), td:nth-child(2) { width: 22.5%; }
-th:nth-child(3), td:nth-child(3) { width: 22.5%; }
-
-th {
-    background: var(--pale-maroon);
-    color: var(--club-maroon);
-    padding: 10px 14px;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    cursor: pointer;
-    border-bottom: 2px solid var(--header-hover);
-    text-align: left;
+th, td {
+  padding:10px;
+  border-bottom:1px solid #ddd;
 }
 
-th:hover { background: var(--header-hover); }
+th { background:#f3e6e8; color:var(--maroon); }
 
-td {
-    padding: 8px 14px;
-    border-bottom: 1px solid #f1f5f9;
-    line-height: 1.25;
-    vertical-align: middle;
-}
-
-tr:hover { background: #faf3f4; }
-
-/* Centre Registered + Subs Paid */
-th:nth-child(2),
-td:nth-child(2),
-th:nth-child(3),
-td:nth-child(3) {
-    text-align: center;
+td:nth-child(2), td:nth-child(3),
+th:nth-child(2), th:nth-child(3) {
+  text-align:center;
 }
 
 .player-link {
-    color: var(--club-maroon);
-    font-weight: 600;
-    text-decoration: underline;
+  color:var(--maroon);
+  font-weight:600;
+  text-decoration:underline;
 }
 
-.note { color: #475569; }
+.notifications {
+  margin-top:32px;
+  display:grid;
+  gap:16px;
+}
+
+@media(min-width:700px){
+  .notifications { grid-template-columns:1fr 1fr; }
+}
+
+.notification-card {
+  background:white;
+  padding:16px;
+  border-left:6px solid var(--maroon);
+}
 </style>
 </head>
 
 <body>
 <div class="container">
+
 <h1>🏏 Shadwell CC Aire Wharfe Junior Registrations</h1>
 
-<input id="searchBar" placeholder="Search player or age group..." onkeyup="renderTable()">
+<input id="search" placeholder="Search player or age group…">
 
-<div class="table-wrapper">
+<div class="age-filters">
+  <button class="age-btn active" data-age="ALL">All</button>
+  <button class="age-btn" data-age="U9">U9</button>
+  <button class="age-btn" data-age="U11">U11</button>
+  <button class="age-btn" data-age="U13">U13</button>
+  <button class="age-btn" data-age="U15">U15</button>
+  <button class="age-btn" data-age="U18">U18</button>
+</div>
+
 <table>
 <thead>
 <tr>
-    <th onclick="sortTable('player')">Player ↕</th>
-    <th onclick="sortTable('registered')">Registered ↕</th>
-    <th onclick="sortTable('subs')">Subs Paid ↕</th>
+  <th>Player</th>
+  <th>Registered</th>
+  <th>Subs Paid</th>
 </tr>
 </thead>
-<tbody id="tableBody"></tbody>
+<tbody id="body"></tbody>
 </table>
+
+<div class="notifications">
+  <div class="notification-card">
+    <h3>📝 Junior Registration</h3>
+    <a href="https://sccrams.uk/l/jnrreg.htm" target="_blank">Register a junior player →</a>
+  </div>
+  <div class="notification-card">
+    <h3>💷 Summer Subscriptions</h3>
+    <a href="https://sccrams.uk/l/jnrsubs.png" target="_blank">View subs payment details →</a>
+  </div>
 </div>
+
 </div>
 
 <script>
-const players = [
+document.addEventListener("DOMContentLoaded", () => {
 
-    { player: "Seb Meynell (U9)", registered: "YES (19/03/26)", subs: "NO", url: "https://shadwell.play-cricket.com/player_stats/batting/6711570?rule_type_id=180" },
-    { player: "Toby Jennison (U9)", registered: "YES (17/03/26)", subs: "YES (17/03/26)", url: "https://shadwell.play-cricket.com/player_stats/batting/6677912?rule_type_id=180" },
-    { player: "Ben Lewis (U9)", registered: "YES (19/04/26)", subs: "YES (19/04/26)", url: "https://shadwell.play-cricket.com/player_stats/batting/6677912?rule_type_id=180" },
-    { player: "Alex Grey (U9)", registered: "YES (19/04/26)", subs: "YES (19/04/26)", url: "https://shadwell.play-cricket.com/player_stats/batting/6677912?rule_type_id=180" },
-    { player: "Emerson Alker (U9)", registered: "YES (19/04/26)", subs: "NO", url: "Holding.html" },
+  const search = document.getElementById("search");
+  const body = document.getElementById("body");
+  const buttons = document.querySelectorAll(".age-btn");
 
-    { player: "Toby Crowther (U11)", registered: "YES (06/04/26)", subs: "YES (07/04/26)", url: "https://shadwell.play-cricket.com/player_stats/batting/5973194?rule_type_id=180" },
-    { player: "Alex Knowles (U11)", registered: "YES (06/04/26)", subs: "YES (03/04/26)", url: "https://shadwell.play-cricket.com/player_stats/batting/6502169?rule_type_id=180" },
-    { player: "Haris Nawaz (U11)", registered: "YES (08/04/26)", subs: "YES (09/04/26)", url: "https://shadwell.play-cricket.com/player_stats/batting/5146412?rule_type_id=180" },
-    { player: "Charlie Meynell (U11)", registered: "YES (19/03/26)", subs: "NO", url: "https://shadwell.play-cricket.com/player_stats/batting/5973088?rule_type_id=180" },
-    { player: "Atticus Khan (U11)", registered: "YES (19/03/26)", subs: "YES (19/03/26)", url: "https://shadwell.play-cricket.com/player_stats/batting/6663281?rule_type_id=180" },
-    { player: "Finn Jennison (U11)", registered: "YES (17/03/26)", subs: "YES (17/03/26)", url: "https://shadwell.play-cricket.com/player_stats/batting/5990398?rule_type_id=180" },
-    { player: "Toby Entwistle (U11)", registered: "YES (17/03/26)", subs: "YES (17/03/26)", url: "https://shadwell.play-cricket.com/player_stats/batting/6609821?rule_type_id=180" },
+  let age = "ALL";
 
-    { player: "Mollie Swaine (U13)", registered: "YES (22/03/26)", subs: "YES (22/03/26)", url: "https://shadwell.play-cricket.com/player_stats/batting/4771831" },
-    { player: "Ruben Turner (U13/U15)", registered: "YES (18/03/26)", subs: "YES (19/03/26)", url: "https://shadwell.play-cricket.com/player_stats/batting/4443947" },
-    { player: "Archie Jones (U13)", registered: "YES (18/03/26)", subs: "NO", url: "https://shadwell.play-cricket.com/player_stats/batting/6010803" },
-    { player: "Rory Crowther (U13)", registered: "YES (06/04/26)", subs: "YES (07/04/26)", url: "https://shadwell.play-cricket.com/player_stats/batting/4967361" },
-    { player: "Jacob Bartfield (U13)", registered: "YES (06/03/26)", subs: "NO", url: "https://shadwell.play-cricket.com/player_stats/batting/6862454" },
-    { player: "George Wood (U13)", registered: "YES (17/03/26)", subs: "NO", url: "https://shadwell.play-cricket.com/player_stats/batting/6105977" },
-    { player: "Krishay Yadav (U13)", registered: "NO", subs: "YES (29/03/26)", url: "https://shadwell.play-cricket.com/player_stats/batting/5142324" },
-    { player: "Joseph Williams (U13)", registered: "YES (15/01/26)", subs: "NO", url: "Holding.html" },
-    { player: "Huey Heap (U11/U13)", registered: "YES (17/04/26)", subs: "NO", url: "Holding.html" },
-    { player: "Oscar Hart (U13)", registered: "YES (19/04/26)", subs: "NO", url: "Holding.html" },
-    { player: "Dhanesh Chandra (U13)", registered: "YES (17/04/26)", subs: "NO", url: "Holding.html" },
+  const players = [
 
-    { player: "Muhammad Arham (U15)", registered: "YES (31/03/26)", subs: "NO", url: "https://shadwell.play-cricket.com/player_stats/batting/6479507" },
-    { player: "Subhan Khan (U15)", registered: "YES (24/03/26)", subs: "NO", url: "https://shadwell.play-cricket.com/player_stats/batting/6297977" },
-    { player: "Kairav Bhatt (U15)", registered: "YES (08/04/26)", subs: "YES (08/04/26)", url: "https://shadwell.play-cricket.com/player_stats/batting/6676463" },
-    { player: "Hugh Patel (U15)", registered: "YES (18/03/26)", subs: "YES (19/03/26)", url: "https://shadwell.play-cricket.com/player_stats/batting/4756393" },
-    { player: "Abdullah Rais (U15)", registered: "YES (19/03/26)", subs: "YES (19/03/26)", url: "https://shadwell.play-cricket.com/player_stats/batting/6105978" },
-    { player: "Faris Shahpal (U15)", registered: "YES (13/04/26)", subs: "NO", url: "https://shadwell.play-cricket.com/player_stats/batting/6667998" },
-    { player: "Geoff Savage (U15)", registered: "YES (13/04/26)", subs: "NO", url: "https://shadwell.play-cricket.com/player_stats/batting/4501424" },
-    { player: "Tom Wilson (U15)", registered: "YES (19/04/26)", subs: "YES (19/04/26)", url: "https://shadwell.play-cricket.com/player_stats/batting/4501424" },
-    { player: "Archi Chandra (U15)", registered: "YES (17/04/26)", subs: "NO", url: "Holding.html" },
+  {p:"Seb Meynell (U9)", r:"YES (19/03/26)", s:"NO"},
+  {p:"Toby Jennison (U9)", r:"YES (17/03/26)", s:"YES (17/03/26)"},
+  {p:"Ben Lewis (U9)", r:"YES (19/04/26)", s:"YES (19/04/26)"},
+  {p:"Alex Grey (U9)", r:"YES (19/04/26)", s:"YES (19/04/26)"},
+  {p:"Emerson Alker (U9)", r:"YES (19/04/26)", s:"NO"},
 
-    { player: "Oliver Bates (U18)", registered: "YES (22/03/26)", subs: "NO", url: "https://shadwell.play-cricket.com/player_stats/batting/5354103" },
-    { player: "Max Campey (U18)", registered: "YES (07/04/26)", subs: "YES (08/04/26)", url: "https://shadwell.play-cricket.com/player_stats/batting/4989528" },
-    { player: "Sam Caulfield (U18)", registered: "YES (17/04/26)", subs: "NO", url: "Holding.html" },
-    { player: "Daniel Payne (U18)", registered: "YES (14/02/26)", subs: "YES (14/02/26)", url: "https://shadwell.play-cricket.com/player_stats/batting/	4230395" }
-];
+  {p:"Toby Crowther (U11)", r:"YES (06/04/26)", s:"YES (07/04/26)"},
+  {p:"Alex Knowles (U11)", r:"YES (06/04/26)", s:"YES (03/04/26)"},
+  {p:"Haris Nawaz (U11)", r:"YES (08/04/26)", s:"YES (09/04/26)"},
+  {p:"Charlie Meynell (U11)", r:"YES (19/03/26)", s:"NO"},
+  {p:"Atticus Khan (U11)", r:"YES (19/03/26)", s:"YES (19/03/26)"},
+  {p:"Finn Jennison (U11)", r:"YES (17/03/26)", s:"YES (17/03/26)"},
+  {p:"Toby Entwistle (U11)", r:"YES (17/03/26)", s:"YES (17/03/26)"},
 
-let sortAsc = true;
+  {p:"Mollie Swaine (U13)", r:"YES (22/03/26)", s:"YES (22/03/26)"},
+  {p:"Ruben Turner (U13/U15)", r:"YES (18/03/26)", s:"YES (19/03/26)"},
+  {p:"Archie Jones (U13)", r:"YES (18/03/26)", s:"NO"},
+  {p:"Rory Crowther (U13)", r:"YES (06/04/26)", s:"YES (07/04/26)"},
+  {p:"Jacob Bartfield (U13)", r:"YES (06/03/26)", s:"NO"},
+  {p:"George Wood (U13)", r:"YES (17/03/26)", s:"NO"},
+  {p:"Krishay Yadav (U13)", r:"NO", s:"YES (29/03/26)"},
+  {p:"Joseph Williams (U13)", r:"YES (15/01/26)", s:"NO"},
+  {p:"Huey Heap (U11/U13)", r:"YES (17/04/26)", s:"NO"},
+  {p:"Oscar Hart (U13)", r:"YES (19/04/26)", s:"NO"},
+  {p:"Dhanesh Chandra (U13)", r:"YES (17/04/26)", s:"NO"},
 
-function renderTable() {
-    const q = searchBar.value.toLowerCase();
-    tableBody.innerHTML = "";
+  {p:"Muhammad Arham (U15)", r:"YES (31/03/26)", s:"NO"},
+  {p:"Subhan Khan (U15)", r:"YES (24/03/26)", s:"NO"},
+  {p:"Kairav Bhatt (U15)", r:"YES (08/04/26)", s:"YES (08/04/26)"},
+  {p:"Hugh Patel (U15)", r:"YES (18/03/26)", s:"YES (19/03/26)"},
+  {p:"Abdullah Rais (U15)", r:"YES (19/03/26)", s:"YES (19/03/26)"},
+  {p:"Faris Shahpal (U15)", r:"YES (13/04/26)", s:"NO"},
+  {p:"Geoff Savage (U15)", r:"YES (13/04/26)", s:"NO"},
+  {p:"Tom Wilson (U15)", r:"YES (19/04/26)", s:"YES (19/04/26)"},
+  {p:"Archi Chandra (U15)", r:"YES (17/04/26)", s:"NO"},
 
-    players
-      .filter(p =>
-        p.player.toLowerCase().includes(q) ||
-        p.registered.toLowerCase().includes(q) ||
-        p.subs.toLowerCase().includes(q)
-      )
-      .forEach(p => {
-        const tr = document.createElement("tr");
+  {p:"Oliver Bates (U18)", r:"YES (22/03/26)", s:"NO"},
+  {p:"Max Campey (U18)", r:"YES (07/04/26)", s:"YES (08/04/26)"},
+  {p:"Sam Caulfield (U18)", r:"YES (17/04/26)", s:"NO"},
+  {p:"Daniel Payne (U18)", r:"YES (14/02/26)", s:"YES (14/02/26)"}
 
-        const tdPlayer = document.createElement("td");
-        const link = document.createElement("a");
-        link.href = p.url;
-        link.textContent = p.player;
-        link.className = "player-link";
-        tdPlayer.appendChild(link);
+  ];
 
-        const tdRegistered = document.createElement("td");
-        tdRegistered.textContent = p.registered;
+  function render(){
+    const q = search.value.toLowerCase();
+    body.innerHTML = "";
 
-        const tdSubs = document.createElement("td");
-        tdSubs.textContent = p.subs;
-        tdSubs.className = "note";
-
-        tr.append(tdPlayer, tdRegistered, tdSubs);
-        tableBody.appendChild(tr);
-      });
-}
-
-function sortTable(key) {
-    sortAsc = !sortAsc;
-    players.sort((a, b) => {
-        const A = a[key].toLowerCase();
-        const B = b[key].toLowerCase();
-        return sortAsc ? A.localeCompare(B) : B.localeCompare(A);
+    players.filter(x=>{
+      return (age==="ALL" || x.p.includes(age)) &&
+             x.p.toLowerCase().includes(q);
+    }).forEach(x=>{
+      body.insertAdjacentHTML("beforeend", `
+        <tr>
+          <td>${x.p}</td>
+          <td>${x.r}</td>
+          <td>${x.s}</td>
+        </tr>
+      `);
     });
-    renderTable();
-}
+  }
 
-renderTable();
+  buttons.forEach(b=>{
+    b.onclick = ()=>{
+      age = b.dataset.age;
+      buttons.forEach(x=>x.classList.remove("active"));
+      b.classList.add("active");
+      render();
+    };
+  });
+
+  search.oninput = render;
+  render();
+});
 </script>
+
 </body>
 </html>
+
+
+
+
