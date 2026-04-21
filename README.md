@@ -9,3 +9,4 @@ Other sample files:
 <br> https://r1chardv.github.io/yccc.html
 <br> https://r1chardv.github.io/Seniors.html
 <br> https://r1chardv.github.io/Juniors.html
+<br> https://r1chardv.github.io/FullPlayer.html
