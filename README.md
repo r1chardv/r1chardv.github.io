@@ -2,7 +2,8 @@
 ---
 Read me file for free github web space https://r1chardv.github.io/
 
-Other sample files:
+Sample Links:
+<br> https://r1chardv.github.io/index.html
 <br> https://r1chardv.github.io/tech/TestImage.html
 <br> https://r1chardv.github.io/tech/ExcelTips.html
 <br> https://r1chardv.github.io/tech/SqlTips.html
