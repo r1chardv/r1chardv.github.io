@@ -1,0 +1,10 @@
+To recreate this specific landscape poster, you can use the following detailed prompt. It’s designed to capture the vintage aesthetic, the specific layout of the elements, and the cricket-themed watermarks.
+
+### The Re-Creation Prompt
+> **Vintage-style landscape A4 poster for "SHADWELL CRICKET CLUB TUCK SHOP". The design is set on a light cream/parchment background with an elegant dark border featuring ornate corner flourishes. At the top center, the text "SHADWELL CRICKET CLUB" is written in a classic navy serif font, with "TUCK SHOP" positioned directly below it in a slightly smaller, bold vintage typeface. In the top-left corner, there is a faint, light-grey watermark of a ram's head (Aries symbol). In the top-right corner, there is a faint watermark of cricket stumps and bails. The middle section features three distinct icons spaced evenly across the width: a steaming cup of coffee/tea on the left, a tall glass of cold drink with ice and a straw in the center, and a packet of crisps with a chocolate bar on the right. Each icon is accompanied by bold navy text: "TEA, COFFEE", "COLD DRINKS", and "CRISPS AND CHOCOLATE". At the very bottom, the phrase "ON SALE NOW" is written in large, decorative, sweeping calligraphy. The overall style is clean, balanced, and nostalgic.**
+> 
+### Tips for Best Results:
+ * **Aspect Ratio:** If using a tool like Midjourney, ensure you add --ar 3:2 or --ar 16:9 to get that landscape A4 feel.
+ * **Text Rendering:** Most modern AI models (like Gemini or DALL-E 3) are great with text, but if it misspellings "Shadwell," you can emphasize **"Correct spelling: SHADWELL"** in the prompt.
+ * **Spacing:** If the icons feel too cluttered, you can add the instruction **"Ensure wide white space between the three central icons."**
+ 
