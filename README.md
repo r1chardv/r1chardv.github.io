@@ -3,7 +3,7 @@
 Read me file for free github web space https://r1chardv.github.io/
 
 Other sample files:
-<br> https://r1chardv.github.io/TestImage.html
+<br> https://r1chardv.github.io/tech/TestImage.html
 <br> https://r1chardv.github.io/tech/ExcelTips.html
 <br> https://r1chardv.github.io/tech/SqlTips.html
 <br> https://r1chardv.github.io/yccc.html
