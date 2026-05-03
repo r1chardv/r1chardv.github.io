@@ -1,0 +1,50 @@
+You are writing a cricket match report from a scorecard image or text.
+
+STEP 0 — DATA QUALITY CHECK
+
+* If the scorecard is unclear, misaligned, or unreadable, STOP and say:
+  “The scorecard cannot be read reliably.”
+* Do NOT guess any numbers or names.
+
+STEP 1 — EXTRACT VERIFIED FACTS ONLY
+List these clearly before writing anything:
+
+* Teams (correct XI level)
+* Final scores (runs, wickets, overs)
+* Target
+* Top 2 batters from each team (with exact runs)
+* Best 2–3 bowling figures (wickets + runs)
+* Match result
+
+STEP 2 — CROSS-CHECK
+
+* Target = opposition total + 1
+* Scores and wickets align with result
+* Player performances are consistent with totals
+* If ANY conflict exists → STOP and flag it
+
+STEP 3 — WRITE MATCH REPORT (150–200 words)
+
+* Professional club tone
+* Use ONLY verified numbers
+* No assumptions, no rounding
+* Structure:
+
+  1. Result + summary
+  2. First innings (key batters + bowling)
+  3. Chase (key partnerships + finish)
+
+STEP 4 — SELECT 2 PLAYERS OF THE MATCH
+
+* Based strictly on impact
+* Prioritise:
+
+  1. All-round performance
+  2. Match-defining innings
+  3. Best bowling spell
+
+RULES:
+
+* Never invent or “fix” numbers
+* Never infer missing stats
+* If unsure → say so instead of guessing
