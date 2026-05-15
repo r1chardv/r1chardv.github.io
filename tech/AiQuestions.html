@@ -81,3 +81,199 @@
         }
 
         .date {
+            display: inline-block;
+            margin-top: 6px;
+            color: #6b7280;
+            font-size: 0.9em;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .no-results {
+            display: none;
+            background: #fee2e2;
+            border: 1px solid #dc2626;
+            color: #7f1d1d;
+            padding: 14px 16px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>AI Questions Log</h1>
+    <p class="subtitle">A searchable log of questions asked to AI assistants.</p>
+
+    <div class="search-container">
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Search by question number, topic, date, or text..."
+        >
+
+        <button id="clearButton">Clear</button>
+    </div>
+
+    <div id="summary" class="summary"></div>
+
+    <div id="noResults" class="no-results">
+        No matching questions found.
+    </div>
+
+    <!-- =========================================================================================================== -->
+
+    <section class="topic">
+        <h2>Documentation</h2>
+
+        <div class="question">
+            <div>
+                <span class="question-id">Q001</span>:
+                Show me some nice examples of mermaid diagrams
+            </div>
+            <span class="date">2026-05-15</span>
+        </div>
+
+        <div class="question">
+            <div>
+                <span class="question-id">Q002</span>:
+                Create Mermaid diagram to show ...
+            </div>
+            <span class="date">2026-05-15</span>
+        </div>
+    </section>
+
+    <!-- =========================================================================================================== -->
+
+    <section class="topic">
+        <h2>Research</h2>
+
+        <div class="question">
+            <div>
+                <span class="question-id">Q003</span>:
+                What is ITIL?
+            </div>
+            <span class="date">2026-05-15</span>
+        </div>
+
+        <div class="question">
+            <div>
+                <span class="question-id">Q004</span>:
+                What is ITIL?
+            </div>
+            <span class="date">2026-05-15</span>
+        </div>
+
+        <div class="question">
+            <div>
+                <span class="question-id">Q005</span>:
+                What is ITIL?
+            </div>
+            <span class="date">2026-05-15</span>
+        </div>
+    </section>
+
+    <!-- =========================================================================================================== -->
+
+    <section class="topic">
+        <h2>Productivity / Admin</h2>
+
+        <div class="question">
+            <div>
+                <span class="question-id">Q006</span>:
+                Create me a Cheat Sheet for MS Teams Ctrl Key Shortcuts
+            </div>
+            <span class="date">2026-05-15</span>
+        </div>
+    </section>
+
+    <!-- =========================================================================================================== -->
+
+    <section class="topic">
+        <h2>AI / Prompting</h2>
+
+        <div class="question">
+            <div>
+                <span class="question-id">Q012</span>:
+                Create a Mermaid diagram template for logging AI questions
+            </div>
+            <span class="date">2026-05-15</span>
+        </div>
+    </section>
+
+    <!-- =========================================================================================================== -->
+
+    <script>
+        const searchInput = document.getElementById("searchInput");
+        const clearButton = document.getElementById("clearButton");
+        const summary = document.getElementById("summary");
+        const noResults = document.getElementById("noResults");
+
+        searchInput.addEventListener("input", filterQuestions);
+        clearButton.addEventListener("click", clearSearch);
+
+        function filterQuestions() {
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            const topics = document.querySelectorAll(".topic");
+            const questions = document.querySelectorAll(".question");
+
+            let visibleCount = 0;
+            const totalCount = questions.length;
+
+            questions.forEach(function(question) {
+                const topic = question.closest(".topic");
+                const topicTitle = topic.querySelector("h2").innerText;
+                const searchableText = (topicTitle + " " + question.innerText).toLowerCase();
+
+                if (searchableText.includes(searchTerm)) {
+                    question.classList.remove("hidden");
+                    visibleCount++;
+                } else {
+                    question.classList.add("hidden");
+                }
+            });
+
+            topics.forEach(function(topic) {
+                const visibleQuestions = topic.querySelectorAll(".question:not(.hidden)");
+
+                if (visibleQuestions.length > 0) {
+                    topic.classList.remove("hidden");
+                } else {
+                    topic.classList.add("hidden");
+                }
+            });
+
+            if (visibleCount === 0) {
+                noResults.style.display = "block";
+            } else {
+                noResults.style.display = "none";
+            }
+
+            if (searchTerm === "") {
+                summary.textContent = "Showing all " + totalCount + " questions.";
+            } else {
+                summary.textContent =
+                    "Showing " +
+                    visibleCount +
+                    " of " +
+                    totalCount +
+                    " questions matching \"" +
+                    searchInput.value +
+                    "\".";
+            }
+        }
+
+        function clearSearch() {
+            searchInput.value = "";
+            filterQuestions();
+            searchInput.focus();
+        }
+
+        filterQuestions();
+    </script>
+
+</body>
+</html>
