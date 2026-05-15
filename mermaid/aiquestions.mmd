@@ -1,50 +1,22 @@
+mermaid
 flowchart TB
 
-    %% ============================================================
-    %% AI Questions Log
-    %% Structure:
-    %% Topic groups contain question cards.
-    %% Date is included inside each question label if needed.
-    %% ============================================================
-
-    %% ============================================================
-    %% Documentation
-    %% ============================================================
-
     subgraph Docs["Documentation"]
-        DOC_Q007["Q007: Create Mermaid diagram to document AI agent questions<br/>2026-05-15"]
+        DOC_Q007["Q007: Create Mermaid diagram to document AI agent questions<br/>2026-05-15"]:::question
     end
-
-    %% ============================================================
-    %% Research
-    %% ============================================================
 
     subgraph Research["Research"]
-        RES_Q010["Q010: What is ITIL?<br/>2026-05-15"]
-        RES_Q098["Q098: What is ITIL?<br/>2026-05-15"]
-        RES_Q099["Q099: What is ITIL?<br/>2026-05-15"]
+        RES_Q010["Q010: What is ITIL?<br/>2026-05-15"]:::question
+        RES_Q098["Q098: What is ITIL?<br/>2026-05-15"]:::question
+        RES_Q099["Q099: What is ITIL?<br/>2026-05-15"]:::question
     end
-
-    %% ============================================================
-    %% Productivity / Admin
-    %% ============================================================
 
     subgraph Admin["Productivity / Admin"]
-        ADM_Q011["Q011: Create me a Cheat Sheet for MS Teams Ctrl Key Shortcuts<br/>2026-05-15"]
+        ADM_Q011["Q011: Create me a Cheat Sheet for MS Teams Ctrl Key Shortcuts<br/>2026-05-15"]:::question
     end
-
-    %% ============================================================
-    %% AI / Prompting
-    %% ============================================================
 
     subgraph Prompting["AI / Prompting"]
-        AI_Q012["Q012: Create a Mermaid diagram template for logging AI questions<br/>2026-05-15"]
+        AI_Q012["Q012: Create a Mermaid diagram template for logging AI questions<br/>2026-05-15"]:::question
     end
 
-    %% ============================================================
-    %% Styling
-    %% ============================================================
-
     classDef question fill:#dcfce7,stroke:#16a34a,stroke-width:1px,color:#000;
-
-    class DOC_Q007,RES_Q010,ADM_Q011,AI_Q012 question;
