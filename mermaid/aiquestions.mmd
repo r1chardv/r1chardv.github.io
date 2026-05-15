@@ -1,124 +1,48 @@
-flowchart LR
+flowchart TB
 
     %% ============================================================
     %% AI Questions Log
-    %% ============================================================
-    %% Purpose:
-    %% Visually record questions asked to AI assistants.
-    %%
     %% Structure:
-    %% Topic → Date → Questions
-    %%
-    %% How to use:
-    %% 1. Add new topics under "Main Topics"
-    %% 2. Add dates under the relevant topic
-    %% 3. Add questions under the relevant date
-    %% 4. Keep Q numbers unique across the whole diagram
+    %% Topic groups contain question cards.
+    %% Date is included inside each question label if needed.
     %% ============================================================
-
-    %% ============================================================
-    %% Root
-    %% ============================================================
-
-    Log[AI Questions Log]
-    %% Main Topics
-    %% ============================================================
-
-    Log --> SQL[SQL / Databases]
-    Log --> CSharp[C# / Applications]
-    Log --> Reporting[Reporting / Analytics]
-    Log --> Docs[Documentation]
-    Log --> Prompting[AI / Prompting]
-    Log --> Creative[Cricket / Creative]
-    Log --> Research[Research]
-    Log --> Admin[Productivity / Admin]
-
-    %% ============================================================
-    %% SQL / Databases
-    %% ============================================================
-
-    SQL --> SQL_YYYY_MM_DD[YYYY-MM-DD]
-    SQL_YYYY_MM_DD --> SQL_Q001["Q001: Question asked"]
-    SQL_YYYY_MM_DD --> SQL_Q002["Q002: Question asked"]
-
-    SQL --> SQL_YYYY_MM_DD_2[YYYY-MM-DD]
-    SQL_YYYY_MM_DD_2 --> SQL_Q003["Q003: Question asked"]
-
-    %% ============================================================
-    %% C# / Applications
-    %% ============================================================
-
-    CSharp --> CS_YYYY_MM_DD[YYYY-MM-DD]
-    CS_YYYY_MM_DD --> CS_Q004["Q004: Question asked"]
-    CS_YYYY_MM_DD --> CS_Q005["Q005: Question asked"]
-
-    %% ============================================================
-    %% Reporting / Analytics
-    %% ============================================================
-
-    Reporting --> REP_YYYY_MM_DD[YYYY-MM-DD]
-    REP_YYYY_MM_DD --> REP_Q006["Q006: Question asked"]
 
     %% ============================================================
     %% Documentation
     %% ============================================================
 
-    Docs --> DOC_2026_05_15[2026-05-15]
-    DOC_2026_05_15 --> DOC_Q007["Q007: Create Mermaid diagram to document AI agent questions"]
-
-    %% ============================================================
-    %% AI / Prompting
-    %% ============================================================
-
-    Prompting --> AI_YYYY_MM_DD[YYYY-MM-DD]
-    AI_YYYY_MM_DD --> AI_Q008["Q008: Question asked"]
-
-    %% ============================================================
-    %% Cricket / Creative
-    %% ============================================================
-
-    Creative --> CRE_YYYY_MM_DD[YYYY-MM-DD]
-    CRE_YYYY_MM_DD --> CRE_Q009["Q009: Question asked"]
+    subgraph Docs["Documentation"]
+        DOC_Q007["Q007: Create Mermaid diagram to document AI agent questions<br/>2026-05-15"]
+    end
 
     %% ============================================================
     %% Research
     %% ============================================================
 
-    Research --> RES_2026_05_15[2026-05-15]
-    RES_2026_05_15 --> RES_Q010["Q010: What is ITIL?"]
+    subgraph Research["Research"]
+        RES_Q010["Q010: What is ITIL?<br/>2026-05-15"]
+    end
 
     %% ============================================================
     %% Productivity / Admin
     %% ============================================================
 
-    Admin --> ADM_YYYY_MM_DD[YYYY-MM-DD]
-    ADM_2026_05_15 --> ADM_Q011["Q011: Create me a Cheat Sheet foir MS Teams Ctrl Key Shortcuts"]
+    subgraph Admin["Productivity / Admin"]
+        ADM_Q011["Q011: Create me a Cheat Sheet for MS Teams Ctrl Key Shortcuts<br/>2026-05-15"]
+    end
 
     %% ============================================================
-    %% Current Example Entry
-    %% You can delete this section if you want the template fully blank
+    %% AI / Prompting
     %% ============================================================
 
-    Prompting --> AI_2026_05_15[2026-05-15]
-    AI_2026_05_15 --> AI_Q012["Q012: Create a Mermaid diagram template for logging AI questions"]
+    subgraph Prompting["AI / Prompting"]
+        AI_Q012["Q012: Create a Mermaid diagram template for logging AI questions<br/>2026-05-15"]
+    end
 
     %% ============================================================
     %% Styling
     %% ============================================================
 
-    classDef root fill:#f3f4f6,stroke:#111827,stroke-width:2px,color:#000;
-    classDef topic fill:#dbeafe,stroke:#2563eb,stroke-width:2px,color:#000;
-    classDef date fill:#fef3c7,stroke:#d97706,stroke-width:2px,color:#000;
     classDef question fill:#dcfce7,stroke:#16a34a,stroke-width:1px,color:#000;
 
-    %% ============================================================
-    %% Apply Styling
-    %% ============================================================
-
-    class Log root;
-
-    class SQL,CSharp,Reporting,Docs,Prompting,Creative,Research,Admin topic;
-
-    class SQL_YYYY_MM_DD,SQL_YYYY_MM_DD_2,CS_YYYY_MM_DD,REP_YYYY_MM_DD,DOC_2026_05_15,AI_YYYY_MM_DD,CRE_YYYY_MM_DD,RES_2026_05_15,ADM_YYYY_MM_DD,AI_2026_05_15 date;
-
-    class SQL_Q001,SQL_Q002,SQL_Q003,CS_Q004,CS_Q005,REP_Q006,DOC_Q007,AI_Q008,CRE_Q009,RES_Q010,ADM_Q011,AI_Q012 question;
+    class DOC_Q007,RES_Q010,ADM_Q011,AI_Q012 question;
