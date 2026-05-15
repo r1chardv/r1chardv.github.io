@@ -16,7 +16,6 @@ flowchart LR
     %% 4. Keep Q numbers unique across the whole diagram
     %% ============================================================
 
-
     %% ============================================================
     %% Root
     %% ============================================================
@@ -34,75 +33,66 @@ flowchart LR
     Log --> Research[Research]
     Log --> Admin[Productivity / Admin]
 
-
     %% ============================================================
     %% SQL / Databases
     %% ============================================================
 
     SQL --> SQL_YYYY_MM_DD[YYYY-MM-DD]
-    SQL_YYYY_MM_DD --> SQL_Q001["Q001: <Question asked>"]
-    SQL_YYYY_MM_DD --> SQL_Q002["Q002: <Question asked>"]
+    SQL_YYYY_MM_DD --> SQL_Q001["Q001: Question asked"]
+    SQL_YYYY_MM_DD --> SQL_Q002["Q002: Question asked"]
 
     SQL --> SQL_YYYY_MM_DD_2[YYYY-MM-DD]
-    SQL_YYYY_MM_DD_2 --> SQL_Q003["Q003: <Question asked>"]
-
+    SQL_YYYY_MM_DD_2 --> SQL_Q003["Q003: Question asked"]
 
     %% ============================================================
     %% C# / Applications
     %% ============================================================
 
     CSharp --> CS_YYYY_MM_DD[YYYY-MM-DD]
-    CS_YYYY_MM_DD --> CS_Q004["Q004: <Question asked>"]
-    CS_YYYY_MM_DD --> CS_Q005["Q005: <Question asked>"]
-
+    CS_YYYY_MM_DD --> CS_Q004["Q004: Question asked"]
+    CS_YYYY_MM_DD --> CS_Q005["Q005: Question asked"]
 
     %% ============================================================
     %% Reporting / Analytics
     %% ============================================================
 
     Reporting --> REP_YYYY_MM_DD[YYYY-MM-DD]
-    REP_YYYY_MM_DD --> REP_Q006["Q006: <Question asked>"]
-
+    REP_YYYY_MM_DD --> REP_Q006["Q006: Question asked"]
 
     %% ============================================================
     %% Documentation
     %% ============================================================
 
-    Docs --> DOC_YYYY_MM_DD[YYYY-MM-DD]
-    DOC_2026_05_15 --> DOC_Q007["Q007: <Create Mermaid Diagram I can Use to Documnet AI Agent Questions>"]
-
+    Docs --> DOC_2026_05_15[2026-05-15]
+    DOC_2026_05_15 --> DOC_Q007["Q007: Create Mermaid diagram to document AI agent questions"]
 
     %% ============================================================
     %% AI / Prompting
     %% ============================================================
 
     Prompting --> AI_YYYY_MM_DD[YYYY-MM-DD]
-    AI_YYYY_MM_DD --> AI_Q008["Q008: <Question asked>"]
-
+    AI_YYYY_MM_DD --> AI_Q008["Q008: Question asked"]
 
     %% ============================================================
     %% Cricket / Creative
     %% ============================================================
 
     Creative --> CRE_YYYY_MM_DD[YYYY-MM-DD]
-    CRE_YYYY_MM_DD --> CRE_Q009["Q009: <Question asked>"]
-
+    CRE_YYYY_MM_DD --> CRE_Q009["Q009: Question asked"]
 
     %% ============================================================
     %% Research
     %% ============================================================
 
-    Research --> RES_YYYY_MM_DD[YYYY-MM-DD]
-    RES_2026_05_15 --> RES_Q010["Q010: <What is ITIL?>"]
-
+    Research --> RES_2026_05_15[2026-05-15]
+    RES_2026_05_15 --> RES_Q010["Q010: What is ITIL?"]
 
     %% ============================================================
     %% Productivity / Admin
     %% ============================================================
 
     Admin --> ADM_YYYY_MM_DD[YYYY-MM-DD]
-    ADM_YYYY_MM_DD --> ADM_Q011["Q011: <Question asked>"]
-
+    ADM_YYYY_MM_DD --> ADM_Q011["Q011: Question asked"]
 
     %% ============================================================
     %% Current Example Entry
@@ -111,7 +101,6 @@ flowchart LR
 
     Prompting --> AI_2026_05_15[2026-05-15]
     AI_2026_05_15 --> AI_Q012["Q012: Create a Mermaid diagram template for logging AI questions"]
-
 
     %% ============================================================
     %% Styling
@@ -122,7 +111,6 @@ flowchart LR
     classDef date fill:#fef3c7,stroke:#d97706,stroke-width:2px,color:#000;
     classDef question fill:#dcfce7,stroke:#16a34a,stroke-width:1px,color:#000;
 
-
     %% ============================================================
     %% Apply Styling
     %% ============================================================
@@ -131,6 +119,6 @@ flowchart LR
 
     class SQL,CSharp,Reporting,Docs,Prompting,Creative,Research,Admin topic;
 
-    class SQL_YYYY_MM_DD,SQL_YYYY_MM_DD_2,CS_YYYY_MM_DD,REP_YYYY_MM_DD,DOC_YYYY_MM_DD,AI_YYYY_MM_DD,CRE_YYYY_MM_DD,RES_YYYY_MM_DD,ADM_YYYY_MM_DD,AI_2026_05_15 date;
+    class SQL_YYYY_MM_DD,SQL_YYYY_MM_DD_2,CS_YYYY_MM_DD,REP_YYYY_MM_DD,DOC_2026_05_15,AI_YYYY_MM_DD,CRE_YYYY_MM_DD,RES_2026_05_15,ADM_YYYY_MM_DD,AI_2026_05_15 date;
 
     class SQL_Q001,SQL_Q002,SQL_Q003,CS_Q004,CS_Q005,REP_Q006,DOC_Q007,AI_Q008,CRE_Q009,RES_Q010,ADM_Q011,AI_Q012 question;
