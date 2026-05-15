@@ -11,3 +11,4 @@ Sample Links:
 <br> https://r1chardv.github.io/scc/Seniors.html
 <br> https://r1chardv.github.io/scc/Juniors.html
 <br> https://r1chardv.github.io/scc/FullPlayer.html
+<br> https://r1chardv.github.io/tech/AiQuestions.html
