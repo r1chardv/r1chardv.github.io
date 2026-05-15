@@ -1,0 +1,136 @@
+flowchart LR
+
+    %% ============================================================
+    %% AI Questions Log
+    %% ============================================================
+    %% Purpose:
+    %% Visually record questions asked to AI assistants.
+    %%
+    %% Structure:
+    %% Topic → Date → Questions
+    %%
+    %% How to use:
+    %% 1. Add new topics under "Main Topics"
+    %% 2. Add dates under the relevant topic
+    %% 3. Add questions under the relevant date
+    %% 4. Keep Q numbers unique across the whole diagram
+    %% ============================================================
+
+
+    %% ============================================================
+    %% Root
+    %% ============================================================
+
+    Log[AI Questions Log]
+    %% Main Topics
+    %% ============================================================
+
+    Log --> SQL[SQL / Databases]
+    Log --> CSharp[C# / Applications]
+    Log --> Reporting[Reporting / Analytics]
+    Log --> Docs[Documentation]
+    Log --> Prompting[AI / Prompting]
+    Log --> Creative[Cricket / Creative]
+    Log --> Research[Research]
+    Log --> Admin[Productivity / Admin]
+
+
+    %% ============================================================
+    %% SQL / Databases
+    %% ============================================================
+
+    SQL --> SQL_YYYY_MM_DD[YYYY-MM-DD]
+    SQL_YYYY_MM_DD --> SQL_Q001["Q001: <Question asked>"]
+    SQL_YYYY_MM_DD --> SQL_Q002["Q002: <Question asked>"]
+
+    SQL --> SQL_YYYY_MM_DD_2[YYYY-MM-DD]
+    SQL_YYYY_MM_DD_2 --> SQL_Q003["Q003: <Question asked>"]
+
+
+    %% ============================================================
+    %% C# / Applications
+    %% ============================================================
+
+    CSharp --> CS_YYYY_MM_DD[YYYY-MM-DD]
+    CS_YYYY_MM_DD --> CS_Q004["Q004: <Question asked>"]
+    CS_YYYY_MM_DD --> CS_Q005["Q005: <Question asked>"]
+
+
+    %% ============================================================
+    %% Reporting / Analytics
+    %% ============================================================
+
+    Reporting --> REP_YYYY_MM_DD[YYYY-MM-DD]
+    REP_YYYY_MM_DD --> REP_Q006["Q006: <Question asked>"]
+
+
+    %% ============================================================
+    %% Documentation
+    %% ============================================================
+
+    Docs --> DOC_YYYY_MM_DD[YYYY-MM-DD]
+    DOC_YYYY_MM_DD --> DOC_Q007["Q007: <Question asked>"]
+
+
+    %% ============================================================
+    %% AI / Prompting
+    %% ============================================================
+
+    Prompting --> AI_YYYY_MM_DD[YYYY-MM-DD]
+    AI_YYYY_MM_DD --> AI_Q008["Q008: <Question asked>"]
+
+
+    %% ============================================================
+    %% Cricket / Creative
+    %% ============================================================
+
+    Creative --> CRE_YYYY_MM_DD[YYYY-MM-DD]
+    CRE_YYYY_MM_DD --> CRE_Q009["Q009: <Question asked>"]
+
+
+    %% ============================================================
+    %% Research
+    %% ============================================================
+
+    Research --> RES_YYYY_MM_DD[YYYY-MM-DD]
+    RES_YYYY_MM_DD --> RES_Q010["Q010: <Question asked>"]
+
+
+    %% ============================================================
+    %% Productivity / Admin
+    %% ============================================================
+
+    Admin --> ADM_YYYY_MM_DD[YYYY-MM-DD]
+    ADM_YYYY_MM_DD --> ADM_Q011["Q011: <Question asked>"]
+
+
+    %% ============================================================
+    %% Current Example Entry
+    %% You can delete this section if you want the template fully blank
+    %% ============================================================
+
+    Prompting --> AI_2026_05_15[2026-05-15]
+    AI_2026_05_15 --> AI_Q012["Q012: Create a Mermaid diagram template for logging AI questions"]
+
+
+    %% ============================================================
+    %% Styling
+    %% ============================================================
+
+    classDef root fill:#f3f4f6,stroke:#111827,stroke-width:2px,color:#000;
+    classDef topic fill:#dbeafe,stroke:#2563eb,stroke-width:2px,color:#000;
+    classDef date fill:#fef3c7,stroke:#d97706,stroke-width:2px,color:#000;
+    classDef question fill:#dcfce7,stroke:#16a34a,stroke-width:1px,color:#000;
+
+
+    %% ============================================================
+    %% Apply Styling
+    %% ============================================================
+
+    class Log root;
+
+    class SQL,CSharp,Reporting,Docs,Prompting,Creative,Research,Admin topic;
+
+    class SQL_YYYY_MM_DD,SQL_YYYY_MM_DD_2,CS_YYYY_MM_DD,REP_YYYY_MM_DD,DOC_YYYY_MM_DD,AI_YYYY_MM_DD,CRE_YYYY_MM_DD,RES_YYYY_MM_DD,ADM_YYYY_MM_DD,AI_2026_05_15 date;
+
+    class SQL_Q001,SQL_Q002,SQL_Q003,CS_Q004,CS_Q005,REP_Q006,DOC_Q007,AI_Q008,CRE_Q009,RES_Q010,ADM_Q011,AI_Q012 question;
