@@ -19,99 +19,75 @@ body {
     height: 100vh;
 }
 
-/* subtle overlay to improve contrast */
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.2);
-}
-
-/* Glass card (neutral now, no colour tint) */
+/* CARD — bring back tinted glass look */
 .card {
-    position: relative;
     width: 90%;
-    max-width: 380px;
+    max-width: 320px;
 
-    background: rgba(24, 24, 28, 0.55);
-    border-radius: 20px;
-    padding: 25px;
+    background: rgba(80, 40, 60, 0.55); /* soft maroon tint */
+    border-radius: 18px;
+    padding: 22px;
     text-align: center;
 
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
 
-    border: 1px solid rgba(255,255,255,0.12);
-    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.5);
     color: white;
 }
 
 /* Logo */
 .logo {
-    width: 110px;
-    margin-bottom: 12px;
-    filter: drop-shadow(0 0 10px rgba(255,255,255,0.15));
+    width: 80px;
+    margin-bottom: 10px;
 }
 
 /* Text */
 .name {
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 700;
 }
 
 .role {
-    color: #d1d5db;
-    margin-bottom: 20px;
+    font-size: 14px;
+    color: #e5e7eb;
+    margin-bottom: 18px;
 }
 
-/* Buttons (cleaner, sharper) */
+/* BUTTONS — back to soft pill style */
 .button {
     display: block;
-    margin: 12px 0;
-    padding: 14px;
-    border-radius: 50px;
+    margin: 10px 0;
+    padding: 12px;
+    border-radius: 999px;
     text-decoration: none;
     color: white;
-    font-weight: 600;
+    font-weight: 500;
 
-    background: rgba(255,255,255,0.06);
-    backdrop-filter: blur(6px);
+    background: rgba(20,20,20,0.6);
+    border: 1px solid rgba(255,255,255,0.05);
 
-    border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: 0 0 12px rgba(236,72,153,0.25);
 
-    transition: 0.25s ease;
-}
-
-/* Accent borders instead of messy glow */
-.phone {
-    border-left: 4px solid #f43f5e; /* pink */
-}
-
-.mobile {
-    border-left: 4px solid #3b82f6; /* blue */
-}
-
-.email {
-    border-left: 4px solid #a855f7; /* purple */
+    transition: all 0.2s ease;
 }
 
 .button:hover {
-    transform: translateY(-2px) scale(1.02);
-    background: rgba(255,255,255,0.12);
+    transform: scale(1.03);
+    background: rgba(30,30,30,0.8);
 }
 
 /* Company */
 .company {
-    margin-top: 18px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
+    margin-top: 14px;
+    font-weight: 600;
 }
 
 /* Address */
 .address {
     margin-top: 6px;
-    font-size: 13px;
-    color: #d1d5db;
+    font-size: 12px;
+    color: #e5e7eb;
     line-height: 1.4;
 }
 </style>
@@ -128,17 +104,17 @@ body::before {
     <div class="role">Database Developer</div>
 
     <!-- Phone -->
-    <a class="button phone" href="tel:01924780512">
+    <a href="tel:01924780512" class="button">
         ☎ 01924 780 512
     </a>
 
     <!-- Mobile -->
-    <a class="button mobile" href="tel:07968331469">
+    <a href="tel:07968331469" class="button">
         📱 07968 331 469
     </a>
 
     <!-- Email -->
-    <a class="button email" href="mailto:rvincent@kolorcraft.com">
+    <a href="mailto:rvincent@kolorcraft.com" class="button">
         ✉ rvincent@kolorcraft.com
     </a>
 
