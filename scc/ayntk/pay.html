@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@500;600&display=swap" rel="stylesheet">
 
 <style>
 :root {
@@ -57,14 +57,14 @@ body {
 .club-logo {
     display: flex;
     flex-direction: column;
-    line-height: 0.80;
+    line-height: 0.78;
     user-select: none;
 }
 
 .club-logo span {
     font-family: 'League Spartan', sans-serif;
     font-size: clamp(4rem, 7vw, 6.8rem);
-    font-weight: 600;
+    font-weight: 500;
     letter-spacing: -0.02em;
     color: var(--club-logo-red);
 }
@@ -147,14 +147,18 @@ body {
 
 .cricket-ball {
     position: absolute;
-    right: -40px;
-    bottom: 110px;
-    width: 110px;
+
+    right: -3%;
+    bottom: 7%;
+
+    width: clamp(100px, 16vw, 220px);
+
     pointer-events: none;
 }
 
 .cricket-ball img {
     width: 100%;
+    height: auto;
     display: block;
 }
 
@@ -237,9 +241,6 @@ body {
     }
 
     .cricket-ball {
-        width: 180px;
-        right: -40px;
-        bottom: 140px;
         opacity: .7;
     }
 
@@ -282,7 +283,7 @@ body {
 
         <div class="partner-logo">
             <img src="images/subject-pay.png"
-                 alt="Pay Image">
+                 alt="Payment Information">
         </div>
 
         <div class="details">
@@ -313,10 +314,10 @@ body {
         <div class="contact">
 
             <p>
-                <b>
+                <strong>
                     If you need to discuss alternative payments
                     or anything else just get in touch:
-                </b>
+                </strong>
             </p>
 
             <br>
@@ -340,7 +341,7 @@ body {
     <footer class="footer">
         <a
             class="footer-link"
-            href="https://shadwell.play-cricket.com/home"
+            href="https://www.shadwellcc.org.uk"
             target="_blank"
             rel="noopener noreferrer"
         >
