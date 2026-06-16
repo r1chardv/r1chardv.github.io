@@ -6,253 +6,127 @@
 
 <title>Shadwell Cricket Club</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
 <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@500;600&display=swap" rel="stylesheet">
 
 <style>
 :root {
     --club-red: #9e2330;
-    --club-logo-red: #c4959a;
     --club-blue: #103864;
     --club-bg: #f5f1ef;
-    --text: #111;
+    --text: #222;
 }
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+* { box-sizing: border-box; margin:0; padding:0; }
 
 body {
+    font-family: Arial, sans-serif;
     background: #ececec;
-    font-family: Arial, Helvetica, sans-serif;
-    padding: 30px;
+    padding: 15px;
 }
 
+/* CONTAINER */
 .flyer {
     max-width: 1000px;
-    margin: 0 auto;
+    margin: auto;
     background: var(--club-bg);
+    border-radius: 24px;
     border: 4px solid var(--club-red);
-    border-radius: 40px;
     overflow: hidden;
-    position: relative;
-    box-shadow: 0 10px 30px rgba(0,0,0,.08);
 }
 
-/* ===================================
-   HEADER
-=================================== */
-
+/* HEADER */
 .header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
-    padding: 40px 50px 20px;
-}
-
-.club-logo {
-    display: flex;
-    flex-direction: column;
-    line-height: 0.78;
-    user-select: none;
+    align-items: center;
+    padding: 30px;
 }
 
 .club-logo span {
+    display:block;
     font-family: 'League Spartan', sans-serif;
-    font-size: clamp(4rem, 7vw, 6.8rem);
-    font-weight: 500;
-    letter-spacing: -0.02em;
-    color: var(--club-logo-red);
-}
-
-.club-crest {
-    width: 180px;
-    flex-shrink: 0;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    color: #c4959a;
+    line-height: 0.9;
 }
 
 .club-crest img {
-    width: 100%;
-    height: auto;
-    display: block;
+    width: 120px;
 }
 
-/* ===================================
-   CONTENT
-=================================== */
-
+/* CONTENT */
 .content {
-    text-align: center;
-    padding: 20px 80px 60px;
+    padding: 20px;
 }
 
-.content h1 {
-    font-size: clamp(3rem, 5vw, 4.5rem);
-    font-weight: 800;
-    margin-bottom: 45px;
-    line-height: 1.2;
+h1 {
+    text-align:center;
     color: var(--club-blue);
+    margin-bottom: 30px;
+    font-size: clamp(1.8rem, 4vw, 3rem);
 }
 
-.intro {
-    font-size: 2.6rem;
-    line-height: 1.45;
-    margin-bottom: 50px;
+.section {
+    margin-bottom: 30px;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
 }
 
-.intro a {
+.section h2 {
     color: var(--club-blue);
-    font-weight: 700;
-    text-decoration: underline;
+    margin-bottom: 10px;
 }
 
-.intro a:hover {
-    opacity: 0.8;
+p {
+    line-height: 1.6;
 }
 
-.partner-logo {
-    margin: 50px 0;
+ul {
+    padding-left: 18px;
+    line-height: 1.6;
 }
 
 .partner-logo img {
-    max-width: 480px;
-    width: 100%;
-    height: auto;
-}
-
-.qr-code img {
-    max-width: 280px;
-    width: 100%;
-    height: auto;
-}
-
-.details {
-    font-size: 2.1rem;
-    line-height: 1.6;
-    margin-bottom: 50px;
-}
-
-.details strong {
-    font-weight: 800;
-}
-
-.reference {
-    font-size: 1.5rem;
-    margin-bottom: 50px;
-}
-
-.contact {
-    font-size: 1.9rem;
-    line-height: 1.7;
-}
-
-.contact a {
-    color: #4f7785;
-    text-decoration: underline;
-}
-
-.contact a:hover {
-    opacity: 0.8;
-}
-
-/* ===================================
-   CRICKET BALL
-=================================== */
-
-.cricket-ball {
-    width: clamp(100px, 16vw, 220px);
-    margin: 40px auto 20px;
-}
-
-.cricket-ball img {
-    width: 100%;
-    height: auto;
+    max-width: 250px;
     display: block;
+    margin: 20px auto;
 }
 
-/* ===================================
-   FOOTER
-=================================== */
+/* GRID FOR INFO */
+.grid {
+    display: grid;
+    gap: 20px;
+}
 
+/* 2 columns on larger screens */
+@media(min-width: 700px){
+    .grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* FOOTER */
 .footer {
     background: var(--club-blue);
     text-align: center;
-    padding: 40px;
+    padding: 25px;
 }
 
-.footer-link {
-    display: block;
-    width: 100%;
+.footer a {
     color: white;
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
     text-decoration: none;
-    font-size: clamp(2rem, 5vw, 4rem);
-    font-weight: 700;
-    transition: all .25s ease;
 }
 
-.footer-link:hover {
-    text-decoration: underline;
-    opacity: 0.9;
-}
+.footer a:hover { text-decoration: underline; }
 
-/* ===================================
-   MOBILE
-=================================== */
-
-@media (max-width: 768px) {
-
-    body {
-        padding: 10px;
-    }
-
+/* MOBILE HEADER STACK */
+@media(max-width: 600px){
     .header {
         flex-direction: column;
-        align-items: center;
-        gap: 30px;
+        gap: 15px;
         text-align: center;
-    }
-
-    .club-logo {
-        align-items: center;
-    }
-
-    .club-logo span {
-        font-size: clamp(3rem, 12vw, 5rem);
-    }
-
-    .club-crest {
-        width: 140px;
-    }
-
-    .content {
-        padding: 20px 25px 60px;
-    }
-
-    .content h1 {
-        font-size: 2rem;
-    }
-
-    .intro {
-        font-size: 1.5rem;
-    }
-
-    .details {
-        font-size: 1.3rem;
-    }
-
-    .reference {
-        font-size: 1rem;
-    }
-
-    .contact {
-        font-size: 1.2rem;
-    }
-
-    .footer-link {
-        font-size: 1.8rem;
     }
 }
 </style>
@@ -262,150 +136,100 @@ body {
 
 <div class="flyer">
 
-    <header class="header">
+<header class="header">
+    <div class="club-logo">
+        <span>SHADWELL</span>
+        <span>CRICKET</span>
+        <span>CLUB</span>
+    </div>
+    <div class="club-crest">
+        <img src="images/shadwell-crest.png" alt="Club Crest">
+    </div>
+</header>
 
-        <div class="club-logo">
-            <span>SHADWELL</span>
-            <span>CRICKET</span>
-            <span>CLUB</span>
-        </div>
+<main class="content">
 
-        <div class="club-crest">
-            <img src="images/shadwell-crest.png"
-                 alt="Shadwell Cricket Club Crest">
-        </div>
+<h1>Cricket Camp - Information & T&C's</h1>
 
-    </header>
+<section class="section">
+    <p>
+        Shadwell CC run cricket camps in association with <strong>ABC Academy Ltd</strong>,
+        specialists in school & community cricket development.
+    </p>
+    <p>
+        <strong>Lead Coach:</strong> Tony Bowry (ECB qualified & DBS checked)<br>
+        📧 tbowry1976@gmail.com | 📞 0797 671 0933
+    </p>
 
-    <main class="content">
+    <div class="partner-logo">
+        <img src="images/abc.png" alt="ABC Academy">
+    </div>
+</section>
 
-        <h1>CRICKET CAMP - INFORMATION and T&C's </h1>
+<section class="section">
+    <h2>📍 Location</h2>
+    <p>The Brandon Oval, Brandon Crescent, Leeds, LS17 9JH</p>
+</section>
 
-        <p class="intro">
-            Shadwell CC run our cricket camp in association
-			with ABC Academy Ltd, who specialise in cricket
-			camps and developing cricket in schools and
-			communities. Lead coach (ECB qualified and DBS
-			cleared) is Tony Bowry - tbowry1976@gmail.com |
-			0797 671 0933
-            <br><br>
-            @ShadwellCC with:
-        </p>
+<section class="section">
+    <h2>🎒 What to Bring</h2>
+    <ul>
+        <li>Packed lunch</li>
+        <li>Water bottle</li>
+        <li>Sun cream & hat</li>
+        <li>Sports clothing & trainers</li>
+        <li>Cricket bat (optional)</li>
+        <li>Bag for belongings</li>
+        <li>Hand sanitiser (optional)</li>
+    </ul>
+</section>
 
-        <div class="partner-logo">
-            <img src="images/abc.png"
-                 alt="Camp Coaches">
-        </div>
+<section class="section">
+    <h2>📅 Key Info</h2>
+    <ul>
+        <li>10:00am – 3:00pm (drop-off from 9:30am)</li>
+        <li>Lunch: 12:30 – 1:00</li>
+        <li>Snacks & drinks provided</li>
+        <li>Please drive carefully on approach road</li>
+    </ul>
+</section>
 
-        <div class="details">
+<section class="section">
+    <h2>📞 Contact</h2>
+    <p>
+        Junior Secretary & Safeguarding Officer:<br>
+        <strong>Richard Vincent</strong><br>
+        📞 0797 089 1559
+    </p>
+    <p>
+        📧 <a href="mailto:enquiries@shadwellcc.org.uk">
+        enquiries@shadwellcc.org.uk</a>
+    </p>
+</section>
 
-            <p>
-			The full address for the camp location is the
-			Shadwell ground – The Brandon Oval, Brandon
-			Crescent, Leeds, LS17 9JH.
-			What children need to bring (each day):
-			• A packed lunch. • A water bottle (refills
-			available). • Sun cream and a hat. • Suitable
-			clothing and shoes – tracksuit, shorts,
-			trainers etc. • A bat if you have one (no problem
-			if not!). • A bag to keep your belongings in.
-			• Hand sanitiser (optional)
-			<br>Things parents need to know: • Sessions start
-			at 10am prompt and finish at 3pm (drop offs from
-			9.30am). • The club will provide limited orange
-			juice and biscuits each day for breaks. • Lunch
-			will be 12.30 to 1pm (or as specified by the lead
-			coach). • Please drive with care on the country
-			lane approach to our ground. Shadwell CC Contact
-			Details If you have any questions or would like
-			further information on anything please contact:
-			Junior Secretary & Club Safeguarding Officer:
-			Richard Vincent – 0797 089 15 59
-			<br>
-			General Terms and Conditions
-			1. Inclement weather – We generally do not cancel
-			our camp days due to bad weather and our coaches
-			will be on hand to look after your children unless
-			the weather is so extreme it is a genuine safety risk,
-			if this is the case refunds will be offered.
-			2. Bookings – Any bookings onto our camps are only
-			secured if paid for in advance and in full. We are
-			unable to reserve places and have a limit to the number
-			of bookings per day. Places on our camps are booked on
-			a first-come, first-served basis.
-			3. Cancellations – If you wish to cancel a booking, we
-			must be notified at least 7 days in advance of the date
-			booked, in order for you to receive a full refund. We
-			reserve the right to refuse refunds if we are notified
-			less than 7 days before you are due to attend a camp day.
-			4. Illness/Injury – In the event of your child being
-			ill or injured and missing camp for 2 or more days, we
-			can provide a 75% refund for days missed on receipt of
-			a doctor’s note.
-			5. Public Liability – Insurance is provided through
-			the hosting club and the ECB qualified coaches.
-			6. Exclusion– We reserve the right to exclude or refuse
-			any child prior to or during any course if, in our
-			opinion, the presence of that child is incompatible
-			with the well-being of others on the camp. We take
-			bullying and poor behaviour seriously and this will
-			be dealt with appropriately as soon as it is reported.
-			If we have to contact you to ask to collect your child
-			due to poor behaviour, we are not able to offer refunds
-			for any time/days missed from the camps.
-			7. First Aid/Medical - All our coaches are first aid
-			trained and are able to provide assistance should your
-			child require it. The emergency services will be called
-			if further assistance is required. Please ensure that any
-			special requirements or allergies are notified on the
-			booking form. Our coaches are unable to administer
-			medicines unless prescribed by a doctor.
-			8. Lost Property – We accept no responsibility for the
-			loss/damage of any items brought to our camps. A lost
-			property area is provided (kitchen), and children are
-			encouraged to always look after their equipment and items
-			for the duration.
-			9. Promotional Photography - We may take occasional
-			promotional photos of our camps, If you do not give
-			consent for your child to be included in any photography,
-			please indicate this to us in the information box when
-			you complete your booking.
-			10. We reserve the right to amend, alter or cancel camp
-			days in the event of low attendance or any other unforeseen
-			circumstances. In this event, you will be notified with
-			options of a refund or to move your booking to a different day.
-			</p>
+<section class="section">
+    <h2>📜 Terms & Conditions</h2>
+    <ol>
+        <li>Camp runs in most weather unless unsafe conditions.</li>
+        <li>Bookings must be paid in advance.</li>
+        <li>7+ days notice required for full refunds.</li>
+        <li>Illness refunds (75%) with doctor's note.</li>
+        <li>Insurance provided via ECB coaches.</li>
+        <li>Poor behaviour may result in exclusion.</li>
+        <li>First aid trained staff always present.</li>
+        <li>No responsibility for lost property.</li>
+        <li>Promotional photos may be taken.</li>
+        <li>Camps may be amended if required.</li>
+    </ol>
+</section>
 
-        </div>
+</main>
 
-        <div class="contact">
-
-            <p>
-                email any questions or queries to:<br>
-                <a href="mailto:enquiries@shadwellcc.org.uk">
-                    enquiries@shadwellcc.org.uk
-                </a>
-            </p>
-
-        </div>
-
-        <div class="cricket-ball">
-            <img src="images/cricket-ball.png"
-                 alt="Cricket Ball">
-        </div>
-
-    </main>
-
-    <footer class="footer">
-        <a
-            class="footer-link"
-            href="https://shadwell.play-cricket.com/home"
-            target="_blank"
-            rel="noopener noreferrer"
-        >
-            www.shadwellcc.org.uk
-        </a>
-    </footer>
+<footer class="footer">
+    <a href="https://shadwell.play-cricket.com/home" target="_blank">
+        www.shadwellcc.org.uk
+    </a>
+</footer>
 
 </div>
 
