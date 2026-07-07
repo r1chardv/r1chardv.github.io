@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>YPLN Grounds Explorer</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css"/>
+<style>
+html,body{height:100%;margin:0;font-family:Segoe UI,Arial}
+#wrap{display:flex;height:100%}
+#side{width:320px;overflow:auto;border-right:1px solid #ccc;padding:10px;box-sizing:border-box}
+#map{flex:1}
+input,select{width:100%;padding:8px;margin-bottom:8px;box-sizing:border-box}
+.club{padding:6px;border-bottom:1px solid #eee;cursor:pointer}
+.club:hover{background:#f0f6ff}
+
+.marker-cluster-small,.marker-cluster-medium,.marker-cluster-large{
+ background:rgba(198,40,40,.25)!important;
+}
+.marker-cluster-small div,.marker-cluster-medium div,.marker-cluster-large div{
+ background:#c62828!important;
+ color:#fff!important;
+ border:2px solid #7f0000;
+}
+
+
+/* Make the layer selector compact */
+.leaflet-control-layers{
+    font-size:13px;
+    min-width:150px;
+    max-width:180px;
+}
+.leaflet-control-layers-expanded{
+    padding:8px 10px;
+}
+.leaflet-control-layers-list label{
+    display:block;
+    margin:4px 0;
+    white-space:nowrap;
+}
+
+
+#mapStyleControl{position:absolute;top:10px;right:10px;z-index:1000;font-family:Segoe UI,sans-serif}
+#mapStyleBtn{background:#fff;border:1px solid #999;border-radius:6px;padding:8px 12px;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.25)}
+#mapStyleMenu{display:none;background:#fff;border:1px solid #999;border-radius:6px;margin-top:4px;box-shadow:0 2px 6px rgba(0,0,0,.25)}
+#mapStyleMenu div{padding:8px 12px;cursor:pointer;white-space:nowrap}
+#mapStyleMenu div:hover{background:#f0f6ff}
+
+</style>
+</head>
+<body>
+<div id="wrap">
+<div id="side">
+<h2>YPLN Grounds</h2>
+<input id="search" placeholder="Search club...">
+<select id="division"><option value="">All divisions</option></select>
+<div id="list"></div>
+</div>
+<div id="map"></div>
+
+<div id="mapStyleControl">
+<button id="mapStyleBtn">🗺️ Map Style ▾</button>
+<div id="mapStyleMenu">
+<div data-layer="osm">Street Map</div>
+<div data-layer="imagery">Aerial</div>
+<div data-layer="terrain">Terrain</div>
+<div data-layer="light">Light</div>
+<div data-layer="dark">Dark</div>
+</div>
+</div>
+
+</div>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+<script>
+const data=[{"ID": "G0622", "TeamName": "Hull Zingari", "Division": "ECB Premier", "PostCode": "HU5 4ED", "Lat": 53.76331908, "Long": -0.37051499, "MAS": 2, "Address": "Chanterlands Avenue"}, {"ID": "G0634", "TeamName": "Old Hymerians", "Division": "Holderness D3", "PostCode": "HU5 3EX", "Lat": 53.76325566, "Long": -0.37467778, "MAS": 2, "Address": "Chanterlands Avenue"}, {"ID": "G0613", "TeamName": "Goole Town", "Division": "Championship Central", "PostCode": "DN14 6NF", "Lat": 53.71708228, "Long": -0.86577147, "MAS": 3, "Address": "Carr Lane"}, {"ID": "G0595", "TeamName": "Brandesburton", "Division": "Championship East", "PostCode": "YO25 8RT", "Lat": 53.90785708, "Long": -0.30099347, "MAS": 4, "Address": "New Road"}, {"ID": "G0612", "TeamName": "Gilberdyke", "Division": "Holderness D2", "PostCode": "HU15 2UG", "Lat": 53.75278044, "Long": -0.7392101, "MAS": 4, "Address": "Clementhorpe Road"}, {"ID": "G0649", "TeamName": "South Holderness", "Division": "Championship East", "PostCode": "HU12 8HD", "Lat": 53.73663749, "Long": -0.20236999, "MAS": 4, "Address": "Middle Lane"}, {"ID": "G0615", "TeamName": "Hessle", "Division": "Holderness D1", "PostCode": "HU13 0EG", "Lat": 53.71616118, "Long": -0.44048041, "MAS": 5, "Address": "Redcliff Road"}, {"ID": "G0604", "TeamName": "Drax", "Division": "Championship Central", "PostCode": "YO8 8PW", "Lat": 53.72950868, "Long": -0.97195476, "MAS": 5, "Address": "Church Dike Lane"}, {"ID": "G0609", "TeamName": "Eastrington", "Division": "Ebor D3", "PostCode": "DN14 7PP", "Lat": 53.75807705, "Long": -0.79720885, "MAS": 5, "Address": "Howden Road"}, {"ID": "G0624", "TeamName": "Hutton Cranswick", "Division": "Holderness D3", "PostCode": "YO25 9GA", "Lat": 53.95594033, "Long": -0.42639345, "MAS": 7, "Address": "Stockbridge Lane"}, {"ID": "G0652", "TeamName": "Sutton on Hull", "Division": "Holderness D1", "PostCode": "HU7 4PW", "Lat": 53.78208329, "Long": -0.31217963, "MAS": 7, "Address": "Wawne Road"}, {"ID": "G0068", "TeamName": "Selby", "Division": "Championship Central", "PostCode": "YO8 4JP", "Lat": 53.77744046, "Long": -1.09846652, "MAS": 7, "Address": "Leeds Road"}, {"ID": "G0015", "TeamName": "Burn", "Division": "Ebor D1", "PostCode": "YO8 8LR", "Lat": 53.7477988, "Long": -1.10343665, "MAS": 8, "Address": "Off the A19"}, {"ID": "G0035", "TeamName": "Hemingbrough", "Division": "Ebor D3", "PostCode": "YO8 6QS", "Lat": 53.76739366, "Long": -0.97226322, "MAS": 8, "Address": "Hull Road"}, {"ID": "G0041", "TeamName": "Kelfield", "Division": "Ebor D3", "PostCode": "YO19 6RG", "Lat": 53.83704722, "Long": -1.09578431, "MAS": 8, "Address": "Main Street"}, {"ID": "G0598", "TeamName": "Cawood", "Division": "Ebor D5", "PostCode": "YO8 3TG", "Lat": 53.82827482, "Long": -1.1275202, "MAS": 8, "Address": "Maypole Gardens"}, {"ID": "G0558", "TeamName": "Woodhouse Grange", "Division": "ECB Premier", "PostCode": "YO41 4DF", "Lat": 53.91597933, "Long": -0.89325875, "MAS": 9, "Address": "Sandhill Lane"}, {"ID": "G0013", "TeamName": "Bolton Percy", "Division": "Championship West", "PostCode": "YO23 7AN", "Lat": 53.86570184, "Long": -1.19619362, "MAS": 9, "Address": "Oxton Lane"}, {"ID": "G0090", "TeamName": "Wheldrake", "Division": "Ebor D2", "PostCode": "YO19 6BU", "Lat": 53.89974659, "Long": -0.96615455, "MAS": 9, "Address": "Broad Hwy"}, {"ID": "G0623", "TeamName": "Humbleton", "Division": "Holderness D3", "PostCode": "HU11 4NJ", "Lat": 53.79091063, "Long": -0.13589948, "MAS": 10, "Address": "Danthorpe Road"}, {"ID": "G0559", "TeamName": "York", "Division": "ECB Premier", "PostCode": "YO30 5RE", "Lat": 53.97252348, "Long": -1.10579699, "MAS": 11, "Address": "Shipton Road"}, {"ID": "G0551", "TeamName": "Clifton Alliance", "Division": "ECB Premier", "PostCode": "YO30 5RE", "Lat": 53.9734159, "Long": -1.10984042, "MAS": 11, "Address": "Clifton Park"}, {"ID": "G0633", "TeamName": "North Ferriby", "Division": "Holderness D1", "PostCode": "HU14 3AA", "Lat": 53.71861464, "Long": -0.50093338, "MAS": 11, "Address": "Grange Lane"}, {"ID": "G0086", "TeamName": "Thorpe Willoughby", "Division": "Ebor D1", "PostCode": "YO8 9FL", "Lat": 53.76833068, "Long": -1.13172264, "MAS": 11, "Address": "Field Lane"}, {"ID": "G0018", "TeamName": "Church Fenton", "Division": "Ebor D1", "PostCode": "LS24 9RF", "Lat": 53.82732567, "Long": -1.20994754, "MAS": 11, "Address": "Busk Lane"}, {"ID": "G0050", "TeamName": "Melbourne", "Division": "Galtres D5", "PostCode": "YO42 4RE", "Lat": 53.88587697, "Long": -0.84847991, "MAS": 12, "Address": "Main Street"}, {"ID": "G9992", "TeamName": "Heslington", "Division": "Galtres D1", "PostCode": "YO10 5DJ", "Lat": 53.940392, "Long": -1.045237, "MAS": 12, "Address": "Outgang Lane"}, {"ID": "G0593", "TeamName": "Beverley", "Division": "ECB Premier", "PostCode": "HU17 9HW", "Lat": 53.84840017, "Long": -0.42992324, "MAS": 12, "Address": "Recreation Park Lane"}, {"ID": "G0596", "TeamName": "Bridlington", "Division": "ECB Premier 2", "PostCode": "Y016 4LE", "Lat": 54.08737603, "Long": -0.19425094, "MAS": 12, "Address": "Moorfield Rd"}, {"ID": "G0601", "TeamName": "Copmanthorpe", "Division": "Galtres D2", "PostCode": "YO23 3YR", "Lat": 53.91433478, "Long": -1.13600269, "MAS": 12, "Address": "Barons Crescent"}, {"ID": "G0607", "TeamName": "Dunnington", "Division": "Championship Central", "PostCode": "YO19 5PA", "Lat": 53.96115687, "Long": -0.97385511, "MAS": 13, "Address": "Common Road"}, {"ID": "G0009", "TeamName": "Ben Johnson", "Division": "Ebor D4", "PostCode": "YO19 6EU", "Lat": 53.87322295, "Long": -1.03790002, "MAS": 13, "Address": "Queen Margarets School"}, {"ID": "G0012", "TeamName": "Bishopthorpe", "Division": "Galtres D3", "PostCode": "YO23 2SJ", "Lat": 53.92055644, "Long": -1.09231958, "MAS": 13, "Address": "Ferry Lane"}, {"ID": "G0036", "TeamName": "Heworth", "Division": "Championship Central", "PostCode": "Y031 1DX", "Lat": 53.97617558, "Long": -1.05206162, "MAS": 14, "Address": "Elmpark Way"}, {"ID": "G0037", "TeamName": "Hillam and Monk Fryston", "Division": "Ebor D2", "PostCode": "LS25 5HP", "Lat": 53.75238079, "Long": -1.2242192, "MAS": 14, "Address": "Woodlands Lane"}, {"ID": "G0184", "TeamName": "Hensall", "Division": "Ebor D1", "PostCode": "DN14 0QZ", "Lat": 53.70550323, "Long": -1.10289752, "MAS": 14, "Address": "Ings Lane"}, {"ID": "G0605", "TeamName": "Dringhouses", "Division": "Galtres D1", "PostCode": "YO24 1HP", "Lat": 53.9401515, "Long": -1.11100584, "MAS": 14, "Address": "St Helens Road"}, {"ID": "G0630", "TeamName": "New Earswick", "Division": "Galtres D1", "PostCode": "YO32 4AG", "Lat": 53.99033698, "Long": -1.07881397, "MAS": 14, "Address": "White Rose Avenue"}, {"ID": "G0635", "TeamName": "Osbaldwick", "Division": "Championship Central", "PostCode": "YO10 3PR", "Lat": 53.95780261, "Long": -1.0365504, "MAS": 15, "Address": "The Leyes"}, {"ID": "G0082", "TeamName": "Tadcaster Magnets", "Division": "Ebor D1", "PostCode": "LS24 9HD", "Lat": 53.87953139, "Long": -1.26682073, "MAS": 15, "Address": "Queens Gardens"}, {"ID": "G0080", "TeamName": "Stockton and Hopgrove", "Division": "Galtres D3", "PostCode": "YO32 9TE", "Lat": 53.98747118, "Long": -1.03566796, "MAS": 16, "Address": "Malton Road"}, {"ID": "G0617", "TeamName": "Hornsea", "Division": "Championship East", "PostCode": "HU18 1ET", "Lat": 53.9134643, "Long": -0.1820308, "MAS": 16, "Address": "Westwood Avenue"}, {"ID": "G0597", "TeamName": "Carlton Towers", "Division": "ECB Premier", "PostCode": "DN14 9LZ", "Lat": 53.7072179, "Long": -1.01713121, "MAS": 16, "Address": "High Street"}, {"ID": "G0557", "TeamName": "Stamford Bridge", "Division": "ECB Premier", "PostCode": "YO41 1DZ", "Lat": 53.98573328, "Long": -0.9190653, "MAS": 16, "Address": "Low Catton Road"}, {"ID": "G0637", "TeamName": "Patrington", "Division": "ECB Premier 2", "PostCode": "HU12 0RN", "Lat": 53.68144118, "Long": -0.00971094, "MAS": 17, "Address": "Southside"}, {"ID": "G0658", "TeamName": "Welton and Brough", "Division": "ECB Premier 2", "PostCode": "HU15 1PT", "Lat": 53.72961658, "Long": -0.55445015, "MAS": 17, "Address": "Common Lane"}, {"ID": "G0075", "TeamName": "South Milford", "Division": "Championship West", "PostCode": "LS25 5BN", "Lat": 53.77988918, "Long": -1.24566346, "MAS": 17, "Address": "Mill Lane"}, {"ID": "G0059", "TeamName": "Ovington", "Division": "Galtres D1", "PostCode": "YO23 1ER", "Lat": 53.947623, "Long": -1.093963, "MAS": 17, "Address": "Albemarle Road"}, {"ID": "G0063", "TeamName": "Rufforth & Marston", "Division": "Ebor D1", "PostCode": "YO23 3QA", "Lat": 53.95396228, "Long": -1.18682895, "MAS": 18, "Address": "Wetherby Road"}, {"ID": "G0625", "TeamName": "Kirk Ella", "Division": "Holderness D1", "PostCode": "HU10 6HB", "Lat": 53.76198566, "Long": -0.44321492, "MAS": 18, "Address": "Well Lane"}, {"ID": "G0638", "TeamName": "Pelican", "Division": "Holderness D2", "PostCode": "DN4 9GA", "Lat": 53.49224571, "Long": -1.15837634, "MAS": 19, "Address": "Springwell Lane"}, {"ID": "G0552", "TeamName": "Driffield", "Division": "ECB Premier", "PostCode": "Y025 6TT", "Lat": 54.0035142, "Long": -0.44555917, "MAS": 20, "Address": "Kings Mill Road"}, {"ID": "G0070", "TeamName": "Sherburn Eversley", "Division": "Ebor D2", "PostCode": "LS25 6ER", "Lat": 53.79534296, "Long": -1.25443513, "MAS": 20, "Address": "Low Street"}, {"ID": "G0556", "TeamName": "Sheriff Hutton Bridge", "Division": "ECB Premier", "PostCode": "YO32 5TX", "Lat": 54.07392894, "Long": -1.03583973, "MAS": 21, "Address": "Sheriff Hutton Road"}, {"ID": "G0053", "TeamName": "North Cave", "Division": "Championship Central", "PostCode": "HU15 2LW", "Lat": 53.78120649, "Long": -0.64017667, "MAS": 22, "Address": "Wolf Hill"}, {"ID": "G0627", "TeamName": "Malton and Old Malton", "Division": "Championship Central", "PostCode": "YO17 7EY", "Lat": 54.13812325, "Long": -0.78528106, "MAS": 23, "Address": "Old Malton Road"}, {"ID": "G0549", "TeamName": "Acomb", "Division": "ECB Premier 2", "PostCode": "YO26 5LL", "Lat": 53.9536893, "Long": -1.1330576, "MAS": 24, "Address": "The Green"}, {"ID": "G0602", "TeamName": "Cottingham", "Division": "Holderness D1", "PostCode": "HU10 6EF", "Lat": 53.77016794, "Long": -0.44300973, "MAS": 25, "Address": "Willerby Low Road"}, {"ID": "G0281", "TeamName": "Ebberston", "Division": "Beckett D1", "PostCode": "YO13 9NQ", "Lat": 54.22550512, "Long": -0.62287733, "MAS": 25, "Address": "Back Lane"}, {"ID": "G0298", "TeamName": "Sewerby", "Division": "Beckett D2", "PostCode": "YO15 1EW", "Lat": 54.10134416, "Long": -0.15997767, "MAS": 25, "Address": "Cliff Road"}, {"ID": "G0442", "TeamName": "Great Habton", "Division": "Beckett D1", "PostCode": "YO17 6TU", "Lat": 54.17750711, "Long": -0.84267497, "MAS": 25, "Address": "Habton Lane"}, {"ID": "G0300", "TeamName": "Snainton", "Division": "Beckett D3", "PostCode": "YO13 9BG", "Lat": 54.22582499, "Long": -0.58066472, "MAS": 27, "Address": "Barkers Lane"}, {"ID": "G0277", "TeamName": "Brompton", "Division": "Beckett D1", "PostCode": "YO13 9DR", "Lat": 54.2219346, "Long": -0.54867804, "MAS": 29, "Address": "Brompton Ings Road"}, {"ID": "G0085", "TeamName": "Thorpe Arch and Boston Spa", "Division": "Ebor D1", "PostCode": "LS23 7AR", "Lat": 53.9094962, "Long": -1.3423303, "MAS": 29, "Address": "The Village"}, {"ID": "G0550", "TeamName": "Castleford", "Division": "ECB Premier", "PostCode": "WF10 5LB", "Lat": 53.72040905, "Long": -1.36560649, "MAS": 29, "Address": "Lumley Street"}, {"ID": "G0525", "TeamName": "Grosmont", "Division": "Beckett D3", "PostCode": "YO22 5PA", "Lat": 54.43663333, "Long": -0.72956085, "MAS": 29, "Address": "Front Street"}, {"ID": "G0660", "TeamName": "Yapham", "Division": "Galtres D1", "PostCode": "YO42 1PH", "Lat": 53.95482924, "Long": -0.80424696, "MAS": 30, "Address": "Feoffee Lane"}, {"ID": "G0644", "TeamName": "Sessay", "Division": "ECB Premier 2", "PostCode": "YO7 3BE", "Lat": 54.1711959, "Long": -1.30039662, "MAS": 30, "Address": "Sessay Garth"}, {"ID": "G0295", "TeamName": "Scarborough", "Division": "Championship East", "PostCode": "Y012 7JT", "Lat": 54.2883238, "Long": -0.4057058, "MAS": 30, "Address": "North Marine Road"}, {"ID": "G0299", "TeamName": "Sherburn", "Division": "Beckett D1", "PostCode": "YO17 8PL", "Lat": 54.18244237, "Long": -0.53433359, "MAS": 31, "Address": "Vicarage Lane"}, {"ID": "G0639", "TeamName": "Pickering", "Division": "Championship Central", "PostCode": "YO18 8DJ", "Lat": 54.24276687, "Long": -0.77766091, "MAS": 32, "Address": "Mill Lane"}, {"ID": "G0640", "TeamName": "Pocklington", "Division": "Championship Central", "PostCode": "YO42 2UJ", "Lat": 53.92989139, "Long": -0.78573436, "MAS": 32, "Address": "Barmby Road"}, {"ID": "G0302", "TeamName": "Staxton", "Division": "Beckett D3", "PostCode": "YO12 4SG", "Lat": 54.19940832, "Long": -0.45155123, "MAS": 33, "Address": "Willerby Carr Lane"}, {"ID": "G0058", "TeamName": "Oulton", "Division": "Championship West", "PostCode": "LS26 8EL", "Lat": 53.74296279, "Long": -1.4502778, "MAS": 33, "Address": "Wakefield Road"}, {"ID": "G0162", "TeamName": "Fairburn", "Division": "ECB Premier 2", "PostCode": "WF11 9GY", "Lat": 53.74208687, "Long": -1.28241509, "MAS": 34, "Address": "Silver Street"}, {"ID": "G0285", "TeamName": "Forge Valley", "Division": "Beckett D2", "PostCode": "YO13 9HY", "Lat": 54.24866597, "Long": -0.4828459, "MAS": 34, "Address": "Wilsons Lane"}, {"ID": "G0599", "TeamName": "Cherry Burton", "Division": "Holderness D1", "PostCode": "HU17 7SD", "Lat": 53.86134454, "Long": -0.49654931, "MAS": 34, "Address": "Bishop Burton Road"}, {"ID": "G0603", "TeamName": "Dalton Holme", "Division": "Holderness D3", "PostCode": "HU17 7PN", "Lat": 53.89159993, "Long": -0.53879678, "MAS": 34, "Address": "Off Main Street"}, {"ID": "G0296", "TeamName": "Seamer and Irton", "Division": "Championship East", "PostCode": "YO12 4QP", "Lat": 54.23990478, "Long": -0.43610841, "MAS": 35, "Address": "Pasture Lane"}, {"ID": "G0297", "TeamName": "Settrington", "Division": "Beckett D2", "PostCode": "YO17 8NB", "Lat": 54.12482454, "Long": -0.72652727, "MAS": 35, "Address": "Chapel Road"}, {"ID": "G0030", "TeamName": "Green Hammerton", "Division": "Ebor D3", "PostCode": "YO26 8AB", "Lat": 54.00611373, "Long": -1.30461983, "MAS": 35, "Address": "Harrogate Road"}, {"ID": "G0074", "TeamName": "South Cave and Brantingham", "Division": "Holderness D3", "PostCode": "HU15 2EP", "Lat": 53.7638423, "Long": -0.60648367, "MAS": 35, "Address": "Church Street"}, {"ID": "G0065", "TeamName": "Saxton", "Division": "Ebor D1", "PostCode": "LS24 9TA", "Lat": 53.822672, "Long": -1.28170162, "MAS": 35, "Address": "Coldhill Lane"}, {"ID": "G0011", "TeamName": "Bilton in Ainsty", "Division": "Championship West", "PostCode": "YO26 7NJ", "Lat": 53.94736076, "Long": -1.28353127, "MAS": 36, "Address": "Off the B1224"}, {"ID": "G0284", "TeamName": "Filey", "Division": "Beckett D1", "PostCode": "YO14 0AA", "Lat": 54.20762436, "Long": -0.29297233, "MAS": 36, "Address": "Padbury Drive"}, {"ID": "G0474", "TeamName": "Thirsk", "Division": "Championship West", "PostCode": "YO7 1QP", "Lat": 54.23311711, "Long": -1.35220349, "MAS": 36, "Address": "Newsham Road"}, {"ID": "G0303", "TeamName": "Thornton Dale", "Division": "Beckett D1", "PostCode": "YO18 7RT", "Lat": 54.23427093, "Long": -0.71922094, "MAS": 37, "Address": "The Showground"}, {"ID": "G0608", "TeamName": "Easingwold", "Division": "ECB Premier 2", "PostCode": "YO61 3BG", "Lat": 54.12249502, "Long": -1.18923247, "MAS": 37, "Address": "Back Lane"}, {"ID": "G0469", "TeamName": "Ripon", "Division": "Galtres D1", "PostCode": "HG4 2QH", "Lat": 54.13479504, "Long": -1.5354225, "MAS": 37, "Address": "Studley Road"}, {"ID": "G0650", "TeamName": "Stillington", "Division": "Galtres D2", "PostCode": "YO61 1LJ", "Lat": 54.10007967, "Long": -1.1085543, "MAS": 37, "Address": "York Road"}, {"ID": "G0901", "TeamName": "The Century", "Division": "Galtres D5", "PostCode": "HG3 3TN", "Lat": 54.093444, "Long": -1.501759, "MAS": 37, "Address": "Knaresborough Road"}, {"ID": "G0618", "TeamName": "Hovingham", "Division": "Galtres D3", "PostCode": "YO62 4LU", "Lat": 54.17217561, "Long": -0.98224103, "MAS": 38, "Address": "Church Street"}, {"ID": "G0279", "TeamName": "Cayton", "Division": "Beckett D2", "PostCode": "YO11 3TH", "Lat": 54.23105707, "Long": -0.37700325, "MAS": 38, "Address": "Carr Lane"}, {"ID": "G0282", "TeamName": "Flamborough", "Division": "Beckett D2", "PostCode": "YO15 1PD", "Lat": 54.11306872, "Long": -0.12201101, "MAS": 43, "Address": "South Sea Road"}, {"ID": "G0128", "TeamName": "Hundhill Hall", "Division": "Ebor D2", "PostCode": "WF8 3DX", "Lat": 53.66124488, "Long": -1.3057001, "MAS": 44, "Address": "Sandy Gate Lane"}, {"ID": "G0046", "TeamName": "Ledsham", "Division": "Ebor D2", "PostCode": "LS25 5LP", "Lat": 53.76143288, "Long": -1.31144978, "MAS": 44, "Address": "Claypit Lane"}, {"ID": "G0287", "TeamName": "Ganton", "Division": "Beckett D1", "PostCode": "YO12 4NR", "Lat": 54.18379224, "Long": -0.48864216, "MAS": 46, "Address": "Woodside Road"}, {"ID": "G0301", "TeamName": "Staithes", "Division": "Beckett D1", "PostCode": "TS13 5AY", "Lat": 54.55330311, "Long": -0.79275638, "MAS": 51, "Address": "Seaton Crescent"}, {"ID": "G0651", "TeamName": "Studley Royal", "Division": "Championship West", "PostCode": "HG4 2QH", "Lat": 54.13207005, "Long": -1.5523231, "MAS": 51, "Address": "Studley Road"}, {"ID": "G0610", "TeamName": "Folkton and Flixton", "Division": "Championship East", "PostCode": "YO11 3UF", "Lat": 54.20029793, "Long": -0.3947863, "MAS": 52, "Address": "Filey Road"}, {"ID": "G0304", "TeamName": "Wold Newton", "Division": "Beckett D4", "PostCode": "YO25 3YJ", "Lat": 54.14298308, "Long": -0.3955628, "MAS": 52, "Address": "Bridlington Road"}, {"ID": "G0102", "TeamName": "Arthington", "Division": "Championship West", "PostCode": "LS21 1PL", "Lat": 53.89881847, "Long": -1.58137654, "MAS": 53, "Address": "Arthington Lane"}, {"ID": "G0628", "TeamName": "Middleton and North Dalton", "Division": "Holderness D2", "PostCode": "YO25 9UB", "Lat": 53.93129687, "Long": -0.56958586, "MAS": 53, "Address": "Front Street"}, {"ID": "G0294", "TeamName": "Scably", "Division": "Championship East", "PostCode": "YO13 0SB", "Lat": 54.30159471, "Long": -0.45508772, "MAS": 55, "Address": "Carr Lane"}, {"ID": "G0286", "TeamName": "Fylingdales", "Division": "Beckett D1", "PostCode": "YO22 4UF", "Lat": 54.42515963, "Long": -0.54316342, "MAS": 56, "Address": "Middlewood Lane"}, {"ID": "G9993", "TeamName": "Hull Strikers", "Division": "Holderness D1", "PostCode": "HU17 8SE", "Lat": 53.817684, "Long": -0.480171, "MAS": 58, "Address": "Walkington Playing Fields"}, {"ID": "G9994", "TeamName": "Scarborough Hospital", "Division": "Beckett D2", "PostCode": "Y013 0AA", "Lat": 54.313108, "Long": -0.446898, "MAS": 59, "Address": "Scalby Road"}, {"ID": "G9995", "TeamName": "Scarborough Rugby Club", "Division": "Beckett D4", "PostCode": "YO13 0NL", "Lat": 54.309486, "Long": -0.440147, "MAS": 59, "Address": "Silver Royd - Scalby"}, {"ID": "G0657", "TeamName": "Walkington", "Division": "Holderness D1", "PostCode": "HU17 8SE", "Lat": 53.81760997, "Long": -0.48020661, "MAS": 59, "Address": "Beech View"}, {"ID": "G0594", "TeamName": "Bransholme and Kingswood", "Division": "Holderness D2", "PostCode": "HU7 5BP", "Lat": 53.78787653, "Long": -0.47242954, "MAS": 59, "Address": "Manor Garth"}, {"ID": "G0305", "TeamName": "Wykeham", "Division": "Championship East", "PostCode": "YO13 9QA", "Lat": 54.23396367, "Long": -0.5273062, "MAS": 59, "Address": "Off the A170"}, {"ID": "G0280", "TeamName": "Cloughton", "Division": "Beckett D2", "PostCode": "YO13 0AE", "Lat": 54.3363945, "Long": -0.45139968, "MAS": 63, "Address": "High Street"}, {"ID": "G0117", "TeamName": "Knaresboro", "Division": "ECB Premier", "PostCode": "HG5 8EP", "Lat": 53.9997637, "Long": -1.45926386, "MAS": 64, "Address": "Aspin Lane"}, {"ID": "G0042", "TeamName": "Kippax Welfare", "Division": "Ebor D1", "PostCode": "LS25 7BP", "Lat": 53.7650096, "Long": -1.36081405, "MAS": 69, "Address": "Longdike Lane"}, {"ID": "G0606", "TeamName": "Duncombe Park", "Division": "Galtres D2", "PostCode": "YO62 5HT", "Lat": 54.249951, "Long": -1.06323302, "MAS": 72, "Address": "Baxtons Sprunt"}, {"ID": "G0088", "TeamName": "Westow", "Division": "Galtres D2", "PostCode": "YO60 7LG", "Lat": 54.07804891, "Long": -0.85374358, "MAS": 73, "Address": "Off Henlow Lane"}, {"ID": "G0626", "TeamName": "Londesborough Park", "Division": "ECB Premier 2", "PostCode": "YO43 3LF", "Lat": 53.90577926, "Long": -0.66616952, "MAS": 74, "Address": "Howgate Lane"}, {"ID": "G0523", "TeamName": "Glaisdale", "Division": "Beckett D3", "PostCode": "YO21 2QL", "Lat": 54.44071716, "Long": -0.79332232, "MAS": 77, "Address": "Limber Hill"}, {"ID": "G0291", "TeamName": "Nawton Grange", "Division": "Galtres D1", "PostCode": "YO62 7SF", "Lat": 54.25574252, "Long": -0.99010259, "MAS": 78, "Address": "Off the A170"}, {"ID": "G0024", "TeamName": "Crossgates United Friends", "Division": "Ebor D1", "PostCode": "LS15 8LX", "Lat": 53.80418245, "Long": -1.43999908, "MAS": 78, "Address": "Austhorpe Lane"}, {"ID": "G0008", "TeamName": "Barwick in Elmet", "Division": "Ebor D1", "PostCode": "LS15 4EL", "Lat": 53.82876595, "Long": -1.39032463, "MAS": 79, "Address": "Chapel Lane"}, {"ID": "G0028", "TeamName": "Garforth Parish Church", "Division": "Ebor D3", "PostCode": "LS25 2AF", "Lat": 53.79171216, "Long": -1.37315433, "MAS": 80, "Address": "Green Lane"}, {"ID": "G0653", "TeamName": "Swanland", "Division": "Holderness D3", "PostCode": "HU14 3PB", "Lat": 53.73463159, "Long": -0.49998388, "MAS": 86, "Address": "West Leys Road"}, {"ID": "G9991", "TeamName": "Crayke", "Division": "Galtres D5", "PostCode": "YO61 4TZ", "Lat": 54.12522, "Long": -1.149187, "MAS": 87, "Address": "Easingwold Road"}, {"ID": "G0091", "TeamName": "Whitkirk", "Division": "Championship West", "PostCode": "LS15 0PG", "Lat": 53.79588714, "Long": -1.45296067, "MAS": 90, "Address": "Selby Road"}, {"ID": "G0021", "TeamName": "Colton Institute", "Division": "Championship West", "PostCode": "LS15 9AL", "Lat": 53.793749, "Long": -1.43881021, "MAS": 91, "Address": "School Lane"}, {"ID": "G0084", "TeamName": "Thorner", "Division": "Ebor D1", "PostCode": "LS14 3DE", "Lat": 53.85208293, "Long": -1.42951044, "MAS": 92, "Address": "Lower Sandhills"}, {"ID": "G0067", "TeamName": "Scholes", "Division": "Ebor D2", "PostCode": "LS15 4AL", "Lat": 53.83013548, "Long": -1.42293621, "MAS": 108, "Address": "Rakehill Road"}, {"ID": "G0066", "TeamName": "Scarcroft", "Division": "Ebor D1", "PostCode": "LS14 3HS", "Lat": 53.86473997, "Long": -1.44798774, "MAS": 115, "Address": "Wetherby Road"}, {"ID": "G0553", "TeamName": "Harrogate", "Division": "ECB Premier", "PostCode": "HG2 9BP", "Lat": 53.97940518, "Long": -1.54033363, "MAS": 144, "Address": "St Georges Road"}, {"ID": "G0446", "TeamName": "Mulgrave", "Division": "Beckett D2", "PostCode": "Y021 3RT", "Lat": 54.50568688, "Long": -0.69974273, "MAS": 146, "Address": "High Street"}, {"ID": "G0103", "TeamName": "Beckwithshaw", "Division": "Championship West", "PostCode": "HG3 1QL", "Lat": 53.97701386, "Long": -1.59123927, "MAS": 170, "Address": "Pot Bank"}, {"ID": "G0292", "TeamName": "Ravenscar", "Division": "Beckett D3", "PostCode": "YO13 0LZ", "Lat": 54.39635044, "Long": -0.4927513, "MAS": 215, "Address": "Raven Hall Road"}];
+
+const familyColours={
+"ECB":"#d32f2f",
+"Championship":"#f57c00",
+"Ebor":"#1976d2",
+"Galtres":"#7b1fa2",
+"Holderness":"#795548",
+"Beckett":"#424242",
+"Premier":"#00838f"
+};
+
+function colour(div){
+ if(div.startsWith("ECB")) return familyColours.ECB;
+ if(div.startsWith("Championship")) return familyColours.Championship;
+ if(div.startsWith("Ebor")) return familyColours.Ebor;
+ if(div.startsWith("Galtres")) return familyColours.Galtres;
+ if(div.startsWith("Holderness")) return familyColours.Holderness;
+ if(div.startsWith("Beckett")) return familyColours.Beckett;
+ if(div.startsWith("Premier")) return familyColours.Premier;
+ return "#555";
+}
+
+const map=L.map('map');
+
+const osm=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap'});
+const imagery=L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{maxZoom:19,attribution:'&copy; Esri'});
+const terrain=L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',{maxZoom:17,attribution:'&copy; OpenTopoMap'});
+const light=L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{maxZoom:20,attribution:'&copy; CARTO'});
+const dark=L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{maxZoom:20,attribution:'&copy; CARTO'});
+
+osm.addTo(map);
+
+/*L.control.layers({
+'Street Map':osm,
+'Aerial':imagery,
+'Terrain':terrain,
+'Light':light,
+'Dark':dark
+},null,{collapsed:false}).addTo(map);*/
+
+
+document.getElementById('mapStyleBtn').onclick=function(){
+ const m=document.getElementById('mapStyleMenu');
+ m.style.display=m.style.display==='block'?'none':'block';
+};
+const baseLayers={osm,imagery,terrain,light,dark};
+document.querySelectorAll('#mapStyleMenu div').forEach(i=>{
+ i.onclick=()=>{
+   Object.values(baseLayers).forEach(l=>{if(map.hasLayer(l))map.removeLayer(l);});
+   baseLayers[i.dataset.layer].addTo(map);
+   document.getElementById('mapStyleMenu').style.display='none';
+ };
+});
+
+const cluster=L.markerClusterGroup({
+ spiderfyOnMaxZoom:true,
+ showCoverageOnHover:false,
+ zoomToBoundsOnClick:true
+});
+
+const groups={
+"Premier Division 1":["ECB Premier"],
+"Premier Division 2":["ECB Premier 2"],
+"Championship Central":["Championship Central"],
+"Championship East":["Championship East"],
+"Championship West":["Championship West"],
+"Ebor":["Ebor D1","Ebor D2","Ebor D3","Ebor D4","Ebor D5"],
+"Galtres":["Galtres D1","Galtres D2","Galtres D3","Galtres D5"],
+"Holderness":["Holderness D1","Holderness D2","Holderness D3"],
+"Beckett":["Beckett D1","Beckett D2","Beckett D3","Beckett D4"]
+};
+const divSel=document.getElementById('division');
+Object.keys(groups).forEach(g=>{let o=document.createElement('option');o.value=g;o.text=g;divSel.add(o);});
+
+function draw(){
+ cluster.clearLayers();
+ document.getElementById('list').innerHTML='';
+ const q=document.getElementById('search').value.toLowerCase();
+ const f=divSel.value;
+ let b=[];
+ data.filter(x=>(!f||groups[f].includes(x.Division))&&(x.TeamName+' '+x.Address+' '+x.PostCode+' '+x.ID).toLowerCase().includes(q)).forEach(x=>{
+   const c=colour(x.Division);
+   const m=L.circleMarker([x.Lat,x.Long],{radius:8,color:"#222",weight:1,fillColor:c,fillOpacity:0.9});
+   m.bindPopup(`<b>${x.TeamName}</b><br>${x.Division}<br>${x.Address}<br>${x.PostCode}<br>MAS: ${x.MAS}<br>ID: ${x.ID}`);
+   cluster.addLayer(m);
+   b.push([x.Lat,x.Long]);
+   const d=document.createElement('div');
+   d.className='club';
+   d.innerHTML=`<b>${x.TeamName}</b><br><small>${x.Division}</small>`;
+   d.onclick=()=>{map.setView([x.Lat,x.Long],15);m.openPopup();};
+   document.getElementById('list').appendChild(d);
+ });
+ map.addLayer(cluster);
+ if(b.length) map.fitBounds(b,{padding:[20,20]});
+}
+search.oninput=draw;
+division.onchange=draw;
+draw();
+</script>
+</body></html>
