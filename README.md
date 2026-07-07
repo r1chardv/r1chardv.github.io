@@ -11,6 +11,7 @@ Sample Links:
 <br> https://r1chardv.github.io/scc/ayntk/camp.html
 <br> https://r1chardv.github.io/scc/ayntk/campinfo.html
 <br> https://r1chardv.github.io/scc/yccc.html
+<br> https://r1chardv.github.io/scc/ypln.html
 <br> https://r1chardv.github.io/scc/Juniors.html
 <br> https://r1chardv.github.io/scc/FullPlayer.html
 <br> https://r1chardv.github.io/tech/AiQuestions.html
