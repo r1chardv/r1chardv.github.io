@@ -1,194 +1,38 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8">
-<title>Aire Wharfe Junior Cricket League Grounds Explorer</title>
-<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
-<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css"/>
-<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css"/>
-<style>
-html,body{height:100%;margin:0;font-family:Segoe UI,Arial}
-#wrap{display:flex;height:100%}
-#side{width:320px;overflow:auto;border-right:1px solid #ccc;padding:10px;box-sizing:border-box}
-#map{flex:1}
-input,select{width:100%;padding:8px;margin-bottom:8px;box-sizing:border-box}
-.club{padding:6px;border-bottom:1px solid #eee;cursor:pointer}
-.club:hover{background:#f0f6ff}
-
-.marker-cluster-small,.marker-cluster-medium,.marker-cluster-large{
- background:rgba(198,40,40,.25)!important;
-}
-.marker-cluster-small div,.marker-cluster-medium div,.marker-cluster-large div{
- background:#c62828!important;
- color:#fff!important;
- border:2px solid #7f0000;
-}
-
-
-/* Make the layer selector compact */
-.leaflet-control-layers{
-    font-size:13px;
-    min-width:150px;
-    max-width:180px;
-}
-.leaflet-control-layers-expanded{
-    padding:8px 10px;
-}
-.leaflet-control-layers-list label{
-    display:block;
-    margin:4px 0;
-    white-space:nowrap;
-}
-
-
-#mapStyleControl{position:absolute;top:10px;right:10px;z-index:1000;font-family:Segoe UI,sans-serif}
-#mapStyleBtn{background:#fff;border:1px solid #999;border-radius:6px;padding:8px 12px;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.25)}
-#mapStyleMenu{display:none;background:#fff;border:1px solid #999;border-radius:6px;margin-top:4px;box-shadow:0 2px 6px rgba(0,0,0,.25)}
-#mapStyleMenu div{padding:8px 12px;cursor:pointer;white-space:nowrap}
-#mapStyleMenu div:hover{background:#f0f6ff}
-
-</style>
-</head>
-<body>
-<div id="wrap">
-<div id="side">
-<h2>Aire Wharfe Junior League Grounds</h2>
-<input id="search" placeholder="Search club...">
-<select id="division"><option value="">All divisions</option></select>
-<div id="list"></div>
-</div>
-<div id="map"></div>
-
-<div id="mapStyleControl">
-<button id="mapStyleBtn">🗺️ Map Style ▾</button>
-<div id="mapStyleMenu">
-<div data-layer="osm">Street Map</div>
-<div data-layer="imagery">Aerial</div>
-<div data-layer="terrain">Terrain</div>
-<div data-layer="light">Light</div>
-<div data-layer="dark">Dark</div>
-</div>
-</div>
-
-</div>
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
-<script>
-const data=[
-
-{"ID": "AWJ01", "TeamName": "Shadwell", "Division": "AWJCL", "PostCode": "LS17 9JH", "Lat": 53.86422727, "Long": -1.47865409, "MAS": 144, "Address": "Brandon Crescent"},
-{"ID": "AWJ02", "TeamName": "Alwoodley", "Division": "AWJCL", "PostCode": "LS17 5PR", "Lat": 53.85527246, "Long": -1.56696647, "MAS": 121, "Address": "Crag Lane"},
-{"ID": "AWJ03", "TeamName": "Burley in Wharfedale", "Division": "AWJCL", "PostCode": "LS29 7HG", "Lat": 53.91177068, "Long": -1.74895585, "MAS": 79, "Address": "Grange Road"},
-
-{"ID": "G0634", "TeamName": "Old Hymerians", "Division": "Holderness D3", "PostCode": "HU5 3EX", "Lat": 53.76325566, "Long": -0.37467778, "MAS": 2, "Address": "Chanterlands Avenue"},
-{"ID": "G0613", "TeamName": "Goole Town", "Division": "Championship Central", "PostCode": "DN14 6NF", "Lat": 53.71708228, "Long": -0.86577147, "MAS": 3, "Address": "Carr Lane"},
-{"ID": "G0595", "TeamName": "Brandesburton", "Division": "Championship East", "PostCode": "YO25 8RT", "Lat": 53.90785708, "Long": -0.30099347, "MAS": 4, "Address": "New Road"},
-{"ID": "G0612", "TeamName": "Gilberdyke", "Division": "Holderness D2", "PostCode": "HU15 2UG", "Lat": 53.75278044, "Long": -0.7392101, "MAS": 4, "Address": "Clementhorpe Road"},
-{"ID": "G0649", "TeamName": "South Holderness", "Division": "Championship East", "PostCode": "HU12 8HD", "Lat": 53.73663749, "Long": -0.20236999, "MAS": 4, "Address": "Middle Lane"},
-{"ID": "G0615", "TeamName": "Hessle", "Division": "Holderness D1", "PostCode": "HU13 0EG", "Lat": 53.71616118, "Long": -0.44048041, "MAS": 5, "Address": "Redcliff Road"},
-{"ID": "G0292", "TeamName": "Ravenscar", "Division": "Beckett D3", "PostCode": "YO13 0LZ", "Lat": 54.39635044, "Long": -0.4927513, "MAS": 215, "Address": "Raven Hall Road"}
-
-
-
-
-];
-
-const familyColours={
-"ECB":"#d32f2f",
-"Championship":"#f57c00",
-"Ebor":"#1976d2",
-"Galtres":"#7b1fa2",
-"Holderness":"#795548",
-"Beckett":"#424242",
-"Premier":"#00838f"
-};
-
-function colour(div){
- if(div.startsWith("ECB")) return familyColours.ECB;
- if(div.startsWith("Championship")) return familyColours.Championship;
- if(div.startsWith("Ebor")) return familyColours.Ebor;
- if(div.startsWith("Galtres")) return familyColours.Galtres;
- if(div.startsWith("Holderness")) return familyColours.Holderness;
- if(div.startsWith("Beckett")) return familyColours.Beckett;
- if(div.startsWith("Premier")) return familyColours.Premier;
- return "#555";
-}
-
-const map=L.map('map');
-
-const osm=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap'});
-const imagery=L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{maxZoom:19,attribution:'&copy; Esri'});
-const terrain=L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',{maxZoom:17,attribution:'&copy; OpenTopoMap'});
-const light=L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{maxZoom:20,attribution:'&copy; CARTO'});
-const dark=L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{maxZoom:20,attribution:'&copy; CARTO'});
-
-osm.addTo(map);
-
-/*L.control.layers({
-'Street Map':osm,
-'Aerial':imagery,
-'Terrain':terrain,
-'Light':light,
-'Dark':dark
-},null,{collapsed:false}).addTo(map);*/
-
-
-document.getElementById('mapStyleBtn').onclick=function(){
- const m=document.getElementById('mapStyleMenu');
- m.style.display=m.style.display==='block'?'none':'block';
-};
-const baseLayers={osm,imagery,terrain,light,dark};
-document.querySelectorAll('#mapStyleMenu div').forEach(i=>{
- i.onclick=()=>{
-   Object.values(baseLayers).forEach(l=>{if(map.hasLayer(l))map.removeLayer(l);});
-   baseLayers[i.dataset.layer].addTo(map);
-   document.getElementById('mapStyleMenu').style.display='none';
- };
-});
-
-const cluster=L.markerClusterGroup({
- spiderfyOnMaxZoom:true,
- showCoverageOnHover:false,
- zoomToBoundsOnClick:true
-});
-
-const groups={
-"Premier Division 1":["ECB Premier"],
-"Premier Division 2":["ECB Premier 2"],
-"Championship Central":["Championship Central"],
-"Championship East":["Championship East"],
-"Championship West":["Championship West"],
-"Ebor":["Ebor D1","Ebor D2","Ebor D3","Ebor D4","Ebor D5"],
-"Galtres":["Galtres D1","Galtres D2","Galtres D3","Galtres D5"],
-"Holderness":["Holderness D1","Holderness D2","Holderness D3"],
-"Beckett":["Beckett D1","Beckett D2","Beckett D3","Beckett D4"]
-};
-const divSel=document.getElementById('division');
-Object.keys(groups).forEach(g=>{let o=document.createElement('option');o.value=g;o.text=g;divSel.add(o);});
-
-function draw(){
- cluster.clearLayers();
- document.getElementById('list').innerHTML='';
- const q=document.getElementById('search').value.toLowerCase();
- const f=divSel.value;
- let b=[];
- data.filter(x=>(!f||groups[f].includes(x.Division))&&(x.TeamName+' '+x.Address+' '+x.PostCode+' '+x.ID).toLowerCase().includes(q)).forEach(x=>{
-   const c=colour(x.Division);
-   const m=L.circleMarker([x.Lat,x.Long],{radius:8,color:"#222",weight:1,fillColor:c,fillOpacity:0.9});
-   m.bindPopup(`<b>${x.TeamName}</b><br>${x.Division}<br>${x.Address}<br>${x.PostCode}<br>MAS: ${x.MAS}<br>ID: ${x.ID}`);
-   cluster.addLayer(m);
-   b.push([x.Lat,x.Long]);
-   const d=document.createElement('div');
-   d.className='club';
-   d.innerHTML=`<b>${x.TeamName}</b><br><small>${x.Division}</small>`;
-   d.onclick=()=>{map.setView([x.Lat,x.Long],15);m.openPopup();};
-   document.getElementById('list').appendChild(d);
- });
- map.addLayer(cluster);
- if(b.length) map.fitBounds(b,{padding:[20,20]});
-}
-search.oninput=draw;
-division.onchange=draw;
-draw();
-</script>
-</body></html>
+{"ID": "G0002", "TeamName": "Addingham", "Division": "AWJCL", "PostCode": "LS29 0QL", "Lat": 53.9417361, "Long": 1.8769036, "MAS": 94, "Address": "Main Street"},
+{"ID": "G0003", "TeamName": "Adel", "Division": "AWJCL", "PostCode": "LS16 8DE", "Lat": 53.8565705, "Long": 1.58542041, "MAS": 139, "Address": "Church Lane"},
+{"ID": "G0004", "TeamName": "Alwoodley", "Division": "AWJCL", "PostCode": "LS17 5PR", "Lat": 53.85527246, "Long": 1.56696647, "MAS": 121, "Address": "Crag Lane"},
+{"ID": "G0315", "TeamName": "Baildon", "Division": "AWJCL", "PostCode": "BD17 6RS", "Lat": 53.85603315, "Long": 1.76148444, "MAS": 167, "Address": "Heygate Lane"},
+{"ID": "G0244", "TeamName": "Ben Rhydding", "Division": "AWJCL", "PostCode": "LS29 8AW", "Lat": 53.92882072, "Long": 1.78895715, "MAS": 70, "Address": "Coutances Way"},
+{"ID": "G0318", "TeamName": "Bradford and Bingley", "Division": "AWJCL", "PostCode": "BD16 1LT", "Lat": 53.83848903, "Long": 1.82525665, "MAS": 73, "Address": "Wagon Lane"},
+{"ID": "G0207", "TeamName": "Burley in Wharfedale", "Division": "AWJCL", "PostCode": "LS29 7HG", "Lat": 53.91177068, "Long": 1.74895585, "MAS": 79, "Address": "Grange Road"},
+{"ID": "G0245", "TeamName": "Calverley St Wilfrids", "Division": "AWJCL", "PostCode": "LS28 5RH", "Lat": 53.82891621, "Long": 1.69062347, "MAS": 134, "Address": "Salisbury Street"},
+{"ID": "G0017", "TeamName": "Caribbean", "Division": "AWJCL", "PostCode": "LS7 2HJ", "Lat": 53.82127505, "Long": 1.54541173, "MAS": 100, "Address": "Scott Hall Avenue"},
+{"ID": "G0020", "TeamName": "Collingham and Linton", "Division": "AWJCL", "PostCode": "LS22 5BL", "Lat": 53.90785753, "Long": 1.41526111, "MAS": 28, "Address": "Harewood Road"},
+{"ID": "G0398", "TeamName": "Crossflatts", "Division": "AWJCL", "PostCode": "BD16 2ER", "Lat": 53.86282951, "Long": 1.85039967, "MAS": 90, "Address": "Keighley Road"},
+{"ID": "G0024", "TeamName": "Crossgates United Friends", "Division": "AWJCL", "PostCode": "LS15 8LX", "Lat": 53.80418245, "Long": 1.43999908, "MAS": 78, "Address": "Austhorpe Lane"},
+{"ID": "G0031", "TeamName": "Green Lane", "Division": "AWJCL", "PostCode": "LS19 7HR", "Lat": 53.8695296, "Long": 1.69835061, "MAS": 143, "Address": "New Road"},
+{"ID": "G0231", "TeamName": "Guiseley", "Division": "AWJCL", "PostCode": "LS20 8BT", "Lat": 53.87647023, "Long": 1.71861738, "MAS": 139, "Address": "Otley Road"},
+{"ID": "G0408", "TeamName": "Hepworth and Idle", "Division": "AWJCL", "PostCode": "BD10 8RU", "Lat": 53.836103, "Long": 1.73866957, "MAS": 174, "Address": "Westfield Lane"},
+{"ID": "G0039", "TeamName": "Horsforth", "Division": "AWJCL", "PostCode": "LS18 5SB", "Lat": 53.84685275, "Long": 1.63636217, "MAS": 134, "Address": "Brownberrie Lane"},
+{"ID": "G0040", "TeamName": "Horsforth Hall Park", "Division": "AWJCL", "PostCode": "LS18 5JY", "Lat": 53.83609889, "Long": 1.64711004, "MAS": 109, "Address": "Hall Lane"},
+{"ID": "G0197", "TeamName": "Ilkley", "Division": "AWJCL", "PostCode": "LS29 0AD", "Lat": 53.93123017, "Long": 1.82229771, "MAS": 75, "Address": "Denton Road"},
+{"ID": "G0045", "TeamName": "Kirkstall Educational", "Division": "AWJCL", "PostCode": "LS6 3HT", "Lat": 53.82038663, "Long": 1.59504891, "MAS": 75, "Address": "Queenswood Drive"},
+{"ID": "G0106", "TeamName": "Leeds Modernians", "Division": "AWJCL", "PostCode": "LS16 7ND", "Lat": 53.8663922, "Long": 1.6185398, "MAS": 163, "Address": "Cookridge Lane"},
+{"ID": "G0049", "TeamName": "Meanwood", "Division": "AWJCL", "PostCode": "LS6 4NE", "Lat": 53.83698126, "Long": 1.57148609, "MAS": 112, "Address": "Parkside Road"},
+{"ID": "G0051", "TeamName": "Menston", "Division": "AWJCL", "PostCode": "LS29 6EB", "Lat": 53.89270233, "Long": 1.73222379, "MAS": 119, "Address": "Bradford Road"},
+{"ID": "G0052", "TeamName": "New Rover", "Division": "AWJCL", "PostCode": "LS16 8HF", "Lat": 53.84359402, "Long": 1.57912925, "MAS": 102, "Address": "Smithy Mills Lane"},
+{"ID": "G0055", "TeamName": "North Leeds", "Division": "AWJCL", "PostCode": "LS8 1JX", "Lat": 53.83314353, "Long": 1.50828627, "MAS": 119, "Address": "Old Park Road"},
+{"ID": "G0056", "TeamName": "Old Leos", "Division": "AWJCL", "PostCode": "LS17 5PR", "Lat": 53.8570265, "Long": 1.5688011, "MAS": 131, "Address": "Crag Lane"},
+{"ID": "G0057", "TeamName": "Olicanian", "Division": "AWJCL", "PostCode": "LS29 8DY", "Lat": 53.932418, "Long": 1.819138, "MAS": 79, "Address": "Denton Road"},
+{"ID": "G0242", "TeamName": "Otley", "Division": "AWJCL", "PostCode": "LS21 1HG", "Lat": 53.90797242, "Long": 1.68543309, "MAS": 61, "Address": "Cross Green"},
+{"ID": "G0243", "TeamName": "Pool", "Division": "AWJCL", "PostCode": "LS21 1LG", "Lat": 53.90245886, "Long": 1.62448629, "MAS": 53, "Address": "Millcroft"},
+{"ID": "G0333", "TeamName": "Pudsey Congs", "Division": "AWJCL", "PostCode": "LS28 9BZ", "Lat": 53.79849501, "Long": 1.6512081, "MAS": 130, "Address": "Intake Road"},
+{"ID": "G0334", "TeamName": "Pudsey St Lawrence (BP)", "Division": "AWJCL", "PostCode": "LS28 7SQ", "Lat": 53.7935659, "Long": 1.6714105, "MAS": 185, "Address": "Tofts Road"},
+{"ID": "G0061", "TeamName": "Rawdon", "Division": "AWJCL", "PostCode": "LS19 6DZ", "Lat": 53.85104532, "Long": 1.67522852, "MAS": 201, "Address": "Larkfield Road"},
+{"ID": "G0866", "TeamName": "Rodley", "Division": "AWJCL", "PostCode": "LS13 1RL", "Lat": 53.822408, "Long": 1.65555, "MAS": 48, "Address": "Moss Bridge Road"},
+{"ID": "G0066", "TeamName": "Scarcroft", "Division": "AWJCL", "PostCode": "LS14 3HS", "Lat": 53.86473997, "Long": 1.44798774, "MAS": 115, "Address": "Wetherby Road"},
+{"ID": "G0069", "TeamName": "Shadwell", "Division": "AWJCL", "PostCode": "LS17 9JH", "Lat": 53.86422727, "Long": 1.47865409, "MAS": 144, "Address": "Brandon Crescent"},
+{"ID": "G0076", "TeamName": "St Chads Broomfield", "Division": "AWJCL", "PostCode": "LS16 5JT", "Lat": 53.82767666, "Long": 1.58466134, "MAS": 90, "Address": "Otley Road"},
+{"ID": "G0246", "TeamName": "Thackley", "Division": "AWJCL", "PostCode": "BD10 0TL", "Lat": 53.84518083, "Long": 1.73528999, "MAS": 128, "Address": "Thackley Road"},
+{"ID": "G0247", "TeamName": "Tong Park Esholt", "Division": "AWJCL", "PostCode": "BD17 7LJ", "Lat": 53.85916525, "Long": 1.75286919, "MAS": 88, "Address": "Lonk House Lane"},
+{"ID": "G0093", "TeamName": "Yeadon", "Division": "AWJCL", "PostCode": "LS19 7TA", "Lat": 53.86601431, "Long": 1.67547326, "MAS": 199, "Address": "Dam Lane"},
