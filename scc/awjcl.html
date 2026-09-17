@@ -1,3 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Aire Wharfe Junior Cricket League Grounds Explorer</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css"/>
+<style>
+html,body{height:100%;margin:0;font-family:Segoe UI,Arial}
+#wrap{display:flex;height:100%}
+#side{width:320px;overflow:auto;border-right:1px solid #ccc;padding:10px;box-sizing:border-box}
+#map{flex:1}
+input,select{width:100%;padding:8px;margin-bottom:8px;box-sizing:border-box}
+.club{padding:6px;border-bottom:1px solid #eee;cursor:pointer}
+.club:hover{background:#f0f6ff}
+
+.marker-cluster-small,.marker-cluster-medium,.marker-cluster-large{
+ background:rgba(198,40,40,.25)!important;
+}
+.marker-cluster-small div,.marker-cluster-medium div,.marker-cluster-large div{
+ background:#c62828!important;
+ color:#fff!important;
+ border:2px solid #7f0000;
+}
+
+
+/* Make the layer selector compact */
+.leaflet-control-layers{
+    font-size:13px;
+    min-width:150px;
+    max-width:180px;
+}
+.leaflet-control-layers-expanded{
+    padding:8px 10px;
+}
+.leaflet-control-layers-list label{
+    display:block;
+    margin:4px 0;
+    white-space:nowrap;
+}
+
+
+#mapStyleControl{position:absolute;top:10px;right:10px;z-index:1000;font-family:Segoe UI,sans-serif}
+#mapStyleBtn{background:#fff;border:1px solid #999;border-radius:6px;padding:8px 12px;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.25)}
+#mapStyleMenu{display:none;background:#fff;border:1px solid #999;border-radius:6px;margin-top:4px;box-shadow:0 2px 6px rgba(0,0,0,.25)}
+#mapStyleMenu div{padding:8px 12px;cursor:pointer;white-space:nowrap}
+#mapStyleMenu div:hover{background:#f0f6ff}
+
+</style>
+</head>
+<body>
+<div id="wrap">
+<div id="side">
+<h2>Aire Wharfe Junior League Grounds</h2>
+<input id="search" placeholder="Search club...">
+<select id="division"><option value="">All divisions</option></select>
+<div id="list"></div>
+</div>
+<div id="map"></div>
+
+<div id="mapStyleControl">
+<button id="mapStyleBtn">🗺️ Map Style ▾</button>
+<div id="mapStyleMenu">
+<div data-layer="osm">Street Map</div>
+<div data-layer="imagery">Aerial</div>
+<div data-layer="terrain">Terrain</div>
+<div data-layer="light">Light</div>
+<div data-layer="dark">Dark</div>
+</div>
+</div>
+
+</div>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+<script>
+const data=[
+
 {"ID": "G0002", "TeamName": "Addingham", "Division": "AWJCL", "PostCode": "LS29 0QL", "Lat": 53.9417361, "Long": 1.8769036, "MAS": 94, "Address": "Main Street"},
 {"ID": "G0003", "TeamName": "Adel", "Division": "AWJCL", "PostCode": "LS16 8DE", "Lat": 53.8565705, "Long": 1.58542041, "MAS": 139, "Address": "Church Lane"},
 {"ID": "G0004", "TeamName": "Alwoodley", "Division": "AWJCL", "PostCode": "LS17 5PR", "Lat": 53.85527246, "Long": 1.56696647, "MAS": 121, "Address": "Crag Lane"},
@@ -36,3 +114,109 @@
 {"ID": "G0246", "TeamName": "Thackley", "Division": "AWJCL", "PostCode": "BD10 0TL", "Lat": 53.84518083, "Long": 1.73528999, "MAS": 128, "Address": "Thackley Road"},
 {"ID": "G0247", "TeamName": "Tong Park Esholt", "Division": "AWJCL", "PostCode": "BD17 7LJ", "Lat": 53.85916525, "Long": 1.75286919, "MAS": 88, "Address": "Lonk House Lane"},
 {"ID": "G0093", "TeamName": "Yeadon", "Division": "AWJCL", "PostCode": "LS19 7TA", "Lat": 53.86601431, "Long": 1.67547326, "MAS": 199, "Address": "Dam Lane"},
+
+
+{"ID": "G0634", "TeamName": "Old Hymerians", "Division": "Holderness D3", "PostCode": "HU5 3EX", "Lat": 53.76325566, "Long": -0.37467778, "MAS": 2, "Address": "Chanterlands Avenue"},
+
+
+];
+
+const familyColours={
+"ECB":"#d32f2f",
+"Championship":"#f57c00",
+"Ebor":"#1976d2",
+"Galtres":"#7b1fa2",
+"Holderness":"#795548",
+"Beckett":"#424242",
+"Premier":"#00838f"
+};
+
+function colour(div){
+ if(div.startsWith("ECB")) return familyColours.ECB;
+ if(div.startsWith("Championship")) return familyColours.Championship;
+ if(div.startsWith("Ebor")) return familyColours.Ebor;
+ if(div.startsWith("Galtres")) return familyColours.Galtres;
+ if(div.startsWith("Holderness")) return familyColours.Holderness;
+ if(div.startsWith("Beckett")) return familyColours.Beckett;
+ if(div.startsWith("Premier")) return familyColours.Premier;
+ return "#555";
+}
+
+const map=L.map('map');
+
+const osm=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap'});
+const imagery=L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{maxZoom:19,attribution:'&copy; Esri'});
+const terrain=L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',{maxZoom:17,attribution:'&copy; OpenTopoMap'});
+const light=L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{maxZoom:20,attribution:'&copy; CARTO'});
+const dark=L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{maxZoom:20,attribution:'&copy; CARTO'});
+
+osm.addTo(map);
+
+/*L.control.layers({
+'Street Map':osm,
+'Aerial':imagery,
+'Terrain':terrain,
+'Light':light,
+'Dark':dark
+},null,{collapsed:false}).addTo(map);*/
+
+
+document.getElementById('mapStyleBtn').onclick=function(){
+ const m=document.getElementById('mapStyleMenu');
+ m.style.display=m.style.display==='block'?'none':'block';
+};
+const baseLayers={osm,imagery,terrain,light,dark};
+document.querySelectorAll('#mapStyleMenu div').forEach(i=>{
+ i.onclick=()=>{
+   Object.values(baseLayers).forEach(l=>{if(map.hasLayer(l))map.removeLayer(l);});
+   baseLayers[i.dataset.layer].addTo(map);
+   document.getElementById('mapStyleMenu').style.display='none';
+ };
+});
+
+const cluster=L.markerClusterGroup({
+ spiderfyOnMaxZoom:true,
+ showCoverageOnHover:false,
+ zoomToBoundsOnClick:true
+});
+
+const groups={
+"Premier Division 1":["ECB Premier"],
+"Premier Division 2":["ECB Premier 2"],
+"Championship Central":["Championship Central"],
+"Championship East":["Championship East"],
+"Championship West":["Championship West"],
+"Ebor":["Ebor D1","Ebor D2","Ebor D3","Ebor D4","Ebor D5"],
+"Galtres":["Galtres D1","Galtres D2","Galtres D3","Galtres D5"],
+"Holderness":["Holderness D1","Holderness D2","Holderness D3"],
+"Beckett":["Beckett D1","Beckett D2","Beckett D3","Beckett D4"]
+};
+const divSel=document.getElementById('division');
+Object.keys(groups).forEach(g=>{let o=document.createElement('option');o.value=g;o.text=g;divSel.add(o);});
+
+function draw(){
+ cluster.clearLayers();
+ document.getElementById('list').innerHTML='';
+ const q=document.getElementById('search').value.toLowerCase();
+ const f=divSel.value;
+ let b=[];
+ data.filter(x=>(!f||groups[f].includes(x.Division))&&(x.TeamName+' '+x.Address+' '+x.PostCode+' '+x.ID).toLowerCase().includes(q)).forEach(x=>{
+   const c=colour(x.Division);
+   const m=L.circleMarker([x.Lat,x.Long],{radius:8,color:"#222",weight:1,fillColor:c,fillOpacity:0.9});
+   m.bindPopup(`<b>${x.TeamName}</b><br>${x.Division}<br>${x.Address}<br>${x.PostCode}<br>MAS: ${x.MAS}<br>ID: ${x.ID}`);
+   cluster.addLayer(m);
+   b.push([x.Lat,x.Long]);
+   const d=document.createElement('div');
+   d.className='club';
+   d.innerHTML=`<b>${x.TeamName}</b><br><small>${x.Division}</small>`;
+   d.onclick=()=>{map.setView([x.Lat,x.Long],15);m.openPopup();};
+   document.getElementById('list').appendChild(d);
+ });
+ map.addLayer(cluster);
+ if(b.length) map.fitBounds(b,{padding:[20,20]});
+}
+search.oninput=draw;
+division.onchange=draw;
+draw();
+</script>
+</body></html>
