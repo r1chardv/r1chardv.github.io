@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Baildon Drive — Live Bus Departures</title>
+<style>
+:root{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:#17212b;background:#f2f5f8}
+*{box-sizing:border-box}body{margin:0;padding:24px 14px 40px}
+.wrap{max-width:850px;margin:auto}
+header{background:#102a43;color:#fff;border-radius:18px;padding:24px}
+.kicker{font-size:.78rem;text-transform:uppercase;letter-spacing:.12em;color:#a9c7df;font-weight:700}
+h1{font-size:clamp(1.7rem,5vw,2.5rem);margin:7px 0 4px}
+.sub{color:#d5e3ee;margin:0}
+.pill{display:inline-block;margin-top:14px;padding:6px 10px;border-radius:20px;background:#244b68;font-size:.82rem}
+.panel,.board{background:#fff;border:1px solid #dce4eb;border-radius:16px;margin-top:16px;padding:18px;box-shadow:0 3px 14px #17324d0a}
+label{display:block;font-weight:650;margin-bottom:7px}
+.keyrow{display:flex;gap:8px;flex-wrap:wrap}
+input{flex:1;min-width:220px;padding:11px 12px;border:1px solid #bdcbd7;border-radius:9px;font:inherit}
+button{border:0;border-radius:9px;padding:11px 16px;background:#087e8b;color:white;font:inherit;font-weight:700;cursor:pointer}
+button.secondary{background:#e7eef3;color:#17324d}
+.help{font-size:.86rem;color:#536575;line-height:1.5;margin:10px 0 0}
+.statusline{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+#status{font-weight:700;font-size:.92rem}
+#updated{font-size:.82rem;color:#627484}
+table{width:100%;border-collapse:collapse;margin-top:12px}
+th{text-align:left;color:#637586;font-size:.78rem;text-transform:uppercase;letter-spacing:.05em;padding:10px 8px;border-bottom:1px solid #e3e9ee}
+td{padding:13px 8px;border-bottom:1px solid #edf1f4;vertical-align:middle}
+tr:last-child td{border-bottom:0}
+.line{font-size:1.12rem;font-weight:800}
+.dest{font-weight:600}
+.when{font-weight:800;white-space:nowrap}
+.badge{display:inline-block;border-radius:20px;padding:4px 8px;font-size:.76rem;font-weight:700;background:#e8f4ed;color:#17643a}
+.badge.scheduled{background:#edf1f5;color:#526272}
+.badge.late{background:#fff1df;color:#8a4b00}
+.empty{padding:25px 10px;text-align:center;color:#617282}
+.note{font-size:.82rem;color:#607181;line-height:1.5;margin-top:14px}
+.err{color:#a3332b;background:#fff1ef;border:1px solid #f0c7c2;padding:11px;border-radius:9px;margin-top:12px;display:none}
+footer{font-size:.78rem;color:#71808d;text-align:center;margin:18px 0}
+@media(max-width:560px){body{padding:12px 9px 30px}.panel,.board{padding:14px}th:nth-child(3),td:nth-child(3){display:none}td{padding:12px 5px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+ <div class="kicker">Live departure board</div>
+ <h1 id="stopTitle">Baildon Drive</h1>
+ <p class="sub">Leeds · <span id="stopSubtitle">Stop ATCOCode <strong>450013234</strong></span></p>
+ <span class="pill">Services 16 and 16A · Auto-refresh every 30 seconds</span>
+</header>
+
+<section class="panel">
+ <label for="apiKey">TransCAPI API key</label>
+ <div class="keyrow">
+  <input id="apiKey" type="password" autocomplete="off" placeholder="Paste your TransCAPI API key">
+  <button id="saveKey">Save key</button>
+  <button class="secondary" id="clearKey">Clear</button>
+ </div>
+ <p class="help">This board uses TransCAPI to combine the timetable with live BODS vehicle-position data. You need a TransCAPI API key; the BODS key from your earlier link is not interchangeable. Your key is stored only in this browser's local storage and sent to TransCAPI in the request URL.</p>
+ <p class="help">Get an API key from <a href="https://transcapi.com/" target="_blank" rel="noopener">TransCAPI</a>. Check its current pricing and usage limits before use.</p>
+</section>
+
+<section class="panel">
+ <label for="stopCode">Stop ATCOCode</label>
+ <div class="keyrow">
+  <input id="stopCode" inputmode="numeric" value="450013234" placeholder="Enter stop ATCOCode">
+  <input id="stopName" style="max-width:210px;min-width:150px;flex:0.7" value="Baildon Drive" placeholder="Favourite name" aria-label="Favourite name">
+  <button id="addFavourite">Save favourite</button>
+ </div>
+ <div class="keyrow" style="margin-top:10px;align-items:center">
+  <label for="favourites" style="margin:0">Saved stops</label>
+  <select id="favourites" style="flex:1;min-width:220px;padding:11px 12px;border:1px solid #bdcbd7;border-radius:9px;font:inherit">
+   <option value="">Choose a saved stop…</option>
+  </select>
+  <button class="secondary" id="useStop">Load stop</button>
+  <button class="secondary" id="deleteFavourite">Delete favourite</button>
+ </div>
+ <p class="help">Enter any stop's ATCOCode, give it a name and save it. Favourites are stored in this browser. Select a saved stop and choose Load stop to view its departures.</p>
+</section>
+
+<section class="board">
+ <div class="statusline">
+  <div id="status">Waiting for API key</div>
+  <div id="updated">Not yet refreshed</div>
+ </div>
+ <div id="error" class="err"></div>
+ <table aria-label="Upcoming bus departures">
+  <thead><tr><th>Service</th><th>Destination</th><th>Departure</th><th>Due</th><th>Data</th></tr></thead>
+  <tbody id="rows"><tr><td colspan="5" class="empty">Enter an API key and select Refresh.</td></tr></tbody>
+ </table>
+ <div class="keyrow" style="margin-top:14px">
+  <button id="refresh">Refresh now</button>
+  <button class="secondary" id="toggleAuto">Pause auto-refresh</button>
+ </div>
+ <p class="note">“Live matched” means a vehicle has been matched to the scheduled trip using live BODS vehicle data. Otherwise the displayed time is the published timetable, not a live prediction. A bus being tracked upstream does not guarantee an exact arrival time.</p>
+</section>
+<footer>Bus timetable and vehicle-position data: BODS / Department for Transport via TransCAPI. Stop: 450013234.</footer>
+</div>
+<script>
+const DEFAULT_STOP = "450013234";
+const ENDPOINT_BASE = "https://api.transcapi.com/v1/bus/stop_timetables/";
+const $ = id => document.getElementById(id);
+let timer = null, auto = true, busy = false;
+
+function setStatus(text){ $("status").textContent = text; }
+function showError(text){ const e=$("error"); e.textContent=text; e.style.display=text?"block":"none"; }
+function getKey(){ return $("apiKey").value.trim() || localStorage.getItem("transcapi_api_key") || ""; }
+function timeOf(v){
+ if(!v) return null;
+ const d=new Date(v);
+ return Number.isNaN(d.getTime())?null:d;
+}
+function fmtTime(d){return d.toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"});}
+function escapeHtml(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+
+async function refresh(){
+ if(busy)return;
+ const key=getKey();
+ if(!key){setStatus("API key required");showError("Add your TransCAPI API key above. No request has been sent.");return;}
+ busy=true; $("refresh").disabled=true; showError(""); setStatus("Refreshing departures…");
+ try{
+  const stop = $("stopCode").value.trim();
+  if(!/^\d{6,15}$/.test(stop)) throw new Error("Enter a valid numeric ATCOCode.");
+  const url=new URL(ENDPOINT_BASE + encodeURIComponent(stop) + ".json");
+  url.searchParams.set("live","true");
+  url.searchParams.set("from_offset","0");
+  url.searchParams.set("to_offset","120");
+  url.searchParams.set("limit","30");
+  // Use query-string authentication to avoid a custom-header CORS preflight
+  // when this page is opened directly from file://.
+  url.searchParams.set("api_key",key);
+  const response=await fetch(url,{method:"GET"});
+  const data=await response.json().catch(()=>({}));
+  if(!response.ok){
+   const message=data?.error?.message || `API request failed (HTTP ${response.status}).`;
+   throw new Error(message);
+  }
+  render(data);
+  $("updated").textContent="Updated "+new Date().toLocaleTimeString();
+  if(data.live_error) {
+    setStatus("Timetable loaded · live feed issue");
+    showError("Live vehicle matching reported: "+data.live_error+" Timetable departures are still shown where available.");
+  } else if(data.live_requested) setStatus("Departures loaded · live matching requested");
+  else setStatus("Departures loaded");
+ }catch(err){
+  setStatus("Could not load departures");
+  showError(err.message+" Check the API key, account limits and internet connection. If the browser reports a CORS error, this API cannot be called directly from a local HTML file and needs a small proxy service.");
+ }finally{
+  busy=false;$("refresh").disabled=false;
+ }
+}
+function render(data){
+ const now=new Date();
+ const raw=(data.departures||[]).map(d=>{
+  const aimed=timeOf(d.aimed_departure_time);
+  const best=timeOf(d.best_departure_estimate||d.expected_departure_time||d.aimed_departure_time);
+  const live=["siri_vm","avl"].includes(d.source) || !!d.live_vehicle;
+  return {...d,_aimed:aimed,_best:best,_live:live};
+ }).filter(d=>d._best && d._best>=new Date(now.getTime()-60000));
+
+ // Collapse repeated timetable/live representations of the same scheduled trip.
+ // The scheduled (aimed) time is the anchor, so a live estimate such as 07:13
+ // can correctly replace its 07:14 timetable entry.
+ const groups=new Map();
+ for(const d of raw){
+  const line=String(d.line_name||d.line||"").trim().toLowerCase();
+  const destination=String(d.destination||"").trim().toLowerCase().replace(/\s+/g," ");
+  const anchor=d._aimed||d._best;
+  const minuteKey=anchor ? Math.floor(anchor.getTime()/60000) : "unknown";
+  const key=[line,destination,minuteKey].join("|");
+  const existing=groups.get(key);
+  const score=x=>(x._live?100:0)+(x.live_vehicle?20:0)+(x.expected_departure_time?5:0);
+  if(!existing || score(d)>score(existing)) groups.set(key,d);
+ }
+ const departures=[...groups.values()].sort((a,b)=>a._best-b._best).slice(0,12);
+ const tbody=$("rows");
+ if(!departures.length){
+  tbody.innerHTML='<tr><td colspan="5" class="empty">No upcoming departures returned for the next two hours.</td></tr>';return;
+ }
+ tbody.innerHTML=departures.map(d=>{
+  const mins=Math.max(0,Math.round((d._best-now)/60000));
+  const due=mins<=0?"Due":mins===1?"1 min":" "+mins+" mins";
+  const live=d._live;
+  const status=(d.status||"").toLowerCase();
+  const badgeClass=live?"badge":status==="late"?"badge late":"badge scheduled";
+  const badge=live?"Live matched":status==="late"?"Late":"Timetable";
+  const when=fmtTime(d._best);
+  const sched=d._aimed?fmtTime(d._aimed):"—";
+  const detail=(d.live_vehicle?.vehicle_ref)?`<br><small>${escapeHtml(d.live_vehicle.vehicle_ref)}</small>`:"";
+  return `<tr>
+   <td><span class="line">${escapeHtml(d.line_name||d.line||"—")}</span></td>
+   <td><span class="dest">${escapeHtml(d.destination||"—")}</span></td>
+   <td>${when}<br><small>Scheduled ${sched}</small></td>
+   <td class="when">${due}</td>
+   <td><span class="${badgeClass}">${badge}</span>${detail}</td>
+  </tr>`;
+ }).join("");
+}
+function readFavourites(){
+ try { return JSON.parse(localStorage.getItem("bus_stop_favourites") || "[]"); }
+ catch { return []; }
+}
+function writeFavourites(items){
+ localStorage.setItem("bus_stop_favourites", JSON.stringify(items));
+ renderFavourites();
+}
+function renderFavourites(){
+ const select=$("favourites"), current=select.value;
+ const items=readFavourites();
+ select.innerHTML='<option value="">Choose a saved stop…</option>'+items.map((f,i)=>
+  `<option value="${i}">${escapeHtml(f.name)} (${escapeHtml(f.code)})</option>`).join("");
+ if(current && items[Number(current)]) select.value=current;
+}
+$("addFavourite").addEventListener("click",()=>{
+ const code=$("stopCode").value.trim(), name=$("stopName").value.trim() || code;
+ if(!/^\d{6,15}$/.test(code)){showError("Enter a valid numeric ATCOCode before saving.");return;}
+ const items=readFavourites();
+ const existing=items.findIndex(f=>f.code===code);
+ if(existing>=0) items[existing]={code,name}; else items.push({code,name});
+ writeFavourites(items);
+ $("favourites").value=String(items.findIndex(f=>f.code===code));
+ showError(""); setStatus("Favourite saved");
+});
+$("useStop").addEventListener("click",()=>{
+ const i=$("favourites").value, f=readFavourites()[Number(i)];
+ if(!f){showError("Choose a saved stop first.");return;}
+ $("stopCode").value=f.code; $("stopName").value=f.name;
+ $("stopTitle").textContent=f.name;
+ $("stopSubtitle").textContent="Stop ATCOCode "+f.code;
+ refresh();
+});
+$("deleteFavourite").addEventListener("click",()=>{
+ const i=$("favourites").value, items=readFavourites();
+ if(i==="" || !items[Number(i)]){showError("Choose a saved stop to delete.");return;}
+ items.splice(Number(i),1); writeFavourites(items);
+ showError(""); setStatus("Favourite deleted");
+});
+$("stopCode").addEventListener("change",()=>{
+ $("stopTitle").textContent=$("stopName").value.trim() || "Bus stop";
+ $("stopSubtitle").textContent="Stop ATCOCode "+$("stopCode").value.trim();
+});
+$("stopName").addEventListener("change",()=>{
+ $("stopTitle").textContent=$("stopName").value.trim() || "Bus stop";
+});
+
+$("saveKey").addEventListener("click",()=>{
+ const key=$("apiKey").value.trim();
+ if(!key){showError("Paste an API key first.");return;}
+ localStorage.setItem("transcapi_api_key",key);showError("");refresh();
+});
+$("clearKey").addEventListener("click",()=>{
+ localStorage.removeItem("transcapi_api_key");$("apiKey").value="";setStatus("API key cleared");showError("");
+});
+$("refresh").addEventListener("click",refresh);
+$("toggleAuto").addEventListener("click",()=>{
+ auto=!auto;
+ $("toggleAuto").textContent=auto?"Pause auto-refresh":"Resume auto-refresh";
+ if(timer)clearInterval(timer);
+ timer=auto?setInterval(refresh,30000):null;
+});
+renderFavourites();
+const saved=localStorage.getItem("transcapi_api_key");
+if(saved){$("apiKey").value=saved;refresh();}
+timer=setInterval(refresh,30000);
+</script>
+</body>
+</html>
