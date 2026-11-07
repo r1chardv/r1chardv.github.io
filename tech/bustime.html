@@ -46,7 +46,7 @@ footer{font-size:.78rem;color:#71808d;text-align:center;margin:18px 0}
  <div class="kicker">Live departure board</div>
  <h1 id="stopTitle">Baildon Drive</h1>
  <p class="sub">Leeds · <span id="stopSubtitle">Stop ATCOCode <strong>450013234</strong></span></p>
- <span class="pill">Services 16 and 16A · Auto-refresh every 30 seconds</span>
+ <span class="pill">Manual refresh · Services 16 and 16A</span>
 </header>
 
 <section class="panel">
@@ -89,10 +89,10 @@ footer{font-size:.78rem;color:#71808d;text-align:center;margin:18px 0}
   <tbody id="rows"><tr><td colspan="5" class="empty">Enter an API key and select Refresh.</td></tr></tbody>
  </table>
  <div class="keyrow" style="margin-top:14px">
-  <button id="refresh">Refresh now</button>
-  <button class="secondary" id="toggleAuto">Pause auto-refresh</button>
+  <button id="refresh">Refresh departures</button>
+  <span id="callsToday" class="help" style="align-self:center;margin:0">API calls today: 0 / 100</span>
  </div>
- <p class="note">“Live matched” means a vehicle has been matched to the scheduled trip using live BODS vehicle data. Otherwise the displayed time is the published timetable, not a live prediction. A bus being tracked upstream does not guarantee an exact arrival time.</p>
+ <p class="note">No requests are made automatically. The daily counter records request attempts made by this page in this browser and resets at local midnight; it is a local estimate, not an account-side usage report. “Live matched” means a vehicle has been matched to the scheduled trip using live BODS vehicle data. Otherwise the displayed time is the published timetable, not a live prediction. A bus being tracked upstream does not guarantee an exact arrival time.</p>
 </section>
 <footer>Bus timetable and vehicle-position data: BODS / Department for Transport via TransCAPI. Stop: 450013234.</footer>
 </div>
@@ -100,10 +100,30 @@ footer{font-size:.78rem;color:#71808d;text-align:center;margin:18px 0}
 const DEFAULT_STOP = "450013234";
 const ENDPOINT_BASE = "https://api.transcapi.com/v1/bus/stop_timetables/";
 const $ = id => document.getElementById(id);
-let timer = null, auto = true, busy = false;
+let busy = false;
+const DAILY_LIMIT = 100;
 
 function setStatus(text){ $("status").textContent = text; }
 function showError(text){ const e=$("error"); e.textContent=text; e.style.display=text?"block":"none"; }
+function localDateKey(){
+ const d=new Date();
+ return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+}
+function readDailyCalls(){
+ const today=localDateKey();
+ try {
+  const saved=JSON.parse(localStorage.getItem("transcapi_daily_calls") || "{}");
+  return saved.date===today ? Number(saved.count)||0 : 0;
+ } catch { return 0; }
+}
+function updateCallCounter(){
+ $("callsToday").textContent=`API calls today: ${readDailyCalls()} / ${DAILY_LIMIT}`;
+}
+function recordApiCall(){
+ const count=readDailyCalls()+1;
+ localStorage.setItem("transcapi_daily_calls",JSON.stringify({date:localDateKey(),count}));
+ updateCallCounter();
+}
 function getKey(){ return $("apiKey").value.trim() || localStorage.getItem("transcapi_api_key") || ""; }
 function timeOf(v){
  if(!v) return null;
@@ -121,6 +141,9 @@ async function refresh(){
  try{
   const stop = $("stopCode").value.trim();
   if(!/^\d{6,15}$/.test(stop)) throw new Error("Enter a valid numeric ATCOCode.");
+  if(readDailyCalls()>=DAILY_LIMIT){
+   throw new Error(`Daily browser-side safety limit reached (${DAILY_LIMIT} calls). The counter resets at local midnight.`);
+  }
   const url=new URL(ENDPOINT_BASE + encodeURIComponent(stop) + ".json");
   url.searchParams.set("live","true");
   url.searchParams.set("from_offset","0");
@@ -129,6 +152,7 @@ async function refresh(){
   // Use query-string authentication to avoid a custom-header CORS preflight
   // when this page is opened directly from file://.
   url.searchParams.set("api_key",key);
+  recordApiCall(); // Count every request attempt, including failed requests.
   const response=await fetch(url,{method:"GET"});
   const data=await response.json().catch(()=>({}));
   if(!response.ok){
@@ -246,22 +270,18 @@ $("stopName").addEventListener("change",()=>{
 $("saveKey").addEventListener("click",()=>{
  const key=$("apiKey").value.trim();
  if(!key){showError("Paste an API key first.");return;}
- localStorage.setItem("transcapi_api_key",key);showError("");refresh();
+ localStorage.setItem("transcapi_api_key",key);showError("");setStatus("API key saved · select Refresh departures when needed");
 });
 $("clearKey").addEventListener("click",()=>{
  localStorage.removeItem("transcapi_api_key");$("apiKey").value="";setStatus("API key cleared");showError("");
 });
 $("refresh").addEventListener("click",refresh);
-$("toggleAuto").addEventListener("click",()=>{
- auto=!auto;
- $("toggleAuto").textContent=auto?"Pause auto-refresh":"Resume auto-refresh";
- if(timer)clearInterval(timer);
- timer=auto?setInterval(refresh,30000):null;
-});
+
 renderFavourites();
 const saved=localStorage.getItem("transcapi_api_key");
-if(saved){$("apiKey").value=saved;refresh();}
-timer=setInterval(refresh,30000);
+if(saved){$("apiKey").value=saved;}
+updateCallCounter();
+setStatus("Ready · refresh manually when you need departures");
 </script>
 </body>
 </html>
